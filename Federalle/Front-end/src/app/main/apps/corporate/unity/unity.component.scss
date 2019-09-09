@@ -1,0 +1,32 @@
+:host {
+
+    .content {
+
+        form {
+            width: 100%;
+            max-width: 100% !important;
+        }
+
+        .form-errors-model {
+            flex: 1;
+
+            code {
+                background: none !important;
+            }
+        }
+        
+        .espaco{
+            margin: 4px;
+            min-width: 120px;
+        }
+        .slide-margin {
+            margin: 10px;
+            padding-left: 10px;
+        }
+
+        .mat-form-field-wrapper {
+            padding-bottom: 1em!important;
+        }
+        
+    }
+}

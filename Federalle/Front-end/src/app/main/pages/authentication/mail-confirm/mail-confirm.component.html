@@ -1,0 +1,30 @@
+<div id="mail-confirm" fxLayout="column">
+
+    <div id="mail-confirm-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+
+        <div id="mail-confirm-form" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+
+            <div class="logo">
+                <mat-icon class="mat-accent s-96">email</mat-icon>
+            </div>
+
+            <div class="title">Confirme seu endereço de email!</div>
+
+            <div class="subtitle">
+                <p>
+                    Um email de confirmação foi enviado para <b>example@mymail.com</b>.
+                </p>
+                <p>
+                    Verifique sua caixa de entrada e clique no link "Confirmar meu e-mail" para confirmar seu endereço de e-mail.
+                </p>
+            </div>
+
+            <div class="message">
+                <a class="link" [routerLink]="'/pages/auth/login'">Voltar ao login</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,57 @@
+
+
+<mat-table #table [dataSource]="dataSource"
+           [@animateStagger]="{value:'50'}">
+   
+    <!-- Codigo Column -->
+    <ng-container matColumnDef="codeFebraban">
+        <mat-header-cell *matHeaderCellDef>Código</mat-header-cell>
+        <mat-cell *matCellDef="let bank">
+            <p class="text-truncate font-weight-600">{{bank.codeFebraban}}</p>
+        </mat-cell>
+    </ng-container>
+   
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Banco</mat-header-cell>
+        <mat-cell *matCellDef="let bank">
+            <p class="text-truncate font-weight-600">{{bank.name}}</p>
+        </mat-cell>
+    </ng-container>
+   
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="buttons">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let bank">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-icon-button (click)="$event.stopPropagation(); updateBank(bank)" aria-label="Editar Consórcio">
+                    <mat-icon class="secondary-text">edit</mat-icon>
+                </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                        (click)="$event.stopPropagation();">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="remove" (click)="deleteBank(bank)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Excluir</span>
+                    </button>
+                </mat-menu>
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let bank; columns: displayedColumns;"
+             class="contacts"
+             (click)="updateBank(bank)"
+        
+             matRipple
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+

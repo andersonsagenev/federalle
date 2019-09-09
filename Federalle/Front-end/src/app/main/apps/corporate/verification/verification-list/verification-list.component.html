@@ -1,0 +1,59 @@
+
+<mat-table #table [dataSource]="dataSource"
+           [@animateStagger]="{value:'50'}" *ngIf="verifications.length">
+   
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+        <mat-cell *matCellDef="let verification">
+            <p class="text-truncate font-weight-600">{{ verification.name }}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Sector Column -->
+    <!-- <ng-container matColumnDef="numberOfInstallments">
+        <mat-header-cell *matHeaderCellDef>Parcelas</mat-header-cell>
+        <mat-cell *matCellDef="let verification">
+            <p class="font-weight-600">{{ verification.numberOfInstallments }} MESES</p>
+        </mat-cell>
+    </ng-container>
+    -->
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="buttons">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let verification">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-icon-button (click)="$event.stopPropagation(); updateVerification(verification)" aria-label="Editar Consórcio">
+                    <mat-icon class="secondary-text">edit</mat-icon>
+                </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                        (click)="$event.stopPropagation();">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="remove" (click)="deleteVerification(verification)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Excluir</span>
+                    </button>
+                </mat-menu>
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let verification; columns: displayedColumns;"
+             class="contacts"
+             (click)="updateVerification(verification)"
+        
+             matRipple
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+<div class="message-box info" style="width: 100%" *ngIf="!verifications.length">
+        Nenhuma Verificação encontrada!
+</div>
+

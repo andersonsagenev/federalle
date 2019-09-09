@@ -1,0 +1,148 @@
+<div id="units" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+
+    <!-- HEADER -->
+    <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-xs="row"
+        fxLayoutAlign.gt-xs="space-between center">
+
+        <!-- APP TITLE -->
+        <div fxLayout="row" fxLayoutAlign="start center">
+
+            <div class="logo" fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="logo-icon mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                    where_to_vote
+                </mat-icon>
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    Unidades
+                </span>
+            </div>
+
+        </div>
+        <!-- / APP TITLE -->
+
+        <!-- SEARCH -->
+        <div class="ml-sm-32" fxLayout="row" fxLayoutAlign="center center" fxFlex>
+
+            <div class="search-wrapper mt-16 mt-sm-0">
+
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input [formControl]="searchInput" matInput
+                        placeholder="pesquisar">
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ADD BUTTON -->
+        <button mat-raised-button [routerLink]="['/apps/corporate/unity/new']"
+            class="add-product-button fuse-white mt-24 mt-md-0">
+            <span>NOVA UNIDADE</span>
+        </button>
+        <!-- / ADD BUTTON -->
+
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- CENTER -->
+        <div #myElem class="center p-24 pb-56 pr-sm-92" fusePerfectScrollbar>
+
+            <!-- CONTENT -->
+            <div class="content p-24" fxLayout="column">
+
+                <div *ngIf="!exist_user" class="message-box info mt-16">
+                    Nenhuma unidade encontrada!
+                </div>
+
+                <mat-table #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}" *ngIf="exist_user">
+   
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
+                        <mat-cell *matCellDef="let unidade">
+                            <p class="text-truncate font-weight-600">{{unidade.name}}</p>
+                        </mat-cell>
+                    </ng-container>
+
+                    <!-- Email Column -->
+                    <ng-container matColumnDef="phone">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+                        <mat-cell *matCellDef="let unidade">
+                            <p class="email text-truncate">
+                                {{unidade.email}}
+                            </p>
+                        </mat-cell>
+                    </ng-container>
+
+                    <!-- Email Column -->
+                    <ng-container matColumnDef="email">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Telefone</mat-header-cell>
+                        <mat-cell *matCellDef="let unidade">
+                            <p class="email text-truncate">
+                                {{unidade.email}}
+                            </p>
+                        </mat-cell>
+                    </ng-container>
+
+                    <!-- Company Column -->
+                    <ng-container matColumnDef="cpfCnpj">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Cpf / Cnpj</mat-header-cell>
+                        <mat-cell *matCellDef="let unidade">
+                            <p class="company text-truncate">
+                                {{ unidade.cpfCnpj }}
+                            </p>
+                        </mat-cell>
+                    </ng-container>
+
+                    <!-- Buttons Column -->
+                    <ng-container matColumnDef="buttons">
+                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                        <mat-cell *matCellDef="let unidade">
+                            <div fxFlex="row" fxLayoutAlign="end center">
+
+                                <button mat-icon-button [routerLink]="['/apps/corporate/unity/', unidade.id]"
+                                    aria-label="editar">
+                                    <mat-icon class="secondary-text">edit</mat-icon>
+                                </button>
+
+                                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                                    (click)="$event.stopPropagation();">
+                                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                                </button>
+
+                                <mat-menu #moreMenu="matMenu">
+                                    <button mat-menu-item aria-label="remove" (click)="ConfirmDelete(unidade)">
+                                        <mat-icon>delete</mat-icon>
+                                        <span>Excluir</span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"
+                        [routerLink]="['/apps/corporate/unity/', row.id]" class="contact">
+                    </mat-row>
+                </mat-table>
+                
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CENTER -->
+
+    </div>
+    <!-- / CONTENT-->
+
+</div>
+
+<!-- ADD UNITY BUTTON -->
+<button mat-fab class="accent" id="add-contact-button" [routerLink]="['/apps/corporate/unity/new']"
+    aria-label="add unity" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+    <mat-icon>person_add</mat-icon>
+</button>
+<!-- / ADD UNITY BUTTON -->

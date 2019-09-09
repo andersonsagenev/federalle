@@ -1,0 +1,60 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-primary m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        <!-- <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center" *ngIf="objUser.length">
+            <img [src]="objUser.photo ? urlAvatar + objUser.photo : './assets/images/avatars/profile.jpg'" class="avatar contact-avatar huge m-0" />
+            <div class="contact-name mt-8">{{objUser.name}} {{objUser.lastName}}</div>
+        </mat-toolbar-row> -->
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="contactForm">
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>{{ 'USER.PASSWORD' | translate }}</mat-label>
+                    <input matInput #password type="password" formControlName="password" required>
+                    <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
+                    <mat-error>
+                        Campo senha é obrigatório.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>{{ 'USER.CONFIRM' | translate }}</mat-label>
+                    <input matInput #passwordConfirm type="password" formControlName="passwordConfirm">
+                    <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
+                    <mat-error *ngIf="contactForm.get('passwordConfirm').hasError('required')">
+                            A Confirmação de senha é obrigatório
+                        </mat-error>
+                        <mat-error *ngIf="!contactForm.get('passwordConfirm').hasError('required') &&
+                                           contactForm.get('passwordConfirm').hasError('passwordsNotMatching')">
+                                           As senhas devem corresponder.
+                    </mat-error>
+                  
+                </mat-form-field>
+            </div>
+
+
+        </form>
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="center center">
+
+        <button mat-raised-button class="mat-accent" (click)="matDialogRef.close(contactForm)"
+            [disabled]="contactForm.invalid" aria-label="SAVE">
+            Alterar Senha
+        </button>
+
+    </div>
+</div>
