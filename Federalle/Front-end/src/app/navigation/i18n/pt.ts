@@ -16,9 +16,10 @@ export const locale = {
             'ACADEMY'     : 'Cursos',
             'CLASS'       : 'Turmas',
             'SURVEYS'     : 'Perguntas',
-            'SURVEY'     : 'Pergunta',
-            'UNITY'      : 'Unidades',
-            'SEARCH'     : 'pesquisar por termo',
+            'SURVEY'      : 'Pergunta',
+            'UNITY'       : 'Unidades',
+            'COMMISSIONS' : 'Comissão Recebimento',
+            'SEARCH'      : 'pesquisar por termo',
             'MAIL'        : {
                 'TITLE': 'Mail',
                 'BADGE': '25'

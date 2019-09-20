@@ -20,6 +20,11 @@ import { IndicatorFormDialogComponent } from 'app/main/apps/financial/indicators
 import { IndicatorListComponent } from 'app/main/apps/financial/indicators/list-indicator/list-indicator.component';
 import { IndicatorService } from '../financial/indicators/indicators.service';
 
+import { CommissionComponent } from 'app/main/apps/financial/receiptCommissions/receiptCommissions.component';
+import { CommissionsFormDialogComponent } from 'app/main/apps/financial/receiptCommissions/receiptCommissions-form/receiptCommissions-form.component';
+import { CommissionsListComponent } from 'app/main/apps/financial/receiptCommissions/receiptCommissions-list/receiptCommissions-list.component';
+import { ReceiptCommissionService } from '../financial/receiptCommissions/receiptCommissions.service';
+
 const routes: Routes = [
     {
         path     : 'indicators',
@@ -35,13 +40,13 @@ const routes: Routes = [
             data: PaymentService
         }
     },
-    // {
-    //     path     : 'benefits',
-    //     component: BenefitsComponent,
-    //     resolve  : {
-    //         data: BenefitsService
-    //     }
-    // }
+    {
+        path     : 'receiptCommissions',
+        component: CommissionComponent,
+        resolve  : {
+            data: ReceiptCommissionService
+        }
+    }
 ];
 
 @NgModule({
@@ -51,7 +56,10 @@ const routes: Routes = [
         IndicatorListComponent,
         FormPaymentComponent,
         PaymentFormDialogComponent,
-        PaymentListComponent
+        PaymentListComponent,
+        CommissionComponent,
+        CommissionsFormDialogComponent,
+        CommissionsListComponent
        
     ],
     imports        : [
@@ -79,12 +87,14 @@ const routes: Routes = [
         ConfirmService,
         IndicatorService,
         PaymentService,
+        ReceiptCommissionService
         
        
     ],
     entryComponents: [
         IndicatorFormDialogComponent,
-        PaymentFormDialogComponent
+        PaymentFormDialogComponent,
+        CommissionsFormDialogComponent
        
     ]
 })

@@ -13,8 +13,8 @@ const headers = new HttpHeaders({
 @Injectable()
 export class UnitsService implements Resolve<any>
 {
-    clients: any[];
-    onCustomersChanged: BehaviorSubject<any>;
+    units: any[];
+    onUnitsChanged: BehaviorSubject<any>;
 
     /**
      * Constructor
@@ -26,7 +26,7 @@ export class UnitsService implements Resolve<any>
     )
     {
         // Set the defaults
-        this.onCustomersChanged = new BehaviorSubject({});
+        this.onUnitsChanged = new BehaviorSubject({});
     }
 
     /**
@@ -41,7 +41,7 @@ export class UnitsService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getCustomers()
+                this.getUnitys()
             ]).then(
                 () => {
                     resolve();
@@ -52,17 +52,36 @@ export class UnitsService implements Resolve<any>
     }
 
     /**
-     * Get clients
+     * Get Units
      *
      * @returns {Promise<any>}
      */
-    getCustomers(): Promise<any>
+    getUnitys(): Promise<any>
     {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(MK_API + "/api/Clients/", { headers: headers })
+            this._httpClient.get(MK_API + "/api/Unities/", { headers: headers })
                 .subscribe((response: any) => {
-                    this.clients = response;
-                    this.onCustomersChanged.next(this.clients);
+                    this.units = response;
+                    this.onUnitsChanged.next(this.units);
+                    resolve(response);
+                }, reject);
+        });
+    }
+
+     /**
+     * delete Unity
+     *
+     * @param unity
+     * @returns {Promise<any>}
+     */
+    deleteUnity(unity): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient
+                .delete(MK_API + "/api/Units/" + unity.id, {
+                    headers: headers
+                })
+                .subscribe((response: any) => {
+                    this.getUnitys()
                     resolve(response);
                 }, reject);
         });

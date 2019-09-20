@@ -23,6 +23,7 @@ export const locale = {
             'SECURITY': 'Segurança',
             'ACESS': 'Acesso',
             'USERS': 'Users',
+            'COMMISSIONS' : 'Comissão Recebimento',
             'CRON': 'CRON',
             'SAMPLE'        : {
                 'TITLE': 'Sample',

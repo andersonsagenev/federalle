@@ -1,6 +1,6 @@
 @import "src/@fuse/scss/fuse";
 
-banks-list {
+receiptCommissions-list {
     display: flex;
     flex: 1 1 auto;
     width: 100%;
@@ -10,14 +10,15 @@ banks-list {
         background: transparent;
         box-shadow: none;
 
-        .mat-column-codeFebraban {
+        .mat-column-codeBenefit {
             flex: 0 1 150px;
             padding-left: 18px;
         }
 
-        // .mat-column-name {
-        //     min-width: 50px;
-        // }
+        .mat-column-name {
+            min-width: 350px;
+            max-width: 350px;
+        }
 
         .mat-column-buttons {
             flex: 0 1 80px;
@@ -44,7 +45,7 @@ banks-list {
     }
 }
 
-#add-consorcio-button {
+#add-bem-button {
     position: absolute;
     bottom: 12px;
     right: 12px;

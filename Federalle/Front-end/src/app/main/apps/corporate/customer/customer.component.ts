@@ -334,6 +334,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
             this.isLoading = false;
         }
     }
+    
     populateAddress(item: any) {
         this.formCustomer.patchValue({
             zip: item.cep,
@@ -344,6 +345,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
             uf: item.uf
         });
     }
+
     resetaDadosForm() {
         this.formCustomer.patchValue({
             zip: null,

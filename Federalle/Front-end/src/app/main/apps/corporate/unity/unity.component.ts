@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { CepService } from '@fuse/services/cep.service';
 import { RequestService } from '@fuse/services/request.service';
 import { ConfirmService } from '@fuse/services/confirm.service';
+import { UnityService } from './unity.service';
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Cep } from '../../../../models/cep';
@@ -13,6 +14,7 @@ import { locale as english } from 'app/main/apps/corporate/unity//i18n/en';
 import { locale as portuguese } from 'app/main/apps/corporate/unity//i18n/pt';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { FuseUtils } from '@fuse/utils';
 
 
 
@@ -33,14 +35,16 @@ export class UnityComponent implements OnInit, OnDestroy {
   public cpfMask = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
   public cepMask = [/\d/ , /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
   public cnpjMask = [ /\d/ , /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/ , /\d/, /\d/, '/', /\d/, /\d/,/\d/, /\d/, '-', /\d/, /\d/];
-  formPerson: FormGroup;
+  formUnity: FormGroup;
   customerId: any;
   userLog: any;
   roles: any = [];
   idCompany: any;
   user: any;
   role: any;
-  companys: any;
+  units: any;
+  estados: any;
+  cidades: any;
   isLoading: boolean = false;
   _disabled: boolean = false;
   isChecked: boolean = false;
@@ -63,6 +67,7 @@ export class UnityComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _cepService: CepService,
     private _alert: ConfirmService,
+    private _unityService: UnityService,
   ) {
     // Configure the layout
     this._fuseConfigService.config = {
@@ -89,23 +94,34 @@ export class UnityComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
 
-    this.formPerson = this._formBuilder.group({
+     // dropdown estados
+     this._unityService.onUfsChanged.subscribe(data => {
+      this.estados = data;
+  });
+  // dropdown cidades
+  this._unityService.onCitysChanged.subscribe(data => {
+      this.cidades = data;
+  });
+
+    this.formUnity = this._formBuilder.group({
       name: ['', Validators.required],
-      email: ['', Validators.required, Validators.email],
-      email1: ['', Validators.email],
-      phone: ['', Validators.required],
-      type: ['', Validators.required],
-      cellphone: [''],
+      email1: ['', Validators.required, Validators.email],
+      email2: ['', Validators.email],
+      telefone1: ['', Validators.required],
+      telefone2: [''],
+      im: [''],
+      regime: [''],
       percent: [''],
-      cpfCnpj: ['', Validators.required],
-      isActive: [true],
-      zip: ['', Validators.maxLength(9)],
-      andress: '',
-      number: '',
-      complement: '',
-      district: '',
-      city: '',
-      uf: '',
+      cnpj: ['', Validators.required],
+      active: [true],
+      cep: ['', Validators.maxLength(9)],
+      natureOperation: [''],
+      andress: [''],
+      number: [''],
+      complement: [''],
+      district: [''],
+      idCity: [null],
+      idUf: [null],
      
     });
 
@@ -116,8 +132,6 @@ export class UnityComponent implements OnInit, OnDestroy {
         this.retrieveUsers()
       }
     })
-
-    this.formPerson.controls['type'].setValue('fisica');
 
      // Id module routeParams
      const routeParams = this._route.snapshot.params;
@@ -154,9 +168,38 @@ export class UnityComponent implements OnInit, OnDestroy {
     this.isChecked = checked.checked;
   }
 
+   /**
+     * Create Unity form
+     *
+     * @returns {FormGroup}
+     */
+    createUnityForm(): FormGroup {
+      return this._formBuilder.group({
+          id: [this.units.id],
+          name: [this.units.name],
+          handle: [this.units.handle],
+          idCity: [this.units.idCity],
+          idUf: [this.units.idUf],
+          cnpj: [this.units.cnpj],
+          registerDate: [this.units.registerDate],
+          telefone1: [this.units.telefone1],
+          telefone2: [this.units.telefone2],
+          im: [this.units.im],
+          email1: [this.units.email1],
+          email2: [this.units.email2],
+          natureOperation: [this.units.natureOperation],
+          regime: [this.units.regime],
+          cep: [this.units.cep],
+          andress: [this.units.andress],
+          number: [this.units.number],
+          complement: [this.units.complement],
+          district: [this.units.district]
+      });
+  }
+
   searchCep() {
     this.isLoading = true;
-    let cep = this.formPerson.get('zip').value;
+    let cep = this.formUnity.get('cep').value;
     console.log('cep ~~>', cep)
     if (cep != null && cep !== '') {
       this._cepService.buscaCep(cep)
@@ -176,34 +219,31 @@ export class UnityComponent implements OnInit, OnDestroy {
       this.isLoading = false;
     }
   }
+
   populateAddress(item: any) {
-    this.formPerson.patchValue({
-      
-        zip: item.cep,
+    this.formUnity.patchValue({
+        cep: item.cep,
         andress: item.logradouro,
         complement: item.complemento,
-        district: item.bairro,
-        city: item.localidade,
-        uf: item.uf
-      
+        district: item.bairro
     })
   }
+
   resetaDadosForm() {
-    this.formPerson.patchValue({
-        zip: null,
+    this.formUnity.patchValue({
+        cep: null,
         andress: null,
         complement: null,
         number: null,
-        district: null,
-        city: null,
-        uf: null
+        district: null
     })
   }
+
   retrieveUsers() {
     this._request.server('/api/user/' + this.customerId, 'get').subscribe(data => {
       console.log('retrieve usuario', data.data)
       this.user = data.data;
-      this.formPerson.patchValue({
+      this.formUnity.patchValue({
         firstName: this.user.firstName,
         lastName: this.user.lastName,
         email: this.user.email,
@@ -227,53 +267,42 @@ export class UnityComponent implements OnInit, OnDestroy {
       console.log('Error', error)
     })
   }
-  // Save user
-  onSaveAdmin() {
-   // this.formPerson.controls['role'].setValue(this.role_admin);
-    let requestData = this.formPerson.value;
-    requestData.name = this.formPerson.value.firstName + ' ' + this.formPerson.value.lastName
-    if (requestData.passwordConfirm) {
-      delete requestData.passwordConfirm;
+  // Save Unity
+  onSaveUnity() {
+    const data = this.formUnity.getRawValue();
+    data.handle = FuseUtils.handleize(data.name);
+    
+    if(data.idCity == ""){
+      data.idCity = null;
     }
-     console.log('Request Person ===>', requestData)
-    if (this.formPerson.valid) {
-      this._request.server('/api/user', 'post', requestData).subscribe(data => {
-        if (data.success === true) {
-          console.log('Sucesso! Cadastrado com sucesso')
-          this._router.navigate(['/apps/people/users']);
-          this._alert.SwalInsert();
-        }else{
-          console.log( 'erro', data.message)
-          this._alert.SwalError('Login já cadastrado', data.message);
-        }
-      }, error => {
-        console.log('erro', error)
-      })
+    if(data.idUf == ""){
+      data.idUf = null;
     }
-  }
-  //Update user
-  onEditAdmin() {
-    //this.formPerson.controls['role'].setValue(this.role_admin);
-    let requestData = this.formPerson.value;
-    requestData.name = this.formPerson.value.firstName + ' ' + this.formPerson.value.lastName
-    if (requestData.password) {
-      delete requestData.password;
-    }
-    if (requestData.passwordConfirm) {
-      delete requestData.passwordConfirm;
-    }
-    this._request.server('/api/user/' + this.customerId, 'put', requestData).subscribe(data => {
-      if (data.success === true) {
-        this._alert.SwalUpdate();
-        this._router.navigate(['/apps/people/users']);
-      } else{
-        this._alert.SwalError();
-      }
-    }, error => {
-      this._alert.SwalError();
-      console.log('Error', error)
-    })
-  }
+    console.log('rormulario', data)
+
+    this._unityService.addUnity(data).then(() => {
+       
+        this._unityService.onUnityChanged.next(data);
+
+        this._alert.SwalInsert();
+        this._router.navigate(["/apps/corporate/units"]);
+      
+    });
+}
+//Update Unity
+onEditUnity() {
+
+  const data = this.formUnity.getRawValue();
+  data.handle = FuseUtils.handleize(data.name);
+
+  this._unityService.saveUnity(data).then(() => {
+     
+      this._unityService.onUnityChanged.next(data);
+
+      this._alert.SwalInsert();
+      this._router.navigate(["/apps/corporate/units"]);
+})
+}
 
   logout(): void {
     this._request.server('/api/logout', 'post').subscribe(data => {

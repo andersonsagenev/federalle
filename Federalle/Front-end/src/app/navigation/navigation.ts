@@ -186,6 +186,14 @@ export const navigation: FuseNavigation[] = [
                         icon: 'swap_vert',
                         url: '/apps/financial/indicators'
                     },
+                    {
+                        id: 'receiptCommissions',
+                        title: 'Commisão Recebimento',
+                        translate: 'NAV.COMMISSIONS',
+                        type: 'item',
+                        icon: 'swap_vert',
+                        url: '/apps/financial/receiptCommissions'
+                    },
                    
                 ]
             },

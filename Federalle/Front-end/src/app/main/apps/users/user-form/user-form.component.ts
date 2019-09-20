@@ -91,7 +91,7 @@ export class UserFormDialogComponent {
     ngOnInit(): void {
 
         // recuperar dados usuário logado
-        this.userLog = JSON.parse(localStorage.getItem('user'))
+        this.userLog = localStorage.getItem('user')
         if (this.userLog) {
             
         } else {
