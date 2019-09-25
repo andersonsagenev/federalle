@@ -40,6 +40,36 @@ export const navigation: FuseNavigation[] = [
                 icon: 'menu',
                 children: [
                     {
+                        id: 'register',
+                        title: 'Pré-Cadastros',
+                        translate: 'NAV.REGISTERS',
+                        type: 'collapsable',
+                        children: [
+                            {
+                                id: 'sector',
+                                title: 'Setor Verificação',
+                                type: 'item',
+                                url: '/apps/corporate/sector',
+                                exactMatch: true
+                            },
+                            {
+                                id: 'verification',
+                                title: 'Verificaçōes',
+                                type: 'item',
+                                url: '/apps/corporate/verification',
+                                exactMatch: true
+                            },
+                            // {
+                            //     id: 'indicator',
+                            //     title: 'Indicadores',
+                            //     type: 'item',
+                            //     url: '/apps/corporate/indicators',
+                            //     exactMatch: true
+                            // },
+                           
+                        ]
+                    },
+                    {
                         id: 'units',
                         title: 'Unidades',
                         translate: 'NAV.UNITY',
@@ -62,20 +92,7 @@ export const navigation: FuseNavigation[] = [
                         url: '/apps/corporate/consorcio',
                         exactMatch: true
                     },
-                    {
-                        id: 'sector',
-                        title: 'Setor Verificação',
-                        type: 'item',
-                        url: '/apps/corporate/sector',
-                        exactMatch: true
-                    },
-                    {
-                        id: 'verification',
-                        title: 'Verificaçōes',
-                        type: 'item',
-                        url: '/apps/corporate/verification',
-                        exactMatch: true
-                    },
+                   
                     {
                         id: 'plano',
                         title: 'Planos',
@@ -133,7 +150,7 @@ export const navigation: FuseNavigation[] = [
                         translate: 'NAV.FEDERALLE',
                         type: 'item',
                         icon: 'settings',
-                        url: '/apps/contract/federalle'
+                        url: '/apps/contract/contracts'
                     },
                     {
                         id: 'representative',

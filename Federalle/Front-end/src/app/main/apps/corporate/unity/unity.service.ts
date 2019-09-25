@@ -1,14 +1,30 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { MK_API } from "app/app.api";
+import { MK_TOKEN } from "app/app.token";
+import { Ufs } from '../../../../models/ufs';
+import { City } from '../../../../models/citys';
+
+const headers = new HttpHeaders({
+    Authorization: "Basic " + localStorage.getItem("user"),
+    "x-api-key": MK_TOKEN
+});
 
 @Injectable()
 export class UnityService implements Resolve<any>
 {
     routeParams: any;
     customers: any[];
+    estados: Ufs[];
+    cidades: City[];
+
     onCustomerChanged: BehaviorSubject<any>;
+    onUfsChanged: BehaviorSubject<any>;
+    onCitysChanged: BehaviorSubject<any>;
+
+   
 
     /**
      * Constructor
@@ -21,6 +37,8 @@ export class UnityService implements Resolve<any>
     {
         // Set the defaults
         this.onCustomerChanged = new BehaviorSubject({});
+        this.onUfsChanged = new BehaviorSubject({});
+        this.onCitysChanged = new BehaviorSubject({});
     }
 
     /**
@@ -38,6 +56,8 @@ export class UnityService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
+                // this.getCitys(),
+                this.getUfs(),
                 this.getCustomer()
             ]).then(
                 () => {
@@ -45,6 +65,48 @@ export class UnityService implements Resolve<any>
                 },
                 reject
             );
+        });
+    }
+
+        /**
+     * Get Estados
+     *
+     * @returns {Promise<any>}
+     */
+    getUfs(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient
+                .get(MK_API + "/api/ufs/", { headers: headers })
+                .subscribe((response: any) => {
+                    this.estados = response;
+                   console.log('retorno estados', response)
+                    this.estados = this.estados.map(uf => {
+                        return new Ufs(uf);
+                    });
+                    this.onUfsChanged.next(this.estados);
+                    resolve(this.estados);
+                }, reject);
+        });
+    }
+
+     /**
+     * Get Cidades
+     *
+     * @returns {Promise<any>}
+     */ 
+    getCitys(idUf: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient
+                .get(MK_API + "/api/Auxiliar/GetCity/" + idUf, { headers: headers })
+                .subscribe((response: any) => {
+                    this.cidades = response;
+                   console.log('retorno cidades', response)
+                    this.cidades = this.cidades.map(city => {
+                        return new City(city);
+                    });
+                    this.onCitysChanged.next(this.cidades);
+                    resolve(this.cidades);
+                }, reject);
         });
     }
 

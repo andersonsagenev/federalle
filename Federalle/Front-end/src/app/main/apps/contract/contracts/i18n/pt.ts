@@ -1,0 +1,35 @@
+export const locale = {
+    lang: 'pt',
+    data: {
+        'CUSTOMER': {
+            'SCHOOL'                : 'Empresa',
+            'FIRST'                 : 'Nome',
+            'LAST'                  : 'Sobrenome',   
+            'EMAIL'                 : 'Login',   
+            'CONTACT'               : 'Contato',   
+            'ROLE'                  : 'Perfil Acesso',   
+            'POSTALCODE'            : 'Cep',   
+            'SEARCH'                : 'Buscar cep',   
+            'ADDRESS'               : 'Rua/Avenida',   
+            'COMPLEMENT'            : 'Complemento',   
+            'NUMBER'                : 'Número',   
+            'DISTRICT'              : 'Bairro',   
+            'CITY'                  : 'Cidade',   
+            'STATE'                 : 'Estado',
+            'BIRTHDAY'              : 'Aniversário',   
+            'GENDER'                : 'Gênero',   
+            'FORMATION'             : 'Formação Acadêmica', 
+            'ISACTIVE'              : 'Ativo',   
+            'FEMALE'                : 'Feminino',      
+            'SAVE'                  : 'Salvar',   
+            'PASSWORD'              : 'Senha',   
+            'CONFIRM'               : 'Confirmação',   
+            'CANCEL'                : 'Cancelar',   
+            'ERRO_MESSAGE_FIRST'    : 'Campo mome é obrigatório!',   
+            'ERRO_MESSAGE_LAST'     : 'Campo sobrenome é obrigatório!', 
+            'ERRO_MESSAGE_ROLE'     : 'Perfil de acesso é obrigatório!',   
+            'ERRO_MESSAGE_EMAIL'    : 'Campo email é obrigatório!',   
+            'ERRO_MAIL'             : 'Por favor insira um endereço de e-mail válido',
+        }
+    }
+};

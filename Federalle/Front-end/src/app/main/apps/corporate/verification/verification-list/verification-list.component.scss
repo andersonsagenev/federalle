@@ -10,13 +10,12 @@ verification-list {
         background: transparent;
         box-shadow: none;
 
-        .mat-column-checkbox {
-            flex: 0 1 64px;
-            padding-left: 18px;
-        }
+      
 
-        .mat-column-avatar {
-            flex: 0 1 64px;
+        .mat-column-name {
+            max-width: 90%;
+            min-width: 90%;
+            padding-left: 18px;
         }
 
         .mat-column-buttons {

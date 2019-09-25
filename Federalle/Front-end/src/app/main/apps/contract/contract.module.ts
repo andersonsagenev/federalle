@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
     MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldModule, MatIconModule, MatInputModule,
-    MatMenuModule, MatRippleModule, MatTableModule, MatToolbarModule, MatSelectModule, MatSlideToggleModule
+    MatMenuModule, MatRippleModule, MatTableModule, MatToolbarModule, MatSelectModule, MatSlideToggleModule, MatSnackBarModule
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -10,8 +10,10 @@ import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 import { ConfirmService } from '@fuse/services/confirm.service';
 import { TextMaskModule } from 'angular2-text-mask';
 
-import { CustomersComponent } from 'app/main/apps/corporate/customers/customers.component';
-import { CustomerComponent } from 'app/main/apps/corporate/customer/customer.component';
+import { ListContractComponent } from 'app/main/apps/contract/list-contracts/list-contracts.component';
+import { ContractsComponent } from 'app/main/apps/contract/contracts/contracts.component';
+import { ContractsService } from '../contract/contracts/contracts.service';
+import { ListContractService } from '../contract/list-contracts/list-contracts.service';
 
 import { StatusComponent } from 'app/main/apps/contract/status-contract/status.component';
 import { StatusFormDialogComponent } from 'app/main/apps/contract/status-contract/form-status/form-status.component';
@@ -34,19 +36,27 @@ import { StatusRepresentativeListComponent } from 'app/main/apps/contract/status
 // import { BenefitsService } from '../corporate/benefits/benefits.service';
 
 const routes: Routes = [
-    // {
-    //     path     : 'customers',
-    //     component: CustomersComponent,
-        
-    // },
-    // {
-    //     path     : 'customer',
-    //     component: CustomerComponent,
-    // },
-    // {
-    //     path     : 'customer/:id',
-    //     component: CustomerComponent,
-    // },
+    {
+        path     : 'list-contracts',
+        component: ListContractComponent,
+        resolve  : {
+            data: ListContractService
+        }
+    },
+    {
+        path     : 'contracts',
+        component: ContractsComponent,
+        resolve  : {
+            data: ContractsService
+        }
+    },
+    {
+        path     : 'contracts/:id',
+        component: ContractsComponent,
+        resolve  : {
+            data: ContractsService
+        }
+    },
     {
         path     : 'status-contract',
         component: StatusComponent,
@@ -82,8 +92,8 @@ const routes: Routes = [
         StatusComponent,
         StatusFormDialogComponent,
         StatusListComponent,
-        // CustomerComponent,
-        // CustomersComponent,
+        ContractsComponent,
+        ListContractComponent,
         StatusRepresentativeComponent,
         StatusRepresentativeListComponent,
         StatusRepFormDialogComponent,
@@ -109,7 +119,7 @@ const routes: Routes = [
         MatToolbarModule,
         MatSelectModule,
         MatSlideToggleModule,
-
+        MatSnackBarModule,
         FuseSharedModule,
         FuseConfirmDialogModule,
         FuseSidebarModule,
@@ -118,8 +128,8 @@ const routes: Routes = [
     providers      : [
         ConfirmService,
         StatusService,
-        StatusContractService
-        // PlanoService,
+        StatusContractService,
+        ContractsService,
         // BanksService,
         // BenefitsService
        
