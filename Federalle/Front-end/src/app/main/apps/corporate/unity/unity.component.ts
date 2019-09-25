@@ -24,15 +24,15 @@ import { UnityService } from "../unity/unity.service";
     { provide: MAT_DATE_LOCALE, useValue: 'pt-br' },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-]
+  ]
 })
 export class UnityComponent implements OnInit, OnDestroy {
 
   public maskTelefone = ['+', /[1-9]/, /\d/, ' ', '(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
   public maskCelular = ['+', /[1-9]/, /\d/, ' ', '(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
   public cpfMask = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
-  public cepMask = [/\d/ , /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
-  public cnpjMask = [ /\d/ , /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/ , /\d/, /\d/, '/', /\d/, /\d/,/\d/, /\d/, '-', /\d/, /\d/];
+  public cepMask = [/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
+  public cnpjMask = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
   formUnity: FormGroup;
   unityId: any;
   userLog: any;
@@ -80,7 +80,7 @@ export class UnityComponent implements OnInit, OnDestroy {
     // Load the translations
     this._fuseTranslationLoaderService.loadTranslations(english, portuguese);
 
-   
+
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -92,9 +92,9 @@ export class UnityComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
 
-      // dropdown estados
-      this._unityService.onUfsChanged.subscribe(data => {
-        this.estados = data;
+    // dropdown estados
+    this._unityService.onUfsChanged.subscribe(data => {
+      this.estados = data;
     });
     // dropdown cidades
     // this._unityService.onCitysChanged.subscribe(data => {
@@ -121,7 +121,7 @@ export class UnityComponent implements OnInit, OnDestroy {
       district: '',
       idCity: '',
       idUf: '',
-     
+
     });
 
     // Id params
@@ -132,21 +132,21 @@ export class UnityComponent implements OnInit, OnDestroy {
       }
     })
 
-     // Id module routeParams
-     const routeParams = this._route.snapshot.params;
-     if (routeParams && routeParams.company) {
-         
+    // Id module routeParams
+    const routeParams = this._route.snapshot.params;
+    if (routeParams && routeParams.company) {
+
     }
-    
+
     // recuperar dados usuário logado
     this.userLog = localStorage.getItem('user')
     if (this.userLog) {
-     
+
     } else {
       this.logout();
     }
-    
-   
+
+
   }
 
   /**
@@ -162,22 +162,22 @@ export class UnityComponent implements OnInit, OnDestroy {
   // @ Public methods
   // -----------------------------------------------------------------------------------------------------
 
-  onChange(checked){
+  onChange(checked) {
     console.log('checado ~~>', checked)
     this.isChecked = checked.checked;
   }
 
-  getCidades(item){
+  getCidades(item) {
     console.log('id estado ~~>', item.value)
     this._unityService.getCitys(item.value).then(() => {
 
-       this._unityService.onCitysChanged.subscribe(data => {
+      this._unityService.onCitysChanged.subscribe(data => {
         this.cidades = data;
+      });
+
+
     });
-     
-    
-  });
-    
+
   }
 
 
@@ -207,21 +207,21 @@ export class UnityComponent implements OnInit, OnDestroy {
 
   populateAddress(item: any) {
     this.formUnity.patchValue({
-      
-        zip: item.cep,
-        andress: item.logradouro,
-        complement: item.complemento,
-        district: item.bairro
+
+      zip: item.cep,
+      andress: item.logradouro,
+      complement: item.complemento,
+      district: item.bairro
     })
   }
 
   resetaDadosForm() {
     this.formUnity.patchValue({
-        zip: null,
-        andress: null,
-        complement: null,
-        number: null,
-        district: null
+      zip: null,
+      andress: null,
+      complement: null,
+      number: null,
+      district: null
     })
   }
 
@@ -235,7 +235,7 @@ export class UnityComponent implements OnInit, OnDestroy {
         email: this.user.email,
         phone: this.user.phone,
         role: this.user.role.id,
-        company: this.user.company.id || null, 
+        company: this.user.company.id || null,
         isActive: this.user.isActive,
         password: this.user.password,
         passwordConfirm: this.user.password,
@@ -254,9 +254,40 @@ export class UnityComponent implements OnInit, OnDestroy {
     })
   }
 
- 
+  // Save Unity
+  onSaveUnit() {
+    const data = this.formUnity.getRawValue();
 
- 
+    if (data.idCity == "") {
+      data.idCity = null;
+    }
+    if (data.idUf == "") {
+      data.idUf = null;
+    }
+    console.log('formulario', data)
+
+    this._unityService.addUnity(data).then(() => {
+
+      this._unityService.onUnityChanged.next(data);
+
+      this._alert.SwalInsert();
+      this._router.navigate(["/apps/corporate/units"]);
+
+    });
+  }
+  //Update Unity
+  onEditUnit() {
+    const data = this.formUnity.getRawValue();
+
+    this._unityService.saveUnity(data).then(() => {
+
+      this._unityService.onUnityChanged.next(data);
+
+      this._alert.SwalInsert();
+      this._router.navigate(["/apps/corporate/units"]);
+    })
+  }
+
 
   logout(): void {
     this._request.server('/api/logout', 'post').subscribe(data => {

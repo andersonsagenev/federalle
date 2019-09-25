@@ -16,11 +16,11 @@ const headers = new HttpHeaders({
 export class UnityService implements Resolve<any>
 {
     routeParams: any;
-    customers: any[];
+    unities: any[];
     estados: Ufs[];
     cidades: City[];
 
-    onCustomerChanged: BehaviorSubject<any>;
+    onUnityChanged: BehaviorSubject<any>;
     onUfsChanged: BehaviorSubject<any>;
     onCitysChanged: BehaviorSubject<any>;
 
@@ -36,7 +36,7 @@ export class UnityService implements Resolve<any>
     )
     {
         // Set the defaults
-        this.onCustomerChanged = new BehaviorSubject({});
+        this.onUnityChanged = new BehaviorSubject({});
         this.onUfsChanged = new BehaviorSubject({});
         this.onCitysChanged = new BehaviorSubject({});
     }
@@ -58,7 +58,7 @@ export class UnityService implements Resolve<any>
             Promise.all([
                 // this.getCitys(),
                 this.getUfs(),
-                this.getCustomer()
+                this.getUnities()
             ]).then(
                 () => {
                     resolve();
@@ -111,56 +111,57 @@ export class UnityService implements Resolve<any>
     }
 
     /**
-     * Get product
+     * Get unities
      *
      * @returns {Promise<any>}
      */
-    getCustomer(): Promise<any>
+    getUnities(): Promise<any>
     {
         return new Promise((resolve, reject) => {
             if ( this.routeParams.id === 'new' )
             {
-                this.onCustomerChanged.next(false);
+                this.onUnityChanged.next(false);
                 resolve(false);
             }
             else
             {
-                this._httpClient.get('/api/Clients/' + this.routeParams.id)
+                this._httpClient.get('/api/Unities/' + this.routeParams.id)
                     .subscribe((response: any) => {
-                        this.customers = response;
-                        this.onCustomerChanged.next(this.customers);
+                        this.unities = response;
+                        this.onUnityChanged.next(this.unities);
                         resolve(response);
                     }, reject);
             }
         });
     }
 
-    /**
-     * Save product
+     /**
+     * Save Unity
      *
-     * @param product
+     * @param unity
      * @returns {Promise<any>}
      */
-    saveProduct(product): Promise<any>
+    saveUnity(unity): Promise<any>
     {
         return new Promise((resolve, reject) => {
-            this._httpClient.post('api/Clients/' + product.id, product)
+            this._httpClient.put(MK_API + '/api/Unities/' + unity.id, unity)
                 .subscribe((response: any) => {
                     resolve(response);
                 }, reject);
         });
     }
 
-    /**
-     * Add product
+    /**s
+     * Add Unity
      *
-     * @param product
+     * @param unity
      * @returns {Promise<any>}
      */
-    addProduct(product): Promise<any>
+    addUnity(unity): Promise<any>
     {
+        console.log('Unidade que chegou ~~>', unity)
         return new Promise((resolve, reject) => {
-            this._httpClient.post('api/clients/', product)
+            this._httpClient.post(MK_API + '/api/Unities/', unity, { headers: headers })
                 .subscribe((response: any) => {
                     resolve(response);
                 }, reject);
