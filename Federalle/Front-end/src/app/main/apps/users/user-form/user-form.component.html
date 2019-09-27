@@ -35,8 +35,21 @@
                     <mat-icon matSuffix class="secondary-text">email</mat-icon>
                     <input name="email" formControlName="email" matInput type="email" required>
                     <mat-error>
-                       Informe o email para acesso.
+                        Informe o email.
                         <!-- {{ 'FORM.ERRO_MESSAGE_EMAIL' | translate}} -->
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Login</mat-label>
+                    <mat-icon matSuffix class="secondary-text">email</mat-icon>
+                    <input name="login" formControlName="login" matInput type="email" required>
+                    <mat-error>
+                        Informe o login para acesso.
                     </mat-error>
                 </mat-form-field>
 
@@ -53,66 +66,94 @@
                     </mat-error>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline"  class="pl-8" fxFlex="50">
+                <mat-form-field appearance="outline" class="pl-8" fxFlex="50">
                     <mat-label>Confirmação</mat-label>
                     <input matInput type="password" formControlName="passwordConfirm" required>
                     <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
                     <mat-error *ngIf="formUser.get('passwordConfirm').hasError('required')">
                         A Confirmação é obrigatório
                     </mat-error>
-                    <mat-error *ngIf="!formUser.get('passwordConfirm').hasError('required') &&
+                    <mat-error
+                        *ngIf="!formUser.get('passwordConfirm').hasError('required') &&
                                                        formUser.get('passwordConfirm').hasError('passwordsNotMatching')">
-                       As senhas devem corresponder.
-                      
+                        As senhas devem corresponder.
+
                     </mat-error>
                 </mat-form-field>
             </div>
 
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                    <mat-form-field appearance="outline" fxFlex="35">
-                            <mat-label>Data limite senha</mat-label>
-                            <input matInput [matDatepicker]="deadlineDatePicker" name="deadline" formControlName="deadline">
-                            <mat-datepicker-toggle matSuffix [for]="deadlineDatePicker"></mat-datepicker-toggle>
-                            <mat-datepicker #deadlineDatePicker></mat-datepicker>
-                    </mat-form-field>
+                <mat-form-field appearance="outline" fxFlex="35">
+                    <mat-label>Data limite senha</mat-label>
+                    <input matInput [matDatepicker]="deadlineDatePicker" name="deadlinePassword"
+                        formControlName="deadlinePassword">
+                    <mat-datepicker-toggle matSuffix [for]="deadlineDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #deadlineDatePicker></mat-datepicker>
+                </mat-form-field>
 
-                    <mat-form-field appearance="outline" fxFlex="65" class="pl-8">
-                        <mat-label>Funcionário</mat-label>
-                        <mat-select formControlName="type">
-                            <mat-option *ngFor="let item of employees"
-                                        [value]="item.id">
-                                {{item.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                <mat-form-field appearance="outline" fxFlex="65" class="pl-8">
+                    <mat-label>Tipo de Usuário</mat-label>
+                    <mat-select formControlName="type">
+                        <mat-option value="1">Federalle</mat-option>
+                        <mat-option value="2">Representante</mat-option>
+                    </mat-select>
+                </mat-form-field>
 
-                </div>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center" *ngIf="formUser.value.type == 1">
+
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Setor</mat-label>
+                    <mat-select formControlName="idSector">
+                         <mat-option [value]="''">Selecione..</mat-option>
+                        <mat-option *ngFor="let item of setores" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center" *ngIf="formUser.value.type == 2">
+
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Representante</mat-label>
+                    <mat-select formControlName="idResentante">
+                        <mat-option [value]="''">Selecione..</mat-option>
+                        <mat-option *ngFor="let item of employees" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
 
             <div *ngIf="_action === 'editar'" fxLayout="row" fxLayoutAlign="end center">
-                    <mat-slide-toggle class="slide-margin">
-                         ativo
-                    </mat-slide-toggle>
+                <mat-slide-toggle class="slide-margin">
+                    ativo
+                </mat-slide-toggle>
             </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
         </form>
 
     </div>
 
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
 
-        <button *ngIf="_action === 'editar'" mat-button color="accent" class="mr-8" (click)="matDialogRef.close(['delete',formUser])"
-            aria-label="Delete" matTooltip="Delete">
+        <button *ngIf="_action === 'editar'" mat-button color="accent" class="mr-8"
+            (click)="matDialogRef.close(['delete',formUser])" aria-label="Delete" matTooltip="Delete">
             EXCLUIR
         </button>
 
-        <button *ngIf="_action !== 'editar'" mat-raised-button color="accent" class="save-button" (click)="saveStudent()"
-            [disabled]="formUser.invalid" aria-label="SAVE">
+        <button *ngIf="_action !== 'editar'" mat-raised-button color="accent" class="save-button"
+            (click)="saveStudent()" [disabled]="formUser.invalid" aria-label="SAVE">
             ADICIONAR
         </button>
 
-        <button *ngIf="_action === 'editar'" mat-raised-button color="accent" class="save-button" (click)="matDialogRef.close(['update',formUser])"
-            [disabled]="formUser.invalid" aria-label="SAVE">
+        <button *ngIf="_action === 'editar'" mat-raised-button color="accent" class="save-button"
+            (click)="matDialogRef.close(['update',formUser])" [disabled]="formUser.invalid" aria-label="SAVE">
             SALVAR
         </button>
 

@@ -3,6 +3,8 @@ import { FuseUtils } from '@fuse/utils';
 export class User
 {
     id: any;
+    idResentante: any;
+    idSector: any;
     name: string;
     email: string;
     login: string;
@@ -18,6 +20,7 @@ export class User
     handle: any;
     canErase: any;
     chatlist: Chatlist[];
+ 
 
     /**
      * Constructor
@@ -28,6 +31,8 @@ export class User
     {
         {
             this.id = user.id || null;
+            this.idResentante = user.idResentante || null;
+            this.idSector = user.idSector || null;
             this.name = user.name || '';
             this.email = user.email || '';
             this.login = user.login || '';

@@ -25,10 +25,10 @@ import { StatusRepresentativeComponent } from 'app/main/apps/contract/status-rep
 import { StatusRepFormDialogComponent } from 'app/main/apps/contract/status-representative/form-representative/form-representative.component';
 import { StatusRepresentativeListComponent } from 'app/main/apps/contract/status-representative/representative-list/representative-list.component';
 
-// import { BanksService } from '../corporate/banks/banks.service';
-// import { BanksComponent } from 'app/main/apps/corporate/banks/banks.component';
-// import { BankFormDialogComponent } from 'app/main/apps/corporate/banks/banks-form/banks-form.component';
-// import { BanksListComponent } from 'app/main/apps/corporate/banks/banks-list/banks-list.component';
+import { ContractNumberService } from '../contract/contract-number/contract-number.service';
+import { ContractNumberComponent } from 'app/main/apps/contract/contract-number/contract-number.component';
+import { ContractNumberFormDialogComponent } from 'app/main/apps/contract/contract-number/number-form/number-form.component';
+import { ContractNumberListComponent } from 'app/main/apps/contract/contract-number/number-list/number-list.component';
 
 // import { BenefitsComponent } from 'app/main/apps/corporate/benefits/benefits.component';
 // import { BenefitsFormDialogComponent } from 'app/main/apps/corporate/benefits/benefits-form/benefits-form.component';
@@ -71,13 +71,13 @@ const routes: Routes = [
             data: StatusContractService
         }
     },
-    // {
-    //     path     : 'banks',
-    //     component: BanksComponent,
-    //     resolve  : {
-    //         data: BanksService
-    //     }
-    // },
+    {
+        path     : 'contract-number',
+        component: ContractNumberComponent,
+        resolve  : {
+            data: ContractNumberService
+        }
+    },
     // {
     //     path     : 'benefits',
     //     component: BenefitsComponent,
@@ -97,8 +97,9 @@ const routes: Routes = [
         StatusRepresentativeComponent,
         StatusRepresentativeListComponent,
         StatusRepFormDialogComponent,
-        // BenefitsComponent,
-        // BenefitsListComponent,
+        ContractNumberComponent,
+        ContractNumberListComponent,
+        ContractNumberFormDialogComponent,
         // BenefitsFormDialogComponent,
         // BankFormDialogComponent,
         // BanksListComponent,
@@ -130,14 +131,14 @@ const routes: Routes = [
         StatusService,
         StatusContractService,
         ContractsService,
-        // BanksService,
+        ContractNumberService,
         // BenefitsService
        
     ],
     entryComponents: [
         StatusFormDialogComponent,
         StatusRepFormDialogComponent,
-        // BenefitsFormDialogComponent,
+        ContractNumberFormDialogComponent,
         // BankFormDialogComponent
     ]
 })

@@ -98,6 +98,7 @@ $typography: mat-typography-config(
 
 @import "src/app/main/apps/contract/status-contract/status.theme";
 @import "src/app/main/apps/contract/status-representative/status-representative.theme";
+@import "src/app/main/apps/contract/contract-number/contract-number.theme";
 @import "src/app/main/apps/financial/formPayment/formPayment.theme";
 @import "src/app/main/apps/financial/indicators/indicators.theme";
 // @import "src/app/main/apps/corporate/customers/customers.theme";
@@ -133,6 +134,7 @@ $typography: mat-typography-config(
     @include sector-theme($theme);
     @include banks-theme($theme);
     @include verification-theme($theme);
+    @include contract-number-theme($theme);
 
     @include status-theme($theme);
     @include status-representative-theme($theme);

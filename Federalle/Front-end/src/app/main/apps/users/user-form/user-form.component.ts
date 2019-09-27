@@ -6,7 +6,9 @@ import { takeUntil } from 'rxjs/internal/operators';
 import { Router } from '@angular/router';
 import { RequestService } from '@fuse/services/request.service';
 import { ConfirmService } from '@fuse/services/confirm.service';
+import { UserService } from '../users.service';
 import { User } from 'app/main/apps/users/users.model';
+import { Sector } from 'app/main/apps/corporate/sector/sector.model';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
@@ -26,6 +28,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 export class UserFormDialogComponent {
     _action: string;
     user: User;
+    setores: Sector;
     formUser: FormGroup;
     dialogTitle: string;
     companys: any;
@@ -56,6 +59,7 @@ export class UserFormDialogComponent {
         private _request: RequestService,
         private _router: Router,
         private _alert: ConfirmService,
+        private _userService: UserService,
 
     ) {
         // Set the defaults
@@ -79,6 +83,8 @@ export class UserFormDialogComponent {
         .subscribe(() => {
             this.formUser.get('passwordConfirm').updateValueAndValidity();
         });
+
+        this.formUser.get('idSector').setValue("");
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -97,6 +103,11 @@ export class UserFormDialogComponent {
         } else {
             this.logout();
         }
+
+          // dropdown setores
+          this._userService.onSectorChanged.subscribe(data => {
+            this.setores = data;
+        });
        
     }
     /**
