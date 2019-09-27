@@ -27,7 +27,7 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 export class UnitsComponent implements OnInit {
 
-
+    searchInput: FormControl;
     dataSource: FilesDataSource | null;
     displayedColumns = ['name', 'contact', 'cpfCnpj', 'buttons'];
     searchInput: FormControl;

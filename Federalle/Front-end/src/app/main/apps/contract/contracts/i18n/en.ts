@@ -1,0 +1,35 @@
+export const locale = {
+    lang: 'en',
+    data: {
+        'CUSTOMER': {
+            'SCHOOL'                : 'Company',
+            'FIRST'                 : 'First name',
+            'LAST'                  : 'Last name',   
+            'EMAIL'                 : 'Login',   
+            'CONTACT'               : 'Contact', 
+            'ROLE'                  : 'Access Profile',   
+            'POSTALCODE'            : 'Postal Code',   
+            'SEARCH'                : 'Search',   
+            'ADDRESS'               : 'Logradouro',   
+            'COMPLEMENT'            : 'Complement',   
+            'NUMBER'                : 'Number',   
+            'DISTRICT'              : 'District',   
+            'CITY'                  : 'City',   
+            'STATE'                 : 'State',   
+            'BIRTHDAY'              : 'Birthday',   
+            'GENDER'                : 'Gender',   
+            'FORMATION'             : 'Academic training',   
+            'ISACTIVE'              : 'IsActive',   
+            'FEMALE'                : 'Female',   
+            'SAVE'                  : 'Save',   
+            'CANCEL'                : 'Cancel', 
+            'PASSWORD'              : 'Password',   
+            'CONFIRM'               : 'Confirm password',    
+            'ERRO_MESSAGE_FIRST'    : 'First Name is required!',   
+            'ERRO_MESSAGE_ROLE'    : 'Profile is required!',   
+            'ERRO_MESSAGE_LAST'     : 'Last Name is required!',   
+            'ERRO_MESSAGE_EMAIL'    : 'Email is required!',   
+            'ERRO_MAIL'             : 'Please enter a valid email address',
+        }
+    }
+};

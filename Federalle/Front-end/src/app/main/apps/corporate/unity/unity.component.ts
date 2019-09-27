@@ -14,8 +14,12 @@ import { locale as english } from 'app/main/apps/corporate/unity//i18n/en';
 import { locale as portuguese } from 'app/main/apps/corporate/unity//i18n/pt';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+<<<<<<< HEAD
 import { FuseUtils } from '@fuse/utils';
 
+=======
+import { UnityService } from "../unity/unity.service";
+>>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
 
 
 @Component({
@@ -26,23 +30,34 @@ import { FuseUtils } from '@fuse/utils';
     { provide: MAT_DATE_LOCALE, useValue: 'pt-br' },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-]
+  ]
 })
 export class UnityComponent implements OnInit, OnDestroy {
 
   public maskTelefone = ['+', /[1-9]/, /\d/, ' ', '(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
   public maskCelular = ['+', /[1-9]/, /\d/, ' ', '(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
   public cpfMask = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+<<<<<<< HEAD
   public cepMask = [/\d/ , /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
   public cnpjMask = [ /\d/ , /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/ , /\d/, /\d/, '/', /\d/, /\d/,/\d/, /\d/, '-', /\d/, /\d/];
   formUnity: FormGroup;
   customerId: any;
+=======
+  public cepMask = [/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
+  public cnpjMask = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+  formUnity: FormGroup;
+  unityId: any;
+>>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
   userLog: any;
   roles: any = [];
   idCompany: any;
   user: any;
   role: any;
+<<<<<<< HEAD
   units: any;
+=======
+  companys: any;
+>>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
   estados: any;
   cidades: any;
   isLoading: boolean = false;
@@ -67,7 +82,11 @@ export class UnityComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _cepService: CepService,
     private _alert: ConfirmService,
+<<<<<<< HEAD
     private _unityService: UnityService,
+=======
+    public _unityService: UnityService,
+>>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
   ) {
     // Configure the layout
     this._fuseConfigService.config = {
@@ -82,7 +101,7 @@ export class UnityComponent implements OnInit, OnDestroy {
     // Load the translations
     this._fuseTranslationLoaderService.loadTranslations(english, portuguese);
 
-   
+
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -94,6 +113,7 @@ export class UnityComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
 
+<<<<<<< HEAD
      // dropdown estados
      this._unityService.onUfsChanged.subscribe(data => {
       this.estados = data;
@@ -102,6 +122,16 @@ export class UnityComponent implements OnInit, OnDestroy {
   this._unityService.onCitysChanged.subscribe(data => {
       this.cidades = data;
   });
+=======
+    // dropdown estados
+    this._unityService.onUfsChanged.subscribe(data => {
+      this.estados = data;
+    });
+    // dropdown cidades
+    // this._unityService.onCitysChanged.subscribe(data => {
+    //     this.cidades = data;
+    // });
+>>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
 
     this.formUnity = this._formBuilder.group({
       name: ['', Validators.required],
@@ -110,6 +140,7 @@ export class UnityComponent implements OnInit, OnDestroy {
       telefone1: ['', Validators.required],
       telefone2: [''],
       im: [''],
+<<<<<<< HEAD
       regime: [''],
       percent: [''],
       cnpj: ['', Validators.required],
@@ -123,31 +154,54 @@ export class UnityComponent implements OnInit, OnDestroy {
       idCity: [null],
       idUf: [null],
      
+=======
+      registerDate: [''],
+      type: ['', Validators.required],
+      percentage: [''],
+      cnpj: ['', Validators.required],
+      withholdTaxes: [''],
+      isActive: [true],
+      cep: ['', Validators.maxLength(9)],
+      andress: '',
+      number: '',
+      complement: '',
+      district: '',
+      idCity: '',
+      idUf: '',
+
+>>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
     });
 
     // Id params
     this._route.params.subscribe(params => {
-      this.customerId = params['id'];
-      if (this.customerId != 'new') {
+      this.unityId = params['id'];
+      if (this.unityId != 'new') {
         this.retrieveUsers()
       }
     })
 
+<<<<<<< HEAD
      // Id module routeParams
      const routeParams = this._route.snapshot.params;
      if (routeParams && routeParams.company) {
          
+=======
+    // Id module routeParams
+    const routeParams = this._route.snapshot.params;
+    if (routeParams && routeParams.company) {
+
+>>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
     }
-    
+
     // recuperar dados usuário logado
     this.userLog = localStorage.getItem('user')
     if (this.userLog) {
-     
+
     } else {
       this.logout();
     }
-    
-   
+
+
   }
 
   /**
@@ -163,11 +217,12 @@ export class UnityComponent implements OnInit, OnDestroy {
   // @ Public methods
   // -----------------------------------------------------------------------------------------------------
 
-  onChange(checked){
+  onChange(checked) {
     console.log('checado ~~>', checked)
     this.isChecked = checked.checked;
   }
 
+<<<<<<< HEAD
    /**
      * Create Unity form
      *
@@ -197,6 +252,23 @@ export class UnityComponent implements OnInit, OnDestroy {
       });
   }
 
+=======
+  getCidades(item) {
+    console.log('id estado ~~>', item.value)
+    this._unityService.getCitys(item.value).then(() => {
+
+      this._unityService.onCitysChanged.subscribe(data => {
+        this.cidades = data;
+      });
+
+
+    });
+
+  }
+
+
+
+>>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
   searchCep() {
     this.isLoading = true;
     let cep = this.formUnity.get('cep').value;
@@ -222,25 +294,41 @@ export class UnityComponent implements OnInit, OnDestroy {
 
   populateAddress(item: any) {
     this.formUnity.patchValue({
+<<<<<<< HEAD
         cep: item.cep,
         andress: item.logradouro,
         complement: item.complemento,
         district: item.bairro
+=======
+
+      zip: item.cep,
+      andress: item.logradouro,
+      complement: item.complemento,
+      district: item.bairro
+>>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
     })
   }
 
   resetaDadosForm() {
     this.formUnity.patchValue({
+<<<<<<< HEAD
         cep: null,
         andress: null,
         complement: null,
         number: null,
         district: null
+=======
+      zip: null,
+      andress: null,
+      complement: null,
+      number: null,
+      district: null
+>>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
     })
   }
 
   retrieveUsers() {
-    this._request.server('/api/user/' + this.customerId, 'get').subscribe(data => {
+    this._request.server('/api/user/' + this.unityId, 'get').subscribe(data => {
       console.log('retrieve usuario', data.data)
       this.user = data.data;
       this.formUnity.patchValue({
@@ -249,7 +337,7 @@ export class UnityComponent implements OnInit, OnDestroy {
         email: this.user.email,
         phone: this.user.phone,
         role: this.user.role.id,
-        company: this.user.company.id || null, 
+        company: this.user.company.id || null,
         isActive: this.user.isActive,
         password: this.user.password,
         passwordConfirm: this.user.password,
@@ -267,6 +355,7 @@ export class UnityComponent implements OnInit, OnDestroy {
       console.log('Error', error)
     })
   }
+<<<<<<< HEAD
   // Save Unity
   onSaveUnity() {
     const data = this.formUnity.getRawValue();
@@ -297,12 +386,48 @@ onEditUnity() {
 
   this._unityService.saveUnity(data).then(() => {
      
+=======
+
+  // Save Unity
+  onSaveUnit() {
+    const data = this.formUnity.getRawValue();
+
+    if (data.idCity == "") {
+      data.idCity = null;
+    }
+    if (data.idUf == "") {
+      data.idUf = null;
+    }
+    console.log('formulario', data)
+
+    this._unityService.addUnity(data).then(() => {
+
       this._unityService.onUnityChanged.next(data);
 
       this._alert.SwalInsert();
       this._router.navigate(["/apps/corporate/units"]);
+
+    });
+  }
+  //Update Unity
+  onEditUnit() {
+    const data = this.formUnity.getRawValue();
+
+    this._unityService.saveUnity(data).then(() => {
+
+>>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
+      this._unityService.onUnityChanged.next(data);
+
+      this._alert.SwalInsert();
+      this._router.navigate(["/apps/corporate/units"]);
+<<<<<<< HEAD
 })
 }
+=======
+    })
+  }
+>>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
+
 
   logout(): void {
     this._request.server('/api/logout', 'post').subscribe(data => {

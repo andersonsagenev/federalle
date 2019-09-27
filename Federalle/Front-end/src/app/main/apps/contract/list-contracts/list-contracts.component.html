@@ -1,5 +1,4 @@
-
-<div id="units" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+<div id="list-contracts" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
 
     <!-- HEADER -->
     <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-xs="row"
@@ -10,10 +9,10 @@
 
             <div class="logo" fxLayout="row" fxLayoutAlign="start center">
                 <mat-icon class="logo-icon mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                    where_to_vote
+                    account_circle
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    Unidades
+                    Contratos Federalle
                 </span>
             </div>
 
@@ -28,16 +27,16 @@
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
                     <input [formControl]="searchInput" matInput
-                        placeholder="pesquisar">
+                        placeholder="pesquisar por cliente">
                 </div>
 
             </div>
         </div>
 
         <!-- ADD BUTTON -->
-        <button mat-raised-button [routerLink]="['/apps/corporate/unity/new']"
+        <button mat-raised-button [routerLink]="['/apps/corporate/customer/new']"
             class="add-product-button fuse-white mt-24 mt-md-0">
-            <span>NOVA UNIDADE</span>
+            <span>NOVO CLIENTE</span>
         </button>
         <!-- / ADD BUTTON -->
 
@@ -49,51 +48,41 @@
     <div class="content">
 
         <!-- CENTER -->
-        <div #myElem class="center p-24 pb-56 pr-sm-92" fusePerfectScrollbar>
+        <div #myElem class="center p-24 pb-56" fusePerfectScrollbar>
 
             <!-- CONTENT -->
             <div class="content p-24" fxLayout="column">
 
-                <div *ngIf="!exist_user" class="message-box info mt-16">
-                    Nenhuma unidade encontrada!
-                </div>
+                <!-- <div *ngIf="!exist_user" class="message-box info mt-16">
+                    Nenhum cliente encontrado!
+                </div> -->
 
-                <mat-table #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}" *ngIf="exist_user">
-   
+                <mat-table #table [dataSource]="dataSource"  [@animateStagger]="{value:'50'}">
+                   
                     <!-- Name Column -->
                     <ng-container matColumnDef="name">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
-                        <mat-cell *matCellDef="let unidade">
-                            <p class="text-truncate font-weight-600">{{unidade.name}}</p>
+                        <mat-header-cell *matHeaderCellDef>Cliente</mat-header-cell>
+                        <mat-cell *matCellDef="let cliente">
+                            <p class="text-truncate font-weight-600">{{cliente.name}}</p>
                         </mat-cell>
                     </ng-container>
 
                     <!-- Email Column -->
-                    <ng-container matColumnDef="phone">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
-                        <mat-cell *matCellDef="let unidade">
+                    <ng-container matColumnDef="contact">
+                        <mat-header-cell *matHeaderCellDef>Contato</mat-header-cell>
+                        <mat-cell *matCellDef="let cliente">
                             <p class="email text-truncate">
-                                {{unidade.email}}
-                            </p>
-                        </mat-cell>
-                    </ng-container>
-
-                    <!-- Email Column -->
-                    <ng-container matColumnDef="email">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Telefone</mat-header-cell>
-                        <mat-cell *matCellDef="let unidade">
-                            <p class="email text-truncate">
-                                {{unidade.email}}
+                                {{cliente.contact}}
                             </p>
                         </mat-cell>
                     </ng-container>
 
                     <!-- Company Column -->
                     <ng-container matColumnDef="cpfCnpj">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Cpf / Cnpj</mat-header-cell>
-                        <mat-cell *matCellDef="let unidade">
+                        <mat-header-cell *matHeaderCellDef>Cpf / Cnpj</mat-header-cell>
+                        <mat-cell *matCellDef="let cliente">
                             <p class="company text-truncate">
-                                {{ unidade.cpfCnpj }}
+                                {{ cliente.cpfCnpj }}
                             </p>
                         </mat-cell>
                     </ng-container>
@@ -101,10 +90,10 @@
                     <!-- Buttons Column -->
                     <ng-container matColumnDef="buttons">
                         <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                        <mat-cell *matCellDef="let unidade">
+                        <mat-cell *matCellDef="let cliente">
                             <div fxFlex="row" fxLayoutAlign="end center">
 
-                                <button mat-icon-button [routerLink]="['/apps/corporate/unity/', unidade.id]"
+                                <button mat-icon-button [routerLink]="['/apps/corporate/customer/', cliente.id]"
                                     aria-label="editar">
                                     <mat-icon class="secondary-text">edit</mat-icon>
                                 </button>
@@ -115,7 +104,7 @@
                                 </button>
 
                                 <mat-menu #moreMenu="matMenu">
-                                    <button mat-menu-item aria-label="remove" (click)="deleteUnity(unidade)">
+                                    <button mat-menu-item aria-label="remove" (click)="deleteClient(cliente)">
                                         <mat-icon>delete</mat-icon>
                                         <span>Excluir</span>
                                     </button>
@@ -126,10 +115,31 @@
 
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: displayedColumns;"
-                        [routerLink]="['/apps/corporate/unity/', row.id]" class="contact">
+                        [routerLink]="['/apps/corporate/customer/', row.id]" class="contact">
                     </mat-row>
                 </mat-table>
-                
+
+                <!-- <div class="paginator" *ngIf="hide">
+                        <ul class="pagination modal-4">
+                            <li (click)="navigate(0)" *ngIf="page_number != 1">
+                                <a mat-button class="prev">
+                                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                    Anterior
+                                </a>
+                            </li>
+                            <li *ngFor="let row of pages">
+                                <a (click)="getUsers(row.label)" [ngClass]="{ 'active': page_number == row.label }">
+                                    {{ row.label }}
+                                </a>
+                            </li>
+                            <li (click)="navigate(1)" *ngIf="page_number!=numPages" >
+                                <a mat-button class="next"> Próximo
+                                    <i class="fa fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                     -->
             </div>
             <!-- / CONTENT -->
 
@@ -141,9 +151,9 @@
 
 </div>
 
-<!-- ADD UNITY BUTTON -->
-<button mat-fab class="accent" id="add-contact-button" [routerLink]="['/apps/corporate/unity/new']"
-    aria-label="add unity" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+<!-- ADD COMPANY BUTTON -->
+<!-- <button mat-fab class="accent" id="add-contact-button" [routerLink]="['/apps/corporate/customer/new']"
+    aria-label="add contact" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
     <mat-icon>person_add</mat-icon>
-</button>
-<!-- / ADD UNITY BUTTON -->
+</button> -->
+<!-- / ADD COMPANY BUTTON -->

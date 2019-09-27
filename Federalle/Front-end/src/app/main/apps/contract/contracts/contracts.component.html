@@ -1,0 +1,235 @@
+<div id="contracts" class="page-layout simple fullwidth" fxLayout="column">
+
+    <!-- HEADER -->
+    <div class="header accent p-24 h-100"   fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center start" >
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Cadastros</span>
+            </div>
+            <div class="h1 mt-16">Contratos Federalle</div>
+        </div>
+        <!-- RETURN BUTTON -->
+        <button mat-fab  [routerLink]="'/apps/contract/contract'">
+            <mat-icon aria-label="Voltar">reply</mat-icon>
+        </button>
+        <!-- / RETURN BUTTON -->
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-16">
+
+        <div class="mb-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+
+            <!-- REACTIVE FORM EXAMPLE -->
+
+            <form class="mat-card mat-elevation-z4 p-24 mr-24" fxLayout="column" fxLayoutAlign="start"
+                  fxFlex="1 0 auto" name="form" [formGroup]="formContract">
+   
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field appearance="outline" fxFlex="55">
+                        <mat-label>Cliente</mat-label>
+                        <mat-select formControlName="idClient" name="idClient">
+                            <mat-option [value]="''">Selecione..</mat-option>
+                            <mat-option *ngFor="let item of clientes" [value]="item.id">
+                                {{ item.contact }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="15" class="px-8">
+                        <mat-label>Série</mat-label>
+                        <input matInput formControlName="serie">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="15">
+                        <mat-label>Grupo</mat-label>
+                        <input matInput formControlName="grupo">
+                    </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="15" class="pl-8">
+                    <mat-label>Cota</mat-label>
+                    <input matInput formControlName="cota">
+                </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field appearance="outline" fxFlex>
+                            <mat-label>Data Cadastro</mat-label>
+                            <input matInput [matDatepicker]="registerDatePicker" name="registerDate" formControlName="registerDate">
+                            <mat-datepicker-toggle matSuffix [for]="registerDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #registerDatePicker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="pl-8" fxFlex>
+                            <mat-label>Data Pagamento</mat-label>
+                            <input matInput [matDatepicker]="paymentDatePicker" name="paydat" formControlName="paydat">
+                            <mat-datepicker-toggle matSuffix [for]="paymentDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #paymentDatePicker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="px-8" fxFlex>
+                        <mat-label>Forma Pagamento</mat-label>
+                        <mat-select formControlName="idFormPayment" name="idFormPayment">
+                            <mat-option [value]="''">Selecione..</mat-option>
+                            <mat-option *ngFor="let item of pagamentos" [value]="item.id">
+                                {{ item.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Código CV</mat-label>
+                        <input matInput formControlName="codeCv">
+                    </mat-form-field>
+    
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                                        <mat-form-field appearance="outline" fxFlex="50">
+                                                <mat-label>Bem</mat-label>
+                                                <mat-select formControlName="idBenefit" name="idBenefit">
+                                                    <mat-option [value]="''">Selecione..</mat-option>
+                                                    <mat-option *ngFor="let item of beneficios" [value]="item.id">
+                                                        {{ item.name }}
+                                                    </mat-option>
+                                                </mat-select>
+                                        </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="px-8" fxFlex="25">
+                        <mat-label>Prazo Inicial</mat-label>
+                        <input matInput formControlName="promptInitial">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline"  fxFlex="25">
+                        <mat-label>Prazo Atual</mat-label>
+                        <input matInput formControlName="promptCurrent">
+                    </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                       
+                        <mat-form-field appearance="outline" fxFlex>
+                                <mat-label>Telefone Fixo</mat-label>
+                                <input matInput formControlName="telefone1" [textMask]="{mask: maskTelefone}">
+                                <mat-icon matSuffix class="secondary-text">phone</mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex class="px-8">
+                                <mat-label>Celular </mat-label>
+                                <input matInput  formControlName="telefone2" [textMask]="{mask: maskCelular}">
+                                <mat-icon matSuffix class="secondary-text">phone</mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex>
+                                <mat-label>Celular 2</mat-label>
+                                <input matInput formControlName="telefone3" [textMask]="{mask: maskCelular}">
+                                <mat-icon matSuffix class="secondary-text">phone</mat-icon>
+                        </mat-form-field>
+        
+                 </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Email Principal</mat-label>
+                        <input matInput formControlName="email1" required>
+                        <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+                        <mat-error *ngIf="formContract.get('email1').hasError('required')">
+                                Informe o email
+                        </mat-error>
+                        <mat-error
+                            *ngIf="!formContract.get('email1').hasError('required') &&
+                                    formContract.get('email1').hasError('email1')">
+                                    Informe um email válido.
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="px-8" fxFlex>
+                        <mat-label>Email Secundário</mat-label>
+                        <input matInput formControlName="email2">
+                        <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+                        <mat-error
+                            *ngIf="!formContract.get('email2').hasError('required') &&
+                                    formContract.get('email2').hasError('email2')">
+                                    Informe um email válido.
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Email Comercial</mat-label>
+                        <input matInput formControlName="email3">
+                        <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+                        <mat-error
+                            *ngIf="!formContract.get('email3').hasError('required') &&
+                                    formContract.get('email3').hasError('email3')">
+                                    Informe um email válido.
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                        <mat-form-field appearance="outline" fxFlex>
+                                <mat-label>Data Vencimento</mat-label>
+                                <input matInput [matDatepicker]="dueDatePicker" name="dueDate" formControlName="dueDate">
+                                <mat-datepicker-toggle matSuffix [for]="dueDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #dueDatePicker></mat-datepicker>
+                        </mat-form-field>
+    
+                        <mat-form-field appearance="outline" class="px-8" fxFlex>
+                                <mat-label>Data 1° Assembleia</mat-label>
+                                <input matInput [matDatepicker]="assemblyDatePicker" name="assemblyDate" formControlName="assemblyDate">
+                                <mat-datepicker-toggle matSuffix [for]="assemblyDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #assemblyDatePicker></mat-datepicker>
+                        </mat-form-field>
+    
+                        <mat-form-field appearance="outline"  fxFlex>
+                            <mat-label>Representante</mat-label>
+                            <mat-select formControlName="idRepresentative" name="idRepresentative">
+                                <mat-option [value]="''">Selecione..</mat-option>
+                                <mat-option *ngFor="let item of representantes" [value]="item.id">
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+        
+                    </div>
+
+               
+                 
+
+               
+
+                <div class="row">
+                    <div class="text-right">
+
+                            <button mat-raised-button [routerLink]="'/apps/contract/list-contracts'" class="espaco">
+                                Cancelar
+                            </button>
+
+                            <button mat-raised-button [disabled]="formContract.invalid" (click)="contractId == 'new' ?  onSaveContract() : onEditContract()" class="mat-accent espaco">
+                                Salvar
+                            </button>
+                       
+                           
+                    </div>
+                </div>
+
+               
+
+            </form>
+             <!-- / REACTIVE FORM EXAMPLE -->
+
+</div>
+
+

@@ -9,6 +9,7 @@ import { User } from 'app/main/apps/users/users.model';
 import { MK_API } from '../../../app.api';
 import { MK_TOKEN } from 'app/app.token';
 import { ConfirmService } from "@fuse/services/confirm.service";
+import { Sector } from 'app/main/apps/corporate/sector/sector.model';
 
 const headers = new HttpHeaders({ 'Authorization': 'Basic ' + localStorage.getItem('user'), 'x-api-key': MK_TOKEN });
 
@@ -18,11 +19,11 @@ export class UserService implements Resolve<any>
     onUsersChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
 
-    onSelectedStudentsChanged: BehaviorSubject<any>;
+    onSectorChanged: BehaviorSubject<any>;
     onUserDataChanged: BehaviorSubject<any>;
     onFilterChanged: Subject<any>;
     onChanged: BehaviorSubject<any>;
-
+    setores: Sector[];
     students: User[];
     user: any;
     users: any;
@@ -45,7 +46,7 @@ export class UserService implements Resolve<any>
         this.onUsersChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
 
-        this.onSelectedStudentsChanged = new BehaviorSubject([]);
+        this.onSectorChanged = new BehaviorSubject([]);
         this.onUserDataChanged = new BehaviorSubject([]);
         this.onFilterChanged = new Subject();
     }
@@ -69,6 +70,7 @@ export class UserService implements Resolve<any>
 
             Promise.all([
                 this.getUsers(),
+                this.getSector(),
                
             ]).then(
                 ([files]) => {
@@ -115,6 +117,29 @@ export class UserService implements Resolve<any>
             }, reject);
         });
     }
+    
+    /**
+    * Get Setores
+    *
+    * @returns {Promise<any>}
+    */
+   getSector(): Promise<any> {
+       return new Promise((resolve, reject) => {
+           this._httpClient
+               .get(MK_API + "/api/Sectors/", { headers: headers })
+               .subscribe((response: any) => {
+                   this.setores = response;
+                  console.log('retorno setores', response)
+                   this.setores = this.setores.map(item => {
+                       return new Sector(item);
+                   });
+                   this.onSectorChanged.next(this.setores);
+                   resolve(this.setores);
+               }, reject);
+       });
+   }
+
+
 
       /**
      * Update User
@@ -167,7 +192,7 @@ export class UserService implements Resolve<any>
         }
 
         // Trigger the next event
-        this.onSelectedStudentsChanged.next(this.selectedStudents);
+        this.onSectorChanged.next(this.selectedStudents);
     }
 
   
@@ -195,7 +220,7 @@ export class UserService implements Resolve<any>
         this.selectedStudents = [];
 
         // Trigger the next event
-        this.onSelectedStudentsChanged.next(this.selectedStudents);
+        this.onSectorChanged.next(this.selectedStudents);
     }
 
     /**

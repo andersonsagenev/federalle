@@ -1,6 +1,6 @@
 @import "src/@fuse/scss/fuse";
 
-verification-list {
+number-list {
     display: flex;
     flex: 1 1 auto;
     width: 100%;
@@ -10,12 +10,13 @@ verification-list {
         background: transparent;
         box-shadow: none;
 
-      
-
-        .mat-column-name {
-            max-width: 90%;
-            min-width: 90%;
+        .mat-column-checkbox {
+            flex: 0 1 64px;
             padding-left: 18px;
+        }
+
+        .mat-column-avatar {
+            flex: 0 1 64px;
         }
 
         .mat-column-buttons {
