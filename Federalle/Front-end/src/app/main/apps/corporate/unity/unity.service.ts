@@ -16,14 +16,6 @@ const headers = new HttpHeaders({
 export class UnityService implements Resolve<any>
 {
     routeParams: any;
-<<<<<<< HEAD
-    customers: any[];
-    onUnityChanged: BehaviorSubject<any>;
-    onUfsChanged: BehaviorSubject<any>;
-    onCitysChanged: BehaviorSubject<any>;
-    estados: Ufs[];
-    cidades: City[];
-=======
     unities: any[];
     estados: Ufs[];
     cidades: City[];
@@ -34,7 +26,6 @@ export class UnityService implements Resolve<any>
 
    
 
->>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
     /**
      * Constructor
      *
@@ -65,15 +56,9 @@ export class UnityService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
-<<<<<<< HEAD
-                this.getUnits(),
+                this.getUnities(),
                 this.getCitys(),
                 this.getUfs()
-=======
-                // this.getCitys(),
-                this.getUfs(),
-                this.getUnities()
->>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
             ]).then(
                 () => {
                     resolve();
@@ -83,11 +68,7 @@ export class UnityService implements Resolve<any>
         });
     }
 
-<<<<<<< HEAD
        /**
-=======
-        /**
->>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
      * Get Estados
      *
      * @returns {Promise<any>}
@@ -112,19 +93,11 @@ export class UnityService implements Resolve<any>
      * Get Cidades
      *
      * @returns {Promise<any>}
-<<<<<<< HEAD
      */
     getCitys(): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient
                 .get(MK_API + "/api/cities/", { headers: headers })
-=======
-     */ 
-    getCitys(idUf: string): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this._httpClient
-                .get(MK_API + "/api/Auxiliar/GetCity/" + idUf, { headers: headers })
->>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
                 .subscribe((response: any) => {
                     this.cidades = response;
                    console.log('retorno cidades', response)
@@ -142,11 +115,7 @@ export class UnityService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-<<<<<<< HEAD
-    getUnits(): Promise<any>
-=======
     getUnities(): Promise<any>
->>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
     {
         return new Promise((resolve, reject) => {
             if ( this.routeParams.id === 'new' )
@@ -156,57 +125,34 @@ export class UnityService implements Resolve<any>
             }
             else
             {
-<<<<<<< HEAD
-                this._httpClient.get(MK_API + '/api/Unities/' + this.routeParams.id, { headers: headers } )
-                    .subscribe((response: any) => {
-                        this.customers = response;
-                        this.onUnityChanged.next(this.customers);
-=======
                 this._httpClient.get('/api/Unities/' + this.routeParams.id)
                     .subscribe((response: any) => {
                         this.unities = response;
                         this.onUnityChanged.next(this.unities);
->>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
                         resolve(response);
                     }, reject);
             }
         });
     }
 
-<<<<<<< HEAD
-    /**
-     * Save Unity
-     *
-     * @param Unity
-=======
      /**
      * Save Unity
      *
      * @param unity
->>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
      * @returns {Promise<any>}
      */
     saveUnity(unity): Promise<any>
     {
         return new Promise((resolve, reject) => {
-<<<<<<< HEAD
-            this._httpClient.put(MK_API + '/api/Unities/' + unity.id, unity, { headers: headers })
-=======
             this._httpClient.put(MK_API + '/api/Unities/' + unity.id, unity)
->>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
                 .subscribe((response: any) => {
                     resolve(response);
                 }, reject);
         });
     }
 
-<<<<<<< HEAD
-    /**
-     * Add unity
-=======
     /**s
      * Add Unity
->>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
      *
      * @param unity
      * @returns {Promise<any>}

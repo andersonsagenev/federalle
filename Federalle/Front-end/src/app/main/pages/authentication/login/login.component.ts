@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit {
                     console.log("logado ~~~~~~~~~~~>", user);
                     if (user) {
                        // localStorage.setItem("user", JSON.stringify(data.data));
-                        this._router.navigate(["/apps/users"]);
+                        this._router.navigate(["/apps/corporate/plano"]);
                         this.loading = false;
                     } 
                 },

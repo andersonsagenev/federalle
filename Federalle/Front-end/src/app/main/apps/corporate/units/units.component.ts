@@ -30,7 +30,7 @@ export class UnitsComponent implements OnInit {
     searchInput: FormControl;
     dataSource: FilesDataSource | null;
     displayedColumns = ['name', 'contact', 'cpfCnpj', 'buttons'];
-    searchInput: FormControl;
+   
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;

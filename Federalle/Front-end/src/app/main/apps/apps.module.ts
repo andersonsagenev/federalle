@@ -27,6 +27,10 @@ const routes = [
         path        : 'users',
         loadChildren: './users/users.module#ContactsModule'
     },
+    {
+        path        : 'e-commerce',
+        loadChildren: './e-commerce/e-commerce.module#EcommerceModule'
+    },
     // {
     //     path        : 'mail',
     //     loadChildren: './mail/mail.module#MailModule'
