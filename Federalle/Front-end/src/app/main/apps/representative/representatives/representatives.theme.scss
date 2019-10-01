@@ -1,9 +1,9 @@
-@mixin e-commerce-products-theme($theme) {
+@mixin representatives-theme($theme) {
 
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
 
-    e-commerce-products {
+    representatives {
 
         .header {
 

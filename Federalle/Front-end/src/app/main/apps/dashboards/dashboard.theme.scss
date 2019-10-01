@@ -1,9 +1,9 @@
-@mixin dashboards-project-theme($theme) {
+@mixin dashboard-theme($theme) {
 
     $background: map-get($theme, background);
     $is-dark: map-get($theme, is-dark);
 
-    #dashboard-project {
+    #dashboards {
 
         > .center {
 

@@ -11,7 +11,7 @@
             <div class="h1 mt-16">Contratos Federalle</div>
         </div>
         <!-- RETURN BUTTON -->
-        <button mat-fab  [routerLink]="'/apps/contract/contract'">
+        <button mat-fab  [routerLink]="['/apps/contract/list-contracts']">
             <mat-icon aria-label="Voltar">reply</mat-icon>
         </button>
         <!-- / RETURN BUTTON -->
@@ -179,21 +179,21 @@
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
-                        <mat-form-field appearance="outline" fxFlex>
+                        <mat-form-field appearance="outline" fxFlex="30">
                                 <mat-label>Data Vencimento</mat-label>
                                 <input matInput [matDatepicker]="dueDatePicker" name="dueDate" formControlName="dueDate">
                                 <mat-datepicker-toggle matSuffix [for]="dueDatePicker"></mat-datepicker-toggle>
                                 <mat-datepicker #dueDatePicker></mat-datepicker>
                         </mat-form-field>
     
-                        <mat-form-field appearance="outline" class="px-8" fxFlex>
+                        <mat-form-field appearance="outline" class="px-8" fxFlex="30">
                                 <mat-label>Data 1° Assembleia</mat-label>
                                 <input matInput [matDatepicker]="assemblyDatePicker" name="assemblyDate" formControlName="assemblyDate">
                                 <mat-datepicker-toggle matSuffix [for]="assemblyDatePicker"></mat-datepicker-toggle>
                                 <mat-datepicker #assemblyDatePicker></mat-datepicker>
                         </mat-form-field>
     
-                        <mat-form-field appearance="outline"  fxFlex>
+                        <mat-form-field appearance="outline"  fxFlex="40">
                             <mat-label>Representante</mat-label>
                             <mat-select formControlName="idRepresentative" name="idRepresentative">
                                 <mat-option [value]="''">Selecione..</mat-option>

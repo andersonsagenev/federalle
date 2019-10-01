@@ -11,6 +11,7 @@ export class CepService {
   constructor(private http: HttpClient) {}
 
 	buscaCep(cep: string){
+		console.log('buscar cep ~~>', cep)
 			if(cep != ""){
 				let validacep = /^[0-9]{8}$/;
 				if(validacep.test(cep)){
@@ -21,7 +22,7 @@ export class CepService {
 
 				// })
 				}
-				//return of (true);
+				return of (true);
 			}
 	}
 

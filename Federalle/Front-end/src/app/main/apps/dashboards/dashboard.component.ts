@@ -41,6 +41,7 @@ export class ProjectDashboardComponent implements OnInit
     schools: any;
     _disabled: boolean = false;
     widget: any;
+    teste: any;
     widget1SelectedYear = '2016';
 
     widgets: any;
@@ -63,23 +64,7 @@ export class ProjectDashboardComponent implements OnInit
         scheme : {
             domain: ['#5AA454', '#A10A28', '#039be5', '#C7B42C', '#AAAAAA', '#4867d2', '#5c84f1', '#89a9f4', 'rgb(85, 194, 45)']
         },
-        devices: [
-            {
-                name  : 'Aulas Bncc',
-                value : 92.8,
-                change: -0.6
-            },
-            {
-                name  : 'Aulas s/ Bncc',
-                value : 6.1,
-                change: 0.7
-            },
-            {
-                name  : 'Outros',
-                value : 1.1,
-                change: 0.1
-            }
-        ]
+       
     }
 
     devices: any = [
@@ -99,9 +84,362 @@ export class ProjectDashboardComponent implements OnInit
             change: 0.1
         }
     ]
-//}
 
-    /**
+    // widget5: any =  [{ 
+    //     title: 'Planos de Aula',
+    //     ranges: {
+    //         TW: 'Anual',
+    //         LW: 'Semestre',
+    //     },
+    //     mainChart: {
+           
+    //         LW: [
+    //             {
+    //                 name: 'ODS 1',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 37
+    //                     }
+                        
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 2',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 32
+    //                     }
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 3',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 39
+    //                     }
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 4',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 27
+    //                     }
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 5',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 18
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 6',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 24
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 7',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 20
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 8',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 20
+    //                     },
+                        
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 9',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 20
+    //                     },
+                      
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 10',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 20
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 11',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 20
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 12',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 20
+    //                     },
+                      
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 13',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 20
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 14',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 20
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 15',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 20
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 16',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 29
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 17',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 45
+    //                     },
+                       
+    //                 ]
+    //             },
+    //         ],
+    //         TW: [
+    //             {
+    //                 name: 'ODS 1',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 47
+    //                     }
+                        
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 2',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 37
+    //                     }
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 3',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 39
+    //                     }
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 4',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 20
+    //                     }
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 5',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 18
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 6',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 24
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 7',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 39
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 8',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 45
+    //                     },
+                        
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 9',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 29
+    //                     },
+                      
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 10',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 48
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 11',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 32
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 12',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 50
+    //                     },
+                      
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 13',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 41
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 14',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 22
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 15',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 38
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 16',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 29
+    //                     },
+                       
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'ODS 17',
+    //                 series: [
+    //                     {
+    //                         name: 'Planos de aula',
+    //                         value: 47
+    //                     },
+                       
+    //                 ]
+    //             },
+    //         ]
+    //     },
+       
+    // }];
+
+       /**
      * Constructor
      *
      * @param {FuseSidebarService} _fuseSidebarService

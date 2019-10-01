@@ -43,7 +43,7 @@
 
                     <mat-form-field appearance="outline" fxFlex>
                             <mat-label>Tipo de Pessoa</mat-label>
-                            <mat-select formControlName="type">
+                            <mat-select formControlName="type" name="type">
                                 <mat-option *ngFor="let item of typeClient" [value]="item.id">{{ item.name }}</mat-option>
                                 <!-- <mat-option value="juridica">Jurídica</mat-option> -->
                             </mat-select>
@@ -69,9 +69,10 @@
 
                     <mat-form-field appearance="outline" fxFlex>
                             <mat-label>Aniversário</mat-label>
-                            <input matInput [matDatepicker]="birthdayDatePicker" name="birthDate" formControlName="birthDate">
+                            <input matInput [matDatepicker]="birthdayDatePicker" name="birthDate" formControlName="birthDate" required>
                             <mat-datepicker-toggle matSuffix [for]="birthdayDatePicker"></mat-datepicker-toggle>
                             <mat-datepicker #birthdayDatePicker></mat-datepicker>
+                            <mat-error>Informe a data de nascimento</mat-error>
                     </mat-form-field>
     
                         
@@ -203,24 +204,26 @@
                            
                                 <mat-form-field appearance="outline" class="px-8" fxFlex="30">
                                                 <mat-label>Estado</mat-label>
-                                                <mat-select formControlName="idUf" name="idUf">
+                                                <mat-select formControlName="idUf" name="idUf" (selectionChange)="getCidades($event)" required>
                                                     <mat-option [value]="''">Selecione..</mat-option>
                                                     <mat-option *ngFor="let item of estados" [value]="item.id">
                                                         {{ item.name }}
                                                     </mat-option>
                                                 </mat-select>
                                                 <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                                                <mat-error>Informe o estado</mat-error>
                                 </mat-form-field>
 
                                 <mat-form-field appearance="outline" class="px-8" fxFlex="30">
                                         <mat-label>Cidade</mat-label>
-                                        <mat-select formControlName="idCity" name="idCity">
+                                        <mat-select formControlName="idCity" name="idCity" required>
                                             <mat-option [value]="''">Selecione..</mat-option>
                                             <mat-option *ngFor="let item of cidades" [value]="item.id">
                                                 {{ item.name }}
                                             </mat-option>
                                         </mat-select>
                                         <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                                        <mat-error>Informe a cidade</mat-error>
                                  </mat-form-field>
                             
 

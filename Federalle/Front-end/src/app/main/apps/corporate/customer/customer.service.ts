@@ -55,7 +55,7 @@ export class CustomerService implements Resolve<any>
 
             Promise.all([
                 this.getClients(),
-                this.getCitys(),
+                // this.getCitys(),
                 this.getUfs()
             ]).then(
                 () => {
@@ -86,18 +86,17 @@ export class CustomerService implements Resolve<any>
         });
     }
 
-     /**
+       /**
      * Get Cidades
      *
      * @returns {Promise<any>}
      */
-    getCitys(): Promise<any> {
+    getCitys(id): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient
-                .get(MK_API + "/api/cities/", { headers: headers })
+                .get(MK_API + "/api/Auxiliar/GetCity/" + id , { headers: headers })
                 .subscribe((response: any) => {
                     this.cidades = response;
-                   console.log('retorno cidades', response)
                     this.cidades = this.cidades.map(city => {
                         return new City(city);
                     });
@@ -106,6 +105,7 @@ export class CustomerService implements Resolve<any>
                 }, reject);
         });
     }
+
 
     /**
      * Get Client

@@ -17,7 +17,7 @@ export class Unity
     withholdTaxes: any;
     percentage: any;
     cep: any;
-    andress: string;
+    address: string;
     number: string;
     complement: string;
     district: string;
@@ -40,7 +40,7 @@ export class Unity
             this.im = unity.im || '';
             this.registerDate = unity.registerDate || new Date();
             this.type = unity.type || '';
-            this.andress = unity.andress || '';
+            this.address = unity.address || '';
             this.cep = unity.cep || '';
             this.number = unity.number || '';
             this.district = unity.district || '';

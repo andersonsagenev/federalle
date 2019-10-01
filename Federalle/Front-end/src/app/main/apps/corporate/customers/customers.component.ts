@@ -7,7 +7,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, fromEvent, merge, Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from "rxjs/operators";
 import { FuseUtils } from '@fuse/utils';
 import { CustomersService } from 'app/main/apps/corporate/customers/customers.service';
 
@@ -69,6 +69,16 @@ export class CustomersComponent implements OnInit {
         //     this.exist = false;
         // }
         console.log('retorno de clientes ~>', this.dataSource)
+
+        this.searchInput.valueChanges
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                debounceTime(300),
+                distinctUntilChanged()
+            )
+            .subscribe(searchText => {
+                this._customersService.onSearchTextChanged.next(searchText);
+            });
 
         // fromEvent(this.filter.nativeElement, 'keyup')
         //     .pipe(

@@ -14,7 +14,7 @@ const headers = new HttpHeaders({
 @Injectable()
 export class ListContractService implements Resolve<any>
 {
-    clients: any[];
+    contracts: any[];
     searchText: string;
     onListContractsChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
@@ -63,32 +63,32 @@ export class ListContractService implements Resolve<any>
   
 
     /**
-     * Get clients
+     * Get contracts
      *
      * @returns {Promise<any>}
      */
     getContracts(): Promise<any>
     {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(MK_API + "/api/Clients/", { headers: headers })
+            this._httpClient.get(MK_API + "/api/Contracts/", { headers: headers })
                 .subscribe((response: any) => {
-                    this.clients = response;
-                    this.onListContractsChanged.next(this.clients);
+                    this.contracts = response;
+                    this.onListContractsChanged.next(this.contracts);
                     resolve(response);
                 }, reject);
         });
     }
 
     /**
-     * delete Client
+     * delete Contract
      *
-     * @param client
+     * @param contract
      * @returns {Promise<any>}
      */
-    deleteClient(client): Promise<any> {
+    deleteContract(contract): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient
-                .delete(MK_API + "/api/clients/" + client.id, {
+                .delete(MK_API + "/api/Contracts/" + contract.id, {
                     headers: headers
                 })
                 .subscribe((response: any) => {

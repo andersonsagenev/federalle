@@ -88,6 +88,7 @@ $typography: mat-typography-config(
 // apps
 @import "src/app/main/apps/corporate/benefits/benefits.theme";
 @import "src/app/main/apps/users/users.theme";
+@import "src/app/main/apps/dashboards/dashboard.theme";
 @import "src/app/main/apps/corporate/customers/customers.theme";
 @import "src/app/main/apps/corporate/units/units.theme";
 @import "src/app/main/apps/corporate/plano/plano.theme";
@@ -97,12 +98,13 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/corporate/verification/verification.theme";
 
 @import "src/app/main/apps/contract/status-contract/status.theme";
+@import "src/app/main/apps/contract/list-contracts/list-contracts.theme";
 @import "src/app/main/apps/contract/status-representative/status-representative.theme";
 @import "src/app/main/apps/contract/contract-number/contract-number.theme";
 @import "src/app/main/apps/financial/formPayment/formPayment.theme";
 @import "src/app/main/apps/financial/indicators/indicators.theme";
 @import "src/app/main/apps/financial/receiptCommissions/receiptCommissions.theme";
-// @import "src/app/main/apps/corporate/customers/customers.theme";
+@import "src/app/main/apps/representative/representatives/representatives.theme";
 // @import "src/app/main/apps/corporate/plano/plano.theme";
 // @import "src/app/main/apps/corporate/consorcio/consorcio.theme";
 // @import "src/app/main/apps/corporate/banks/banks.theme";
@@ -119,9 +121,9 @@ $typography: mat-typography-config(
     @include register-theme($theme);
     @include reset-password-theme($theme);
     @include forgot-password-theme($theme);
-    // @include lock-theme($theme);
+    @include representatives-theme($theme);
     @include mail-confirm-theme($theme);
-    // @include coming-soon-theme($theme);
+    @include dashboard-theme($theme);
     // @include error-404-theme($theme);
     // @include error-500-theme($theme);
 
@@ -138,6 +140,7 @@ $typography: mat-typography-config(
     @include contract-number-theme($theme);
 
     @include status-theme($theme);
+    @include list-contracts-theme($theme);
     @include status-representative-theme($theme);
     @include formPayment-theme($theme);
     @include indicators-theme($theme);

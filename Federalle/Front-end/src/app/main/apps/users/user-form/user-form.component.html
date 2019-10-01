@@ -84,26 +84,6 @@
 
             <div fxLayout="row" fxLayoutAlign="start center">
 
-<<<<<<< HEAD
-                    <mat-form-field appearance="outline" fxFlex="35">
-                            <mat-label>Data limite senha</mat-label>
-                            <input matInput [matDatepicker]="deadlineDatePicker" name="deadlinePassword" formControlName="deadlinePassword">
-                            <mat-datepicker-toggle matSuffix [for]="deadlineDatePicker"></mat-datepicker-toggle>
-                            <mat-datepicker #deadlineDatePicker></mat-datepicker>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" fxFlex="65" class="pl-8">
-                        <mat-label>Funcionário</mat-label>
-                        <mat-select formControlName="type">
-                            <mat-option *ngFor="let item of employees"
-                                        [value]="item.id">
-                                {{item.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-
-                </div>
-=======
                 <mat-form-field appearance="outline" fxFlex="35">
                     <mat-label>Data limite senha</mat-label>
                     <input matInput [matDatepicker]="deadlineDatePicker" name="deadlinePassword"
@@ -149,7 +129,6 @@
                 </mat-form-field>
 
             </div>
->>>>>>> 669a35a40164498ff56dcde7ae3bdf7db2b9c76f
 
             <div *ngIf="_action === 'editar'" fxLayout="row" fxLayoutAlign="end center">
                 <mat-slide-toggle class="slide-margin">

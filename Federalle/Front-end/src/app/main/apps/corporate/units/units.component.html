@@ -49,51 +49,41 @@
     <div class="content">
 
         <!-- CENTER -->
-        <div #myElem class="center p-24 pb-56 pr-sm-92" fusePerfectScrollbar>
+        <div #myElem class="center p-24 pb-56" fusePerfectScrollbar>
 
             <!-- CONTENT -->
             <div class="content p-24" fxLayout="column">
 
-                <div *ngIf="!exist_user" class="message-box info mt-16">
+                <div *ngIf="!exist" class="message-box info mt-16">
                     Nenhuma unidade encontrada!
                 </div>
 
-                <mat-table #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}" *ngIf="exist_user">
+                <mat-table #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}" *ngIf="exist">
    
                     <!-- Name Column -->
                     <ng-container matColumnDef="name">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Unidade</mat-header-cell>
                         <mat-cell *matCellDef="let unidade">
-                            <p class="text-truncate font-weight-600">{{unidade.name}}</p>
+                            <p class="text-truncate font-weight-600">{{ unidade.name }}</p>
                         </mat-cell>
                     </ng-container>
 
-                    <!-- Email Column -->
-                    <ng-container matColumnDef="phone">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
-                        <mat-cell *matCellDef="let unidade">
-                            <p class="email text-truncate">
-                                {{unidade.email}}
-                            </p>
-                        </mat-cell>
-                    </ng-container>
-
-                    <!-- Email Column -->
-                    <ng-container matColumnDef="email">
+                    <!-- Telefone Column -->
+                    <ng-container matColumnDef="telefone1">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>Telefone</mat-header-cell>
                         <mat-cell *matCellDef="let unidade">
                             <p class="email text-truncate">
-                                {{unidade.email}}
+                                {{ unidade.telefone1 }}
                             </p>
                         </mat-cell>
                     </ng-container>
 
-                    <!-- Company Column -->
-                    <ng-container matColumnDef="cpfCnpj">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Cpf / Cnpj</mat-header-cell>
+                    <!-- Cnpj Column -->
+                    <ng-container matColumnDef="cnpj">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Cnpj</mat-header-cell>
                         <mat-cell *matCellDef="let unidade">
-                            <p class="company text-truncate">
-                                {{ unidade.cpfCnpj }}
+                            <p class="email text-truncate">
+                                {{ unidade.cnpj }}
                             </p>
                         </mat-cell>
                     </ng-container>
@@ -142,8 +132,8 @@
 </div>
 
 <!-- ADD UNITY BUTTON -->
-<button mat-fab class="accent" id="add-contact-button" [routerLink]="['/apps/corporate/unity/new']"
+<!-- <button mat-fab class="accent" id="add-contact-button" [routerLink]="['/apps/corporate/unity/new']"
     aria-label="add unity" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
     <mat-icon>person_add</mat-icon>
-</button>
+</button> -->
 <!-- / ADD UNITY BUTTON -->

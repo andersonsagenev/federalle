@@ -4,11 +4,11 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
-export class EcommerceOrderService implements Resolve<any>
+export class RepresentativeService implements Resolve<any>
 {
     routeParams: any;
-    order: any;
-    onOrderChanged: BehaviorSubject<any>;
+    product: any;
+    onProductChanged: BehaviorSubject<any>;
 
     /**
      * Constructor
@@ -20,7 +20,7 @@ export class EcommerceOrderService implements Resolve<any>
     )
     {
         // Set the defaults
-        this.onOrderChanged = new BehaviorSubject({});
+        this.onProductChanged = new BehaviorSubject({});
     }
 
     /**
@@ -33,11 +33,12 @@ export class EcommerceOrderService implements Resolve<any>
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {
         this.routeParams = route.params;
+       
 
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getOrder()
+                //this.getProduct()
             ]).then(
                 () => {
                     resolve();
@@ -48,48 +49,56 @@ export class EcommerceOrderService implements Resolve<any>
     }
 
     /**
-     * Get order
+     * Get product
      *
      * @returns {Promise<any>}
      */
-    getOrder(): Promise<any>
+    getProduct(): Promise<any>
     {
         return new Promise((resolve, reject) => {
-            this._httpClient.get('api/e-commerce-orders/' + this.routeParams.id)
+            if ( this.routeParams.id === 'new' )
+            {
+                this.onProductChanged.next(false);
+                resolve(false);
+            }
+            else
+            {
+                this._httpClient.get('api/e-commerce-products/' + this.routeParams.id)
+                    .subscribe((response: any) => {
+                        this.product = response;
+                        this.onProductChanged.next(this.product);
+                        resolve(response);
+                    }, reject);
+            }
+        });
+    }
+
+    /**
+     * Save product
+     *
+     * @param product
+     * @returns {Promise<any>}
+     */
+    saveProduct(product): Promise<any>
+    {
+        return new Promise((resolve, reject) => {
+            this._httpClient.post('api/e-commerce-products/' + product.id, product)
                 .subscribe((response: any) => {
-                    this.order = response;
-                    this.onOrderChanged.next(this.order);
                     resolve(response);
                 }, reject);
         });
     }
 
     /**
-     * Save order
+     * Add product
      *
-     * @param order
+     * @param product
      * @returns {Promise<any>}
      */
-    saveOrder(order): Promise<any>
+    addProduct(product): Promise<any>
     {
         return new Promise((resolve, reject) => {
-            this._httpClient.post('api/e-commerce-orders/' + order.id, order)
-                .subscribe((response: any) => {
-                    resolve(response);
-                }, reject);
-        });
-    }
-
-    /**
-     * Add order
-     *
-     * @param order
-     * @returns {Promise<any>}
-     */
-    addOrder(order): Promise<any>
-    {
-        return new Promise((resolve, reject) => {
-            this._httpClient.post('api/e-commerce-orders/', order)
+            this._httpClient.post('api/e-commerce-products/', product)
                 .subscribe((response: any) => {
                     resolve(response);
                 }, reject);

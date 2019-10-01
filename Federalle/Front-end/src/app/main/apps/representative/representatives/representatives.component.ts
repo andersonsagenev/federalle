@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, fromEvent, merge, Observable, Subject } from 'rxjs';
@@ -7,40 +7,35 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { EcommerceOrdersService } from 'app/main/apps/e-commerce/orders/orders.service';
+import { RepresentativesService } from 'app/main/apps/representative/representatives/representatives.service';
 import { takeUntil } from 'rxjs/internal/operators';
 
 @Component({
-    selector     : 'e-commerce-orders',
-    templateUrl  : './orders.component.html',
-    styleUrls    : ['./orders.component.scss'],
+    selector     : 'representatives',
+    templateUrl  : './representatives.component.html',
+    styleUrls    : ['./representatives.component.scss'],
     animations   : fuseAnimations,
     encapsulation: ViewEncapsulation.None
 })
-export class EcommerceOrdersComponent implements OnInit, OnDestroy
+export class RepresentativesComponent implements OnInit
 {
     dataSource: FilesDataSource | null;
-    displayedColumns = ['id', 'reference', 'customer', 'total', 'payment', 'status', 'date'];
+    displayedColumns = ['id', 'image', 'name', 'category', 'price', 'quantity', 'active'];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;
 
-    @ViewChild('filter')
-    filter: ElementRef;
-
     @ViewChild(MatSort)
     sort: MatSort;
+
+    @ViewChild('filter')
+    filter: ElementRef;
 
     // Private
     private _unsubscribeAll: Subject<any>;
 
-    /**
-     * Constructor
-     *
-     * @param {EcommerceOrdersService} _ecommerceOrdersService
-     */
     constructor(
-        private _ecommerceOrdersService: EcommerceOrdersService
+        private _ecommerceProductsService: RepresentativesService
     )
     {
         // Set the private defaults
@@ -56,7 +51,7 @@ export class EcommerceOrdersComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this.dataSource = new FilesDataSource(this._ecommerceOrdersService, this.paginator, this.sort);
+        this.dataSource = new FilesDataSource(this._ecommerceProductsService, this.paginator, this.sort);
 
         fromEvent(this.filter.nativeElement, 'keyup')
             .pipe(
@@ -69,43 +64,68 @@ export class EcommerceOrdersComponent implements OnInit, OnDestroy
                 {
                     return;
                 }
+
                 this.dataSource.filter = this.filter.nativeElement.value;
             });
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void
-    {
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
     }
 }
 
 export class FilesDataSource extends DataSource<any>
 {
-    // Private
     private _filterChange = new BehaviorSubject('');
     private _filteredDataChange = new BehaviorSubject('');
 
     /**
      * Constructor
      *
-     * @param {EcommerceOrdersService} _ecommerceOrdersService
+     * @param {RepresentativeService} _ecommerceProductsService
      * @param {MatPaginator} _matPaginator
      * @param {MatSort} _matSort
      */
     constructor(
-        private _ecommerceOrdersService: EcommerceOrdersService,
+        private _ecommerceProductsService: RepresentativesService,
         private _matPaginator: MatPaginator,
         private _matSort: MatSort
     )
     {
         super();
 
-        this.filteredData = this._ecommerceOrdersService.orders;
+        this.filteredData = this._ecommerceProductsService.products;
+    }
+
+    /**
+     * Connect function called by the table to retrieve one stream containing the data to render.
+     *
+     * @returns {Observable<any[]>}
+     */
+    connect(): Observable<any[]>
+    {
+        const displayDataChanges = [
+            this._ecommerceProductsService.onProductsChanged,
+            this._matPaginator.page,
+            this._filterChange,
+            this._matSort.sortChange
+        ];
+
+        return merge(...displayDataChanges)
+            .pipe(
+                map(() => {
+                        if(this._ecommerceProductsService.products){
+
+                        let data = this._ecommerceProductsService.products.slice();
+
+                        data = this.filterData(data);
+
+                        this.filteredData = [...data];
+
+                        data = this.sortData(data);
+
+                        // Grab the page's slice of data.
+                        const startIndex = this._matPaginator.pageIndex * this._matPaginator.pageSize;
+                        return data.splice(startIndex, this._matPaginator.pageSize);
+                        }
+                    }
+                ));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -137,38 +157,6 @@ export class FilesDataSource extends DataSource<any>
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Connect function called by the table to retrieve one stream containing the data to render.
-     *
-     * @returns {Observable<any[]>}
-     */
-    connect(): Observable<any[]>
-    {
-        const displayDataChanges = [
-            this._ecommerceOrdersService.onOrdersChanged,
-            this._matPaginator.page,
-            this._filterChange,
-            this._matSort.sortChange
-        ];
-
-        return merge(...displayDataChanges).pipe(map(() => {
-
-                let data = this._ecommerceOrdersService.orders.slice();
-
-                data = this.filterData(data);
-
-                this.filteredData = [...data];
-
-                data = this.sortData(data);
-
-                // Grab the page's slice of data.
-                const startIndex = this._matPaginator.pageIndex * this._matPaginator.pageSize;
-                return data.splice(startIndex, this._matPaginator.pageSize);
-            })
-        );
-
-    }
 
     /**
      * Filter data
@@ -207,23 +195,20 @@ export class FilesDataSource extends DataSource<any>
                 case 'id':
                     [propertyA, propertyB] = [a.id, b.id];
                     break;
-                case 'reference':
-                    [propertyA, propertyB] = [a.reference, b.reference];
+                case 'name':
+                    [propertyA, propertyB] = [a.name, b.name];
                     break;
-                case 'customer':
-                    [propertyA, propertyB] = [a.customer.firstName, b.customer.firstName];
+                case 'categories':
+                    [propertyA, propertyB] = [a.categories[0], b.categories[0]];
                     break;
-                case 'total':
-                    [propertyA, propertyB] = [a.total, b.total];
+                case 'price':
+                    [propertyA, propertyB] = [a.priceTaxIncl, b.priceTaxIncl];
                     break;
-                case 'payment':
-                    [propertyA, propertyB] = [a.payment.method, b.payment.method];
+                case 'quantity':
+                    [propertyA, propertyB] = [a.quantity, b.quantity];
                     break;
-                case 'status':
-                    [propertyA, propertyB] = [a.status[0].name, b.status[0].name];
-                    break;
-                case 'date':
-                    [propertyA, propertyB] = [a.date, b.date];
+                case 'active':
+                    [propertyA, propertyB] = [a.active, b.active];
                     break;
             }
 

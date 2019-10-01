@@ -13,7 +13,12 @@
 
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                <div class="w-40 h-40 p-4" fxLayout="row" fxLayoutAlign="center center"
+                    <div class="logo" style="width: 180px;">
+                            <img class="imagem" src="assets/images/logos/Logo_Federalle.png">
+                           
+                     </div>
+
+                <!-- <div class="w-40 h-40 p-4" fxLayout="row" fxLayoutAlign="center center"
                      *ngFor="let shortcutItem of shortcutItems">
 
                     <a mat-icon-button matTooltip="{{shortcutItem.title}}" [routerLink]="shortcutItem.url">
@@ -28,7 +33,7 @@
                 <button mat-icon-button [matMenuTriggerFor]="addMenu" matTooltip="Click to add/remove shortcut"
                         (menuOpened)="onMenuOpen()">
                     <mat-icon class="amber-600-fg">star</mat-icon>
-                </button>
+                </button> -->
 
             </div>
 

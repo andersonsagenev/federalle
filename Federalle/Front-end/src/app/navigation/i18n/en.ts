@@ -5,6 +5,7 @@ export const locale = {
             'APPLICATIONS': 'Aplicação',
             'SYSTEM': 'Contratos',
             'DASHBOARD': 'Home',
+            'REPRESENTATIVES'   : 'Representantes',
             'PEOPLE': 'Pessoas',
             'UNITY'      : 'Unidades',
             'CUSTOMER'    : 'Customer',

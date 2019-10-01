@@ -1,13 +1,13 @@
 @import "src/@fuse/scss/fuse";
 
-e-commerce-orders {
+representatives {
 
-    #orders {
+    #representatives {
 
         .top-bg {
 
-            @include media-breakpoint('xs') {
-                height: 224px;
+            @include media-breakpoint('lt-md') {
+                height: 256px;
             }
         }
 
@@ -44,24 +44,17 @@ e-commerce-orders {
                     }
                 }
 
-                @include media-breakpoint('xs') {
+                @include media-breakpoint('lt-md') {
                     padding: 8px 0;
-                    height: 160px !important;
-                    min-height: 160px !important;
-                    max-height: 160px !important;
+                    height: 192px !important;
+                    min-height: 192px !important;
+                    max-height: 192px !important;
                 }
             }
         }
     }
 
-    .mat-tab-group,
-    .mat-tab-body-wrapper,
-    .tab-content {
-        flex: 1 1 auto;
-        max-width: 100%;
-    }
-
-    .orders-table {
+    .products-table {
         flex: 1 1 auto;
         border-bottom: 1px solid rgba(0, 0, 0, .12);
         overflow: auto;
@@ -71,7 +64,7 @@ e-commerce-orders {
             min-height: 64px;
         }
 
-        .order {
+        .product {
             position: relative;
             cursor: pointer;
             height: 84px;
@@ -97,7 +90,19 @@ e-commerce-orders {
             }
         }
 
-        .mat-column-buttons {
+        .mat-column-category {
+            flex: 0 1 240px;
+        }
+
+        .mat-column-price {
+            flex: 0 1 160px;
+        }
+
+        .mat-column-quantity {
+            flex: 0 1 160px;
+        }
+
+        .mat-column-active {
             flex: 0 1 80px;
         }
 

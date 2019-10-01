@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { MK_API } from "app/app.api";
 import { MK_TOKEN } from "app/app.token";
+import { Unity } from '../unity/unity.model';
+import { FuseUtils } from "@fuse/utils";
 
 const headers = new HttpHeaders({
     Authorization: "Basic " + localStorage.getItem("user"),
@@ -14,7 +16,9 @@ const headers = new HttpHeaders({
 export class UnitsService implements Resolve<any>
 {
     units: any[];
+    searchText: string;
     onUnitsChanged: BehaviorSubject<any>;
+    onSearchTextChanged: Subject<any>;
 
     /**
      * Constructor
@@ -27,6 +31,7 @@ export class UnitsService implements Resolve<any>
     {
         // Set the defaults
         this.onUnitsChanged = new BehaviorSubject({});
+        this.onSearchTextChanged = new Subject();
     }
 
     /**
@@ -43,7 +48,11 @@ export class UnitsService implements Resolve<any>
             Promise.all([
                 this.getUnitys()
             ]).then(
-                () => {
+                ([files]) => {
+                    this.onSearchTextChanged.subscribe(searchText => {
+                        this.searchText = searchText;
+                        this.getUnitys();
+                    });
                     resolve();
                 },
                 reject
@@ -62,6 +71,17 @@ export class UnitsService implements Resolve<any>
             this._httpClient.get(MK_API + "/api/Unities/", { headers: headers })
                 .subscribe((response: any) => {
                     this.units = response;
+
+                    if (this.searchText && this.searchText !== "") {
+                        this.units = FuseUtils.filterArrayByString(
+                            this.units,
+                            this.searchText
+                        );
+                    }
+                    this.units = this.units.map(item => {
+                        return new Unity(item);
+                    });
+
                     this.onUnitsChanged.next(this.units);
                     resolve(response);
                 }, reject);
@@ -77,7 +97,7 @@ export class UnitsService implements Resolve<any>
     deleteUnity(unity): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient
-                .delete(MK_API + "/api/Units/" + unity.id, {
+                .delete(MK_API + "/api/Unities/" + unity.id, {
                     headers: headers
                 })
                 .subscribe((response: any) => {

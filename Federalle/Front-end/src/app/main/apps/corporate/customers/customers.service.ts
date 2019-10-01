@@ -4,6 +4,8 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { MK_API } from "app/app.api";
 import { MK_TOKEN } from "app/app.token";
+import { Customer } from '../customer/customer.model';
+import { FuseUtils } from "@fuse/utils";
 
 
 const headers = new HttpHeaders({
@@ -45,8 +47,7 @@ export class CustomersService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getCustomers(),
-               
+                this.getCustomers()
             ]).then(
                 ([files]) => {
                     this.onSearchTextChanged.subscribe(searchText => {
@@ -73,6 +74,16 @@ export class CustomersService implements Resolve<any>
             this._httpClient.get(MK_API + "/api/Clients/", { headers: headers })
                 .subscribe((response: any) => {
                     this.clients = response;
+
+                    if (this.searchText && this.searchText !== "") {
+                        this.clients = FuseUtils.filterArrayByString(
+                            this.clients,
+                            this.searchText
+                        );
+                    }
+                    this.clients = this.clients.map(item => {
+                        return new Customer(item);
+                    });
                     this.onCustomersChanged.next(this.clients);
                     resolve(response);
                 }, reject);

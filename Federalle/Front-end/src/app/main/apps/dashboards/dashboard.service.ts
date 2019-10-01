@@ -34,7 +34,7 @@ export class ProjectDashboardService implements Resolve<any>
 
             Promise.all([
               //  this.getProjects(),
-                this.getWidgets()
+               // this.getWidgets()
             ]).then(
                 () => {
                     resolve();

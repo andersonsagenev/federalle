@@ -1,4 +1,4 @@
-<div id="products" class="page-layout carded fullwidth inner-scroll">
+<div id="representatives" class="page-layout carded fullwidth inner-scroll">
 
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
@@ -19,7 +19,7 @@
                     shopping_basket
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    Products
+                    Representantes
                 </span>
             </div>
             <!-- / APP TITLE -->
@@ -28,16 +28,16 @@
             <div class="search-wrapper mx-32 mx-md-0">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input #filter placeholder="Search for a product">
+                    <input #filter placeholder="Pesquisar representante">
                 </div>
             </div>
             <!-- / SEARCH -->
 
             <!-- ADD BUTTON -->
             <button mat-raised-button
-                    [routerLink]="'/apps/e-commerce/products/new'"
+                    [routerLink]="['/apps/representative/form-representative/new']"
                     class="add-product-button fuse-white mt-24 mt-md-0">
-                <span>ADD NEW PRODUCT</span>
+                <span>Novo Representante</span>
             </button>
             <!-- / ADD BUTTON -->
 
@@ -136,7 +136,7 @@
             </mat-table>
 
             <mat-paginator #paginator
-                           [length]="dataSource.filteredData.length"
+                           [length]="dataSource.filteredData ? dataSource.filteredData.length : 0"
                            [pageIndex]="0"
                            [pageSize]="10"
                            [pageSizeOptions]="[5, 10, 25, 100]">

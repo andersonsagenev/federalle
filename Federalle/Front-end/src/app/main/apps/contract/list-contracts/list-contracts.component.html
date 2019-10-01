@@ -9,7 +9,7 @@
 
             <div class="logo" fxLayout="row" fxLayoutAlign="start center">
                 <mat-icon class="logo-icon mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                    account_circle
+                    settings
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                     Contratos Federalle
@@ -27,16 +27,16 @@
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
                     <input [formControl]="searchInput" matInput
-                        placeholder="pesquisar por cliente">
+                        placeholder="pesquisar por contrato">
                 </div>
 
             </div>
         </div>
 
         <!-- ADD BUTTON -->
-        <button mat-raised-button [routerLink]="['/apps/corporate/customer/new']"
+        <button mat-raised-button [routerLink]="['/apps/contract/contracts/new']"
             class="add-product-button fuse-white mt-24 mt-md-0">
-            <span>NOVO CLIENTE</span>
+            <span>NOVO CONTRATO</span>
         </button>
         <!-- / ADD BUTTON -->
 
@@ -53,11 +53,11 @@
             <!-- CONTENT -->
             <div class="content p-24" fxLayout="column">
 
-                <!-- <div *ngIf="!exist_user" class="message-box info mt-16">
-                    Nenhum cliente encontrado!
-                </div> -->
+                <div *ngIf="!exist_contract" class="message-box info mt-16">
+                    Nenhum contrato cadastrado!
+                </div>
 
-                <mat-table #table [dataSource]="dataSource"  [@animateStagger]="{value:'50'}">
+                <mat-table #table [dataSource]="dataSource"  [@animateStagger]="{value:'50'}" *ngIf="exist_contract">
                    
                     <!-- Name Column -->
                     <ng-container matColumnDef="name">

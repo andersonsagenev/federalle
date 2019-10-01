@@ -1,21 +1,16 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core';
 import { RequestService } from '@fuse/services/request.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FuseConfigService } from '@fuse/services/config.service';
-import { MatSort, MatDialog, MatDialogRef, MatTableDataSource, MatPaginator } from '@angular/material';
-
+import { MatSort, MatPaginator } from '@angular/material';
 import { fuseAnimations } from '@fuse/animations';
 import { ConfirmService } from '@fuse/services/confirm.service';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { DataSource } from '@angular/cdk/collections';
-import { BehaviorSubject, fromEvent, merge, Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from "rxjs/operators";
 import { FuseUtils } from '@fuse/utils';
-
 import { UnitsService } from 'app/main/apps/corporate/units/units.service';
-import { takeUntil } from 'rxjs/internal/operators';
+
 
 @Component({
     selector: 'units',
@@ -29,11 +24,12 @@ export class UnitsComponent implements OnInit {
 
     searchInput: FormControl;
     dataSource: FilesDataSource | null;
-    displayedColumns = ['name', 'contact', 'cpfCnpj', 'buttons'];
-   
+    displayedColumns = ['name', 'telefone1', 'cnpj', 'buttons'];
+    exist: boolean = false;
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;
+  
 
     @ViewChild(MatSort)
     sort: MatSort;
@@ -67,13 +63,22 @@ export class UnitsComponent implements OnInit {
     {
         // this.dataSource = new FilesDataSource(this._unitsService, this.paginator, this.sort);
         this.dataSource = new FilesDataSource(this._unitsService);
+        if (this._unitsService.units.length) {
+            this.exist = true;
+        } else {
+            this.exist = false;
+        }
+        console.log('retorno de unidades ~>', this.dataSource)
 
-        // if (dataSource.length) {
-        //     this.exist = true;
-        // } else {
-        //     this.exist = false;
-        // }
-        console.log('retorno de clientes ~>', this.dataSource)
+        this.searchInput.valueChanges
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                debounceTime(300),
+                distinctUntilChanged()
+            )
+            .subscribe(searchText => {
+                this._unitsService.onSearchTextChanged.next(searchText);
+            });
 
         // fromEvent(this.filter.nativeElement, 'keyup')
         //     .pipe(

@@ -26,6 +26,7 @@ export class ListContractComponent implements OnInit {
     dataSource: FilesDataSource | null;
     displayedColumns = ['name', 'contact', 'cpfCnpj', 'buttons'];
     searchInput: FormControl;
+    exist_contract: boolean = false;
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;
@@ -63,12 +64,12 @@ export class ListContractComponent implements OnInit {
         // this.dataSource = new FilesDataSource(this._listContractService, this.paginator, this.sort);
         this.dataSource = new FilesDataSource(this._listContractService);
 
-        // if (dataSource.length) {
-        //     this.exist = true;
-        // } else {
-        //     this.exist = false;
-        // }
-        console.log('retorno de clientes ~>', this.dataSource)
+        if (this._listContractService.contracts.length) {
+            this.exist_contract = true;
+        } else {
+            this.exist_contract = false;
+        }
+        console.log('retorno de contracts ~>', this.dataSource)
 
         // fromEvent(this.filter.nativeElement, 'keyup')
         //     .pipe(
@@ -87,13 +88,13 @@ export class ListContractComponent implements OnInit {
     }
 
     /**
-     * Delete Client
+     * Delete Contract
      */
-    deleteClient(cliente): void
+    deleteContract(contract): void
     { 
         this._confirm.SwalConfirm().then(res => {
             if (res) {
-              this._listContractService.deleteClient(cliente);
+              this._listContractService.deleteContract(contract);
             }
           }).catch(err => {
             console.log('Error', err)

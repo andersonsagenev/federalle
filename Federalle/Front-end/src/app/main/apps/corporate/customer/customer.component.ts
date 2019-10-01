@@ -141,14 +141,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
     isLoading: boolean = false;
     _disabled: boolean = false;
     cep = new Cep();
-
-    typeClient=[{
-      id:0,
-      name:'Física'
-    },{
-      id:1,
-      name:'Jurídico'
-    }]
+    typeClient: any = {}
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -186,6 +179,14 @@ export class CustomerComponent implements OnInit, OnDestroy {
             english,
             portuguese
         );
+        
+        this.typeClient=[{
+            id:0,
+            name:'Física'
+          },{
+            id:1,
+            name:'Jurídico'
+          }]
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -203,10 +204,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
         this._customerService.onUfsChanged.subscribe(data => {
             this.estados = data;
         });
-        // dropdown cidades
-        this._customerService.onCitysChanged.subscribe(data => {
-            this.cidades = data;
-        });
 
         this.formCustomer = this._formBuilder.group({
             name: ["", Validators.required],
@@ -214,8 +211,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
             email2: ["", Validators.email],
             email3: ["", Validators.email],
             telefone1: ["", Validators.required],
-            type: new FormControl([ this.typeClient[0].id ] ),
-           // type: [ null , Validators.required],
+            // type: [ this.typeClient[0].id ],
+            type: new FormControl({ value: 0} ),
             telefone2: [""],
             telefone3: [""],
             dad: [""],
@@ -235,7 +232,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         // const toSelect = this.typeClient.find( t => t.id == 0);
         // this.formCustomer.get('type').setValue(toSelect.id);
 
-        this.formCustomer.controls['type'].setValue(this.typeClient[0].id); 
+        this.formCustomer.controls['type'].setValue(0); 
 
         // Id params
         this._route.params.subscribe(params => {
@@ -257,6 +254,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
             .subscribe(data => {
                 if (data) {
                     this.client = new Customer(data);
+                    this.getCidades(this.client.idUf)
                     console.log('Cliente para Update', data )
                     this.pageType = "edit";
                 } else {
@@ -280,6 +278,18 @@ export class CustomerComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+   
+    getCidades(estado) {
+        let id = estado.value ? estado.value : estado
+        console.log("estado ~~>", id);
+        this._customerService.getCitys(id).then(() => {
+            this._customerService.onCitysChanged.subscribe(data => {
+                this.cidades = data;
+            });
+        });
+    }
+   
+   
     /**
      * Create Customer form
      *

@@ -28,8 +28,8 @@ const routes = [
         loadChildren: './users/users.module#ContactsModule'
     },
     {
-        path        : 'e-commerce',
-        loadChildren: './e-commerce/e-commerce.module#EcommerceModule'
+        path        : 'representative',
+        loadChildren: './representative/representative.module#RepresentativeModule'
     },
     // {
     //     path        : 'mail',

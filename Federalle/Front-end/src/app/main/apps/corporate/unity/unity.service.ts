@@ -57,7 +57,7 @@ export class UnityService implements Resolve<any>
 
             Promise.all([
                 this.getUnities(),
-                this.getCitys(),
+                // this.getCitys(),
                 this.getUfs()
             ]).then(
                 () => {
@@ -94,13 +94,12 @@ export class UnityService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getCitys(): Promise<any> {
+    getCitys(id): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient
-                .get(MK_API + "/api/cities/", { headers: headers })
+                .get(MK_API + "/api/Auxiliar/GetCity/" + id , { headers: headers })
                 .subscribe((response: any) => {
                     this.cidades = response;
-                   console.log('retorno cidades', response)
                     this.cidades = this.cidades.map(city => {
                         return new City(city);
                     });
@@ -125,7 +124,7 @@ export class UnityService implements Resolve<any>
             }
             else
             {
-                this._httpClient.get('/api/Unities/' + this.routeParams.id)
+                this._httpClient.get(MK_API + '/api/Unities/' + this.routeParams.id)
                     .subscribe((response: any) => {
                         this.unities = response;
                         this.onUnityChanged.next(this.unities);
@@ -161,7 +160,7 @@ export class UnityService implements Resolve<any>
     {
         console.log('Unidade que chegou ~~>', unity)
         return new Promise((resolve, reject) => {
-            this._httpClient.post(MK_API + '/api/Unities/', unity, { headers: headers })
+            this._httpClient.post(MK_API + '/api/Unities', unity, { headers: headers })
                 .subscribe((response: any) => {
                     resolve(response);
                 }, reject);

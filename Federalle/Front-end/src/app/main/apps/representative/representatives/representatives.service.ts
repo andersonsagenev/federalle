@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
-export class EcommerceProductsService implements Resolve<any>
+export class RepresentativesService implements Resolve<any>
 {
     products: any[];
     onProductsChanged: BehaviorSubject<any>;
@@ -34,7 +34,7 @@ export class EcommerceProductsService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getProducts()
+               // this.getProducts()
             ]).then(
                 () => {
                     resolve();
