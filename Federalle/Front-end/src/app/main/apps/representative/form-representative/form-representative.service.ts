@@ -38,7 +38,7 @@ export class RepresentativeService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                //this.getProduct()
+                // this.getProduct()
             ]).then(
                 () => {
                     resolve();
