@@ -9,18 +9,10 @@ export class User
     email: string;
     login: string;
     photo: string;
-    registerDate: any;
     type: any; 
     deadlinePassword: any; 
     password: any;
     passwordConfirm: any;
-    recoverId: any;
-    statusChat: any;
-    moodChat: any;
-    handle: any;
-    canErase: any;
-    chatlist: Chatlist[];
- 
 
     /**
      * Constructor
@@ -37,16 +29,9 @@ export class User
             this.email = user.email || '';
             this.login = user.login || '';
             this.photo = user.photo || '';
-            this.registerDate = user.registerDate || new Date();
             this.type = user.type || '';
             this.deadlinePassword = user.deadlinePassword || '';
             this.password = user.password || '';
-            this.recoverId = user.recoverId || '';
-            this.statusChat = user.statusChat || '';
-            this.moodChat = user.moodChat || '';
-            this.handle = user.handle || FuseUtils.handleize(this.name);;
-            this.canErase = user.canErase || '';
-            this.chatlist = user.chatlist || [];
             
         }
     }

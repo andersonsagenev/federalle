@@ -83,8 +83,6 @@ export class UserFormDialogComponent {
         .subscribe(() => {
             this.formUser.get('passwordConfirm').updateValueAndValidity();
         });
-
-        this.formUser.get('idSector').setValue("");
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -95,6 +93,8 @@ export class UserFormDialogComponent {
     * On init
     */
     ngOnInit(): void {
+
+        this.formUser.controls['idSector'].setValue('');
 
         // recuperar dados usuário logado
         this.userLog = localStorage.getItem('user')
@@ -119,12 +119,11 @@ export class UserFormDialogComponent {
         return this._formBuilder.group({
             id: [this.user.id],
             name: [this.user.name],
+            idResentante: [this.user.idResentante],
+            idSector: [this.user.idSector],
+            login: [this.user.login],
             deadlinePassword : [this.user.deadlinePassword],
             type: [this.user.type],
-            recoverId: [this.user.recoverId],
-            statusChat: [this.user.statusChat],
-            moodChat: [this.user.moodChat],
-            handle: [this.user.handle],
             email: [this.user.email || ''],
             password: [this.user.password, Validators.required],
             passwordConfirm: [this.user.password, [Validators.required, confirmPasswordValidator]],
@@ -142,16 +141,18 @@ export class UserFormDialogComponent {
     
     saveStudent() {
         console.log('this.formUser', this.formUser.value)
-        this.formUser.controls['isActive'].setValue(true);
-        this.formUser.controls['name'].setValue(this.formUser.value.firstName + ' ' + this.formUser.value.lastName);
+        this.formUser.controls['name'].setValue(this.formUser.value.name);
         let requestData = this.formUser.value;
         
         if (requestData.passwordConfirm) {
             delete requestData.passwordConfirm;
         }
+        if (!requestData.idResentante) {
+            delete requestData.idResentante;
+        }
         if (this.formUser.valid) {
             console.log('form user submitted', requestData);
-            this._request.server('/api/user', 'post', requestData).subscribe(data => {
+            this._request.server('/api/Users', 'post', requestData).subscribe(data => {
                 console.log('retorno data', data)
                 if (data.success == true) {
                     console.log('Retorno', data)

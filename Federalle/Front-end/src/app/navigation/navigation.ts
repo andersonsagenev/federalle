@@ -29,7 +29,7 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.REPRESENTATIVES',
                 type: 'item',
                 icon: 'account_box',
-                url: '/apps/representative',
+                url: '/apps/representative/representatives',
             },
            
         ]

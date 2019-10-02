@@ -23,7 +23,7 @@
                 </div> -->
 
                 <div fxLayout="column" fxLayoutAlign="start start"
-                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                     <div class="h2" *ngIf="pageType ==='edit'">
                         {{product.name}}
                     </div>
@@ -37,18 +37,15 @@
             </div>
             <!-- / APP TITLE -->
 
-            <button mat-raised-button
-                    class="save-product-button"
-                    [disabled]="representativeForm.invalid"
-                    *ngIf="pageType ==='new'" (click)="addRepresentante()">
-                <span>ADD</span>
+            <button mat-raised-button class="save-product-button" [disabled]="representativeForm.invalid"
+                *ngIf="pageType ==='new'" (click)="addRepresentante()">
+                <span>ADICIONAR</span>
             </button>
 
-            <button mat-raised-button
-                    class="save-product-button"
-                    [disabled]="representativeForm.invalid || representativeForm.pristine"
-                    *ngIf="pageType ==='edit'" (click)="saveProduct()">
-                <span>SAVE</span>
+            <button mat-raised-button class="save-product-button"
+                [disabled]="representativeForm.invalid || representativeForm.pristine" *ngIf="pageType ==='edit'"
+                (click)="saveProduct()">
+                <span>SALVAR</span>
             </button>
         </div>
         <!-- / HEADER -->
@@ -59,123 +56,404 @@
             <!-- CONTENT -->
             <div class="content">
 
-                <form name="representativeForm" [formGroup]="representativeForm" class="product w-100-p" fxLayout="column" fxFlex>
+                <form name="representativeForm" [formGroup]="representativeForm" class="product w-100-p"
+                    fxLayout="column" fxFlex>
 
                     <mat-tab-group>
 
-                        <mat-tab label="Basic Info">
+                        <mat-tab label="Informaçōes">
 
-                            <div class="tab-content p-24" fusePerfectScrollbar>
+                            <div class="tab-content p-24" fusePerfectScrollbar fxLayout="column">
 
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>Product Name</mat-label>
-                                    <input matInput placeholder="Product Name"
-                                           name="name"
-                                           formControlName="name"
-                                           required>
-                                </mat-form-field>
+                                <div fxLayout="row" fxLayoutAlign="start center">
 
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>Product Description</mat-label>
-                                    <textarea matInput placeholder="Product Description"
-                                              name="description"
-                                              formControlName="description"
-                                              rows="5">
-                                    </textarea>
-                                </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex="70">
+                                        <mat-label>Representante Master</mat-label>
+                                        <mat-select formControlName="idMaster" name="idMaster">
+                                            <mat-option [value]="''">Selecione..</mat-option>
+                                            <mat-option *ngFor="let item of masters" [value]="item.id">
+                                                {{ item.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
 
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                    <mat-form-field appearance="outline" class="pl-8" fxFlex="30">
+                                        <mat-label>Status contrato parceria</mat-label>
+                                        <mat-select formControlName="idStatusPartnershipContract"
+                                            name="idStatusPartnershipContract">
+                                            <mat-option [value]="''">Selecione..</mat-option>
+                                            <mat-option *ngFor="let item of status" [value]="item.id">
+                                                {{ item.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
 
-                                    <mat-label>Categories</mat-label>
+                                </div>
 
-                                    <mat-chip-list #categoryList name="categories" formControlName="categories" *ngIf="product">
+                                <div fxLayout="row" fxLayoutAlign="start center">
 
-                                        <mat-chip *ngFor="let category of product.categories"
-                                                  [removable]="true" (removed)="product.removeCategory(category)">
-                                            {{category}}
-                                            <mat-icon matChipRemove>cancel</mat-icon>
-                                        </mat-chip>
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="70">
+                                        <mat-label>Nome da Representação</mat-label>
+                                        <input matInput placeholder="Representante" name="name" formControlName="name"
+                                            required>
+                                    </mat-form-field>
 
-                                        <input [matChipInputFor]="categoryList"
-                                               [matChipInputAddOnBlur]="true"
-                                               (matChipInputTokenEnd)="product.addCategory($event)"/>
+                                    <mat-form-field appearance="outline" class="pl-8" floatLabel="always" fxFlex="30">
+                                        <mat-label>Código da Região</mat-label>
+                                        <input matInput placeholder="código" name="codRegion"
+                                            formControlName="codRegion">
+                                    </mat-form-field>
 
-                                    </mat-chip-list>
+                                </div>
 
-                                </mat-form-field>
+                                <div fxLayout="row" fxLayoutAlign="start center">
 
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                    <mat-form-field appearance="outline" fxFlex="20">
+                                        <mat-label>Tipo de Pessoa</mat-label>
+                                        <mat-select formControlName="type" name="type">
+                                            <mat-option *ngFor="let item of typeClient" [value]="item.id">
+                                                {{ item.name }}</mat-option>
 
-                                    <mat-label>Tags</mat-label>
+                                        </mat-select>
+                                    </mat-form-field>
 
-                                    <mat-chip-list #tagList name="tags" formControlName="tags" *ngIf="product">
+                                    <mat-form-field appearance="outline" class="px-8" fxFlex="40"
+                                        *ngIf="representativeForm.value.type == 0">
+                                        <mat-label>Cpf</mat-label>
+                                        <input matInput formControlName="cpfCnpj" [textMask]="{mask: cpfMask}">
 
-                                        <mat-chip *ngFor="let tag of product.tags"
-                                                  [removable]="true" (removed)="product.removeTag(tag)">
-                                            {{tag}}
-                                            <mat-icon matChipRemove>cancel</mat-icon>
-                                        </mat-chip>
+                                    </mat-form-field>
 
-                                        <input [matChipInputFor]="tagList"
-                                               [matChipInputAddOnBlur]="true"
-                                               (matChipInputTokenEnd)="product.addTag($event)"/>
+                                    <mat-form-field appearance="outline" class="px-8" fxFlex="40"
+                                        *ngIf="representativeForm.value.type == 1">
+                                        <mat-label>Cnpj</mat-label>
+                                        <input matInput formControlName="cpfCnpj" [textMask]="{mask: cnpjMask}">
 
-                                    </mat-chip-list>
+                                    </mat-form-field>
 
-                                </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex>
+                                        <mat-label>Contato</mat-label>
+                                        <input matInput formControlName="contact">
+                                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                    </mat-form-field>
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="start center">
+
+                                    <mat-form-field appearance="outline" fxFlex>
+                                        <mat-label>Telefone Fixo</mat-label>
+                                        <input matInput formControlName="telefone1" [textMask]="{mask: maskTelefone}">
+                                        <mat-icon matSuffix class="secondary-text">phone</mat-icon>
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" fxFlex class="px-8">
+                                        <mat-label>Celular </mat-label>
+                                        <input matInput formControlName="telefone2" [textMask]="{mask: maskCelular}">
+                                        <mat-icon matSuffix class="secondary-text">phone</mat-icon>
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" fxFlex>
+                                        <mat-label>Celular 2</mat-label>
+                                        <input matInput formControlName="telefone3" [textMask]="{mask: maskCelular}">
+                                        <mat-icon matSuffix class="secondary-text">phone</mat-icon>
+                                    </mat-form-field>
+
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="start center">
+
+                                    <mat-form-field appearance="outline" fxFlex>
+                                        <mat-label>Email Principal</mat-label>
+                                        <input matInput formControlName="email1" required>
+                                        <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+                                        <mat-error *ngIf="representativeForm.get('email1').hasError('required')">
+                                            Informe o email
+                                        </mat-error>
+                                        <mat-error *ngIf="!representativeForm.get('email1').hasError('required') &&
+                                                    representativeForm.get('email1').hasError('email1')">
+                                            Informe um email válido.
+                                        </mat-error>
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" class="px-8" fxFlex>
+                                        <mat-label>Email Secundário</mat-label>
+                                        <input matInput formControlName="email2">
+                                        <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+                                        <mat-error *ngIf="!representativeForm.get('email2').hasError('required') &&
+                                                    representativeForm.get('email2').hasError('email2')">
+                                            Informe um email válido.
+                                        </mat-error>
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" fxFlex>
+                                        <mat-label>Email Comercial</mat-label>
+                                        <input matInput formControlName="email3">
+                                        <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+                                        <mat-error *ngIf="!representativeForm.get('email3').hasError('required') &&
+                                                    representativeForm.get('email3').hasError('email3')">
+                                            Informe um email válido.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                        </mat-tab>
+
+                        <mat-tab label="Endereço">
+
+                            <div class="tab-content p-24" fusePerfectScrollbar fxLayout="column">
+
+                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="m-0 mr-16 secondary-text">where_to_vote</mat-icon>
+                                    <div class="h2 secondary-text">ENDEREÇO</div>
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="start center">
+
+                                    <mat-form-field appearance="outline" fxFlex="30" class="mr-16">
+                                        <mat-label>Cep</mat-label>
+                                        <input matInput #zip formControlName="zip">
+                                        <mat-icon matSuffix class="secondary-text">markunread_mailbox</mat-icon>
+                                        <mat-hint align="end">{{zip.value.length}} / 9</mat-hint>
+                                    </mat-form-field>
+
+                                    <button mat-raised-button (click)="searchCep()" [disabled]="isLoading"
+                                        class="mat-accent">
+                                        BUSCAR
+                                    </button>
+
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="start center">
+
+                                    <mat-form-field appearance="outline" fxFlex="50">
+                                        <mat-label>Rua/Avenida</mat-label>
+                                        <input matInput formControlName="andress">
+                                        <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" fxFlex="30" class="px-8">
+                                        <mat-label>Complemento</mat-label>
+                                        <input matInput formControlName="complement">
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" fxFlex="20">
+                                        <mat-label>Número</mat-label>
+                                        <input matInput formControlName="number">
+                                    </mat-form-field>
+
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="start center">
+
+                                    <mat-form-field appearance="outline" fxFlex="40">
+                                        <mat-label>Bairro</mat-label>
+                                        <input matInput formControlName="district">
+                                        <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                                    </mat-form-field>
+
+
+                                    <mat-form-field appearance="outline" class="px-8" fxFlex="30">
+                                        <mat-label>Estado</mat-label>
+                                        <mat-select formControlName="idUf" name="idUf"
+                                            (selectionChange)="getCidades($event)" required>
+                                            <mat-option [value]="''">Selecione..</mat-option>
+                                            <mat-option *ngFor="let item of estados" [value]="item.id">
+                                                {{ item.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                                        <mat-error>Informe o estado</mat-error>
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" class="px-8" fxFlex="30">
+                                        <mat-label>Cidade</mat-label>
+                                        <mat-select formControlName="idCity" name="idCity" required>
+                                            <mat-option [value]="''">Selecione..</mat-option>
+                                            <mat-option *ngFor="let item of cidades" [value]="item.id">
+                                                {{ item.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                                        <mat-error>Informe a cidade</mat-error>
+                                    </mat-form-field>
+
+                                </div>
+
+                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="m-0 mr-16 secondary-text">where_to_vote</mat-icon>
+                                    <div class="h2 secondary-text">ENDEREÇO CORRESPONDÊNCIA</div>
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="start center">
+
+                                    <mat-form-field appearance="outline" fxFlex="30" class="mr-16">
+                                        <mat-label>Cep</mat-label>
+                                        <input matInput #zip formControlName="zip1">
+                                        <mat-icon matSuffix class="secondary-text">markunread_mailbox</mat-icon>
+                                        <mat-hint align="end">{{zip.value.length}} / 9</mat-hint>
+                                    </mat-form-field>
+
+                                    <button mat-raised-button (click)="searchCepFinanceiro()" [disabled]="isLoading"
+                                        class="mat-accent">
+                                        BUSCAR
+                                    </button>
+
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="start center">
+
+                                    <mat-form-field appearance="outline" fxFlex="50">
+                                        <mat-label>Rua/Avenida</mat-label>
+                                        <input matInput formControlName="andress1">
+                                        <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" fxFlex="30" class="px-8">
+                                        <mat-label>Complemento</mat-label>
+                                        <input matInput formControlName="complement1">
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" fxFlex="20">
+                                        <mat-label>Número</mat-label>
+                                        <input matInput formControlName="number1">
+                                    </mat-form-field>
+
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="start center">
+
+                                    <mat-form-field appearance="outline" fxFlex="40">
+                                        <mat-label>Bairro</mat-label>
+                                        <input matInput formControlName="district1">
+                                        <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                                    </mat-form-field>
+
+
+                                    <mat-form-field appearance="outline" class="px-8" fxFlex="30">
+                                        <mat-label>Estado</mat-label>
+                                        <mat-select formControlName="idUf1" name="idUf1"
+                                            (selectionChange)="getCidades($event)" required>
+                                            <mat-option [value]="''">Selecione..</mat-option>
+                                            <mat-option *ngFor="let item of estados" [value]="item.id">
+                                                {{ item.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                                        <mat-error>Informe o estado</mat-error>
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" class="px-8" fxFlex="30">
+                                        <mat-label>Cidade</mat-label>
+                                        <mat-select formControlName="idCity1" name="idCity1" required>
+                                            <mat-option [value]="''">Selecione..</mat-option>
+                                            <mat-option *ngFor="let item of cidades" [value]="item.id">
+                                                {{ item.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                                        <mat-error>Informe a cidade</mat-error>
+                                    </mat-form-field>
+
+                                </div>
+
 
                             </div>
 
                         </mat-tab>
 
-                        <mat-tab label="Pricing">
+                        <mat-tab label="Dados Bancário">
 
                             <div class="tab-content p-24" fusePerfectScrollbar>
 
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>Tax Excluded Price</mat-label>
-                                    <input matInput placeholder="Tax Excluded Price"
-                                           name="priceTaxExcl"
-                                           formControlName="priceTaxExcl"
-                                           type="number">
-                                    <span matPrefix>$&nbsp;</span>
-                                </mat-form-field>
+                                <div fxLayout="row" fxLayoutAlign="start center">
 
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>Tax Included Price</mat-label>
-                                    <input matInput placeholder="Tax Included Price"
-                                           name="priceTaxIncl"
-                                           formControlName="priceTaxIncl"
-                                           type="number">
-                                    <span matPrefix>$&nbsp;</span>
-                                </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex="50">
+                                        <mat-label>Nome responsável bancário</mat-label>
+                                        <input matInput formControlName="bankesName">
+                                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                    </mat-form-field>
 
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>Tax Rate</mat-label>
-                                    <input matInput placeholder="Tax Rate"
-                                           name="taxRate"
-                                           formControlName="taxRate"
-                                           type="number">
-                                    <span matPrefix>&#37;&nbsp;</span>
-                                </mat-form-field>
+                                    <mat-form-field appearance="outline" class="px-8" fxFlex="20">
+                                        <mat-label>Tipo de Pessoa</mat-label>
+                                        <mat-select formControlName="type" name="type">
+                                            <mat-option *ngFor="let item of typeClient" [value]="item.id">
+                                                {{ item.name }}</mat-option>
 
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>Compared Price</mat-label>
-                                    <input matInput placeholder="Compared Price"
-                                           name="comparedPrice"
-                                           formControlName="comparedPrice"
-                                           type="number">
-                                    <span matPrefix>$&nbsp;</span>
-                                    <mat-hint align="start">Add a compare price to show next to the real price
-                                    </mat-hint>
-                                </mat-form-field>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" fxFlex="30"
+                                        *ngIf="representativeForm.value.type == 0">
+                                        <mat-label>Cpf</mat-label>
+                                        <input matInput formControlName="bankesCpfCnpj" [textMask]="{mask: cpfMask}">
+
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" fxFlex="30"
+                                        *ngIf="representativeForm.value.type == 1">
+                                        <mat-label>Cnpj</mat-label>
+                                        <input matInput formControlName="bankesCpfCnpj" [textMask]="{mask: cnpjMask}">
+
+                                    </mat-form-field>
+
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="start center">
+
+                                    <mat-form-field appearance="outline" fxFlex="50">
+                                        <mat-label>Banco</mat-label>
+                                        <mat-select formControlName="idBank" name="idBank" required>
+                                            <mat-option [value]="''">Selecione..</mat-option>
+                                            <mat-option *ngFor="let item of banks" [value]="item.id">
+                                                {{ item.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error>Informe o banco</mat-error>
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" class="px-8" fxFlex="25">
+                                        <mat-label>Agência</mat-label>
+                                        <input matInput formControlName="banckAgency">
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" fxFlex="25">
+                                        <mat-label>Conta</mat-label>
+                                        <input matInput formControlName="bankAccount">
+                                    </mat-form-field>
+
+                                </div>
+
+                                <div fxLayout="row" fxLayoutAlign="start center">
+
+                                    <mat-form-field appearance="outline"  fxFlex="25">
+                                        <mat-label>Operação</mat-label>
+                                        <input matInput formControlName="bankOperation">
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" class="px-8" fxFlex="50">
+                                        <mat-label>Email Financeiro</mat-label>
+                                        <input matInput formControlName="emailFinance">
+                                        <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+                                        <mat-error *ngIf="!representativeForm.get('emailFinance').hasError('required') &&
+                                                    representativeForm.get('emailFinance').hasError('emailFinance')">
+                                            Informe um email válido.
+                                        </mat-error>
+                                    </mat-form-field>
+
+                                    <mat-checkbox class="example-margin" class="ml-32" formControlName="withholdTax">
+                                        RETER IMPOSTO
+                                    </mat-checkbox>
+
+
+                                </div>
 
                             </div>
                         </mat-tab>
 
-                        <mat-tab label="Inventory">
+                        <mat-tab label="Grade de Comissão">
 
-                            <div class="tab-content p-24" fusePerfectScrollbar>
+                            <!-- <div class="tab-content p-24" fusePerfectScrollbar>
 
                                 <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
                                     <mat-label>SKU</mat-label>
@@ -192,60 +470,7 @@
                                            type="number">
                                 </mat-form-field>
 
-                            </div>
-
-                        </mat-tab>
-
-                        <mat-tab label="Shipping">
-
-                            <div class="tab-content p-24" fusePerfectScrollbar fxLayout="column">
-
-                                <div fxLayout="row" fxLayoutAlign="space-between">
-
-                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
-                                        <mat-label>Width</mat-label>
-                                        <input matInput placeholder="Width"
-                                               name="Width"
-                                               formControlName="width">
-                                        <span matSuffix>cm</span>
-                                    </mat-form-field>
-
-                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
-                                        <mat-label>Height</mat-label>
-                                        <input matInput placeholder="Height"
-                                               name="Height"
-                                               formControlName="height">
-                                        <span matSuffix>cm</span>
-                                    </mat-form-field>
-
-                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
-                                        <mat-label>Depth</mat-label>
-                                        <input matInput placeholder="Depth"
-                                               name="Depth"
-                                               formControlName="depth">
-                                        <span matSuffix>cm</span>
-                                    </mat-form-field>
-
-                                </div>
-
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>Weight</mat-label>
-                                    <input matInput placeholder="Weight"
-                                           name="Weight"
-                                           formControlName="weight">
-                                    <span matSuffix>kg</span>
-                                </mat-form-field>
-
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>Extra Shipping Fee</mat-label>
-                                    <input matInput placeholder="Extra Shipping Fee"
-                                           name="extraShippingFee"
-                                           formControlName="extraShippingFee"
-                                           type="number">
-                                    <span matPrefix>$&nbsp;</span>
-                                </mat-form-field>
-
-                            </div>
+                            </div> -->
 
                         </mat-tab>
 

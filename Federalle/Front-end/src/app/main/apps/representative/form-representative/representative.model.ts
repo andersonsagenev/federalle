@@ -38,6 +38,7 @@ export class Representative
     bankOperation: string;
     emailFinance: string;
     withholdTax: boolean;
+    codRegion: boolean;
     canErase: boolean
 
     /**
@@ -82,6 +83,7 @@ export class Representative
         this.bankOperation = representante.bankOperation || '';
         this.emailFinance = representante.emailFinance || '';
         this.withholdTax = representante.withholdTax || false;
+        this.codRegion = representante.codRegion || false;
         this.canErase = representante.canErase || true;
     }
 

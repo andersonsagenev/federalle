@@ -65,7 +65,7 @@ export class CustomerService implements Resolve<any>
             );
         });
     }
-       /**
+    /**
      * Get Estados
      *
      * @returns {Promise<any>}

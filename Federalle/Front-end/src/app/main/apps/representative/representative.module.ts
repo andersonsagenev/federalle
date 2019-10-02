@@ -2,14 +2,15 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
     MatButtonModule, MatChipsModule, MatExpansionModule, MatFormFieldModule, MatIconModule, MatInputModule, MatPaginatorModule, MatRippleModule, MatSelectModule, MatSnackBarModule,
-    MatSortModule,
+    MatSortModule, MatCheckboxModule,
     MatTableModule, MatTabsModule
 } from '@angular/material';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AgmCoreModule } from '@agm/core';
-
+import { ConfirmService } from '@fuse/services/confirm.service';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseWidgetModule } from '@fuse/components/widget/widget.module';
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { RepresentativesComponent } from 'app/main/apps/representative/representatives/representatives.component';
 import { RepresentativesService } from 'app/main/apps/representative/representatives/representatives.service';
@@ -64,8 +65,10 @@ const routes: Routes = [
         MatSnackBarModule,
         MatTableModule,
         MatTabsModule,
+        MatCheckboxModule,
 
         NgxChartsModule,
+        TextMaskModule,
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyD81ecsCj4yYpcXSLFcYU97PvRsE_X8Bx8'
         }),
@@ -76,6 +79,7 @@ const routes: Routes = [
     providers   : [
         RepresentativeService,
         RepresentativesService,
+        ConfirmService
        
     ]
 })

@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
+import { CepService } from "@fuse/services/cep.service";
+import { ConfirmService } from "@fuse/services/confirm.service";
 
 import { Representative } from 'app/main/apps/representative/form-representative/representative.model';
 import { RepresentativeService } from 'app/main/apps/representative/form-representative/form-representative.service';
@@ -23,6 +24,20 @@ export class RepresentativeComponent implements OnInit, OnDestroy
     representante: Representative;
     pageType: string;
     representativeForm: FormGroup;
+    isLoading: boolean = false;
+    estados: any;
+    cidades: any;
+    status: any;
+    banks: any;
+
+    typeClient: any = [
+        {
+        id:0,
+        name:'Física'
+      },{
+        id:1,
+        name:'Jurídico'
+      }]
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -39,7 +54,9 @@ export class RepresentativeComponent implements OnInit, OnDestroy
         private _representativeService: RepresentativeService,
         private _formBuilder: FormBuilder,
         private _location: Location,
-        private _matSnackBar: MatSnackBar
+        private _matSnackBar: MatSnackBar,
+        private _cepService: CepService,
+        private _alert: ConfirmService,
     )
     {
         // Set the default
@@ -58,6 +75,63 @@ export class RepresentativeComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+         // dropdown estados
+         this._representativeService.onUfsChanged.subscribe(data => {
+            this.estados = data;
+        });
+
+         // dropdown status contract
+         this._representativeService.onStatusChanged.subscribe(data => {
+            this.status = data;
+        });
+
+         // dropdown banks
+         this._representativeService.onBanksChanged.subscribe(data => {
+            this.banks = data;
+        });
+
+        this.representativeForm = this._formBuilder.group({
+            // type: [ this.typeClient[0].id ],
+            name: ["", Validators.required],
+            email1: ["", Validators.required, Validators.email],
+            email2: ["", Validators.email],
+            email3: ["", Validators.email],
+            telefone1: ["", Validators.required],
+            telefone2: [""],
+            telefone3: [""],
+            idMaster: [null],
+            idCity: [null],
+            idCity1: [null],
+            idStatusPartnershipContract: [null],
+            idBank: [null],
+            idUser: [null],
+            cpfCnpj: ["", Validators.required],
+            zip: ["", Validators.maxLength(9)],
+            zip1: ["", Validators.maxLength(9)],
+            handle: [""],
+            andress: [""],
+            andress1: [""],
+            number: [""],
+            number1: [""],
+            complement: [""],
+            complement1: [""],
+            district: [""],
+            district1: [""],
+            bankesName: [""],
+            bankesCpfCnpj: [""],
+            banckAgency: [""],
+            bankAccount: [""],
+            bankOperation: [""],
+            emailFinance: [""],
+            withholdTax: [""],
+            codRegion: [""],
+            idUf: [null],
+            idUf1: [null],
+            type: [''],
+            contact: ['']
+        });
+       
+        this.pageType = 'new';
         // Subscribe to update product on changes
         // this._representativeService.onProductChanged
         //     .pipe(takeUntil(this._unsubscribeAll))
@@ -91,6 +165,16 @@ export class RepresentativeComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    getCidades(estado) {
+        let id = estado.value ? estado.value : estado
+        console.log("estado ~~>", id);
+        this._representativeService.getCitys(id).then(() => {
+            this._representativeService.onCitysChanged.subscribe(data => {
+                this.cidades = data;
+            });
+        });
+    }
 
     /**
      * Create representative form
@@ -133,7 +217,92 @@ export class RepresentativeComponent implements OnInit, OnDestroy
             bankOperation          : [this.representante.bankOperation],
             emailFinance          : [this.representante.emailFinance],
             withholdTax          : [this.representante.withholdTax],
+            codRegion          : [this.representante.codRegion],
             canErase          : [this.representante.canErase],
+        });
+    }
+
+    searchCep() {
+        this.isLoading = true;
+        let cep = this.representativeForm.get("zip").value;
+        console.log("cep ~~>", cep);
+        if (cep != null && cep !== "") {
+            this._cepService.buscaCep(cep).subscribe((dt: any) => {
+                if (dt.erro) {
+                    this.resetaDadosForm();
+                    this._alert.SwalCleanCep();
+                    this.isLoading = false;
+                    return;
+                }
+                this.populateAddress(dt);
+            });
+            this.isLoading = false;
+        } else {
+            this._alert.SwalCleanCep();
+            this.isLoading = false;
+        }
+    }
+    
+    populateAddress(item: any) {
+        this.representativeForm.patchValue({
+            zip: item.cep,
+            andress: item.logradouro,
+            complement: item.complemento,
+            district: item.bairro,
+            city: item.localidade,
+            uf: item.uf
+        });
+    }
+
+    resetaDadosForm() {
+        this.representativeForm.patchValue({
+            zip: null,
+            andress: null,
+            complement: null,
+            number: null,
+            district: null
+        });
+    }
+
+    searchCepFinanceiro() {
+        this.isLoading = true;
+        let cep = this.representativeForm.get("zip").value;
+        console.log("cep ~~>", cep);
+        if (cep != null && cep !== "") {
+            this._cepService.buscaCep(cep).subscribe((dt: any) => {
+                if (dt.erro) {
+                    this.resetaDadosFormFinanceiro();
+                    this._alert.SwalCleanCep();
+                    this.isLoading = false;
+                    return;
+                }
+                this.populateAddressFinanceiro(dt);
+            });
+            this.isLoading = false;
+        } else {
+            this._alert.SwalCleanCep();
+            this.isLoading = false;
+        }
+    }
+    
+    populateAddressFinanceiro(item: any) {
+        this.representativeForm.patchValue({
+            zip1: item.cep,
+            andress1: item.logradouro,
+            complement1: item.complemento,
+            district1: item.bairro,
+            city1: item.localidade,
+            uf1: item.uf
+        });
+    }
+
+    resetaDadosFormFinanceiro() {
+        this.representativeForm.patchValue({
+            zip1: null,
+            andress1: null,
+            complement1: null,
+            number1: null,
+            district1: null
         });
     }
     
