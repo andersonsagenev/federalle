@@ -8,7 +8,7 @@ import {
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { MK_API } from "app/app.api";
 import { MK_TOKEN } from "app/app.token";
-import { Benefits } from "app/main/apps/corporate/benefits/benefits.model";
+import { ReceiptCommission } from "app/main/apps/financial/receipt-commission/receipt-commission.model";
 import { Consorcio } from "app/main/apps/corporate/consorcio/consorcio.model";
 import { FuseUtils } from "@fuse/utils";
 import { ConfirmService } from "@fuse/services/confirm.service";
@@ -21,12 +21,12 @@ const headers = new HttpHeaders({
 @Injectable()
 export class ReceiptCommissionService implements Resolve<any> {
     onConsorcioChanged: BehaviorSubject<any>;
-    onBenefitsChanged: BehaviorSubject<any>;
+    onReceiptCommissionChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
 
     searchText: string;
     routeParams: any;
-    beneficios: Benefits[];
+    receiptCommission: ReceiptCommission[];
     consorcios: Consorcio[];
 
     /**
@@ -40,7 +40,7 @@ export class ReceiptCommissionService implements Resolve<any> {
     {
         // Set the defaults
         this.onConsorcioChanged = new BehaviorSubject({});
-        this.onBenefitsChanged = new BehaviorSubject([]);
+        this.onReceiptCommissionChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
     }
 
@@ -59,12 +59,12 @@ export class ReceiptCommissionService implements Resolve<any> {
 
         return new Promise((resolve, reject) => {
             Promise.all([
-                this.getBenefits(),
+                this.getReceiptCommission(),
                 this.getConsorcios()
             ]).then(([files]) => {
                 this.onSearchTextChanged.subscribe(searchText => {
                     this.searchText = searchText;
-                    this.getBenefits()
+                    this.getReceiptCommission()
                 });
                 resolve();
             }, reject);
@@ -91,29 +91,29 @@ export class ReceiptCommissionService implements Resolve<any> {
         });
     }
     /**
-     * Get Benefits
+     * Get Receipt Commission
      *
      * @returns {Promise<any>}
      */
-    getBenefits(): Promise<any> {
+    getReceiptCommission(): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient
-                .get(MK_API + "/api/benefits/", { headers: headers })
+                .get(MK_API + "/api/CommissionReceipts/", { headers: headers })
                 .subscribe((response: any) => {
-                    this.beneficios = response;
-                    console.log('Beneficios ~~~~>', this.beneficios)
+                    this.receiptCommission = response;
+                    console.log('comissao recebimento ~~~~>', this.receiptCommission)
                     if (this.searchText && this.searchText !== "") {
-                        this.beneficios = FuseUtils.filterArrayByString(
-                            this.beneficios,
+                        this.receiptCommission = FuseUtils.filterArrayByString(
+                            this.receiptCommission,
                             this.searchText
                         );
                     }
-                    this.beneficios = this.beneficios.map(item => {
-                        return new Benefits(item);
+                    this.receiptCommission = this.receiptCommission.map(item => {
+                        return new ReceiptCommission(item);
                     });
 
-                    this.onBenefitsChanged.next(this.beneficios);
-                    resolve(this.beneficios);
+                    this.onReceiptCommissionChanged.next(this.receiptCommission);
+                    resolve(this.receiptCommission);
                 }, reject);
         });
     }
@@ -131,7 +131,7 @@ export class ReceiptCommissionService implements Resolve<any> {
                     headers: headers
                 })
                 .subscribe((response: any) => {
-                    this.getBenefits();
+                    this.getReceiptCommission();
                     this._alert.SwalUpdate()
                     resolve(response);
                 }, reject);
@@ -139,40 +139,40 @@ export class ReceiptCommissionService implements Resolve<any> {
     }
 
     /**
-     * delete bem
+     * delete Receipt Commission
      *
-     * @param bem
+     * @param receipt
      * @returns {Promise<any>}
      */
-    deleteBenefits(bem): Promise<any> {
+    deleteReceiptCommission(receipt): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient
-                .delete(MK_API + "/api/benefits/" + bem.id, {
+                .delete(MK_API + "/api/CommissionReceipts/" + receipt.id, {
                     headers: headers
                 })
                 .subscribe((response: any) => {
-                    this.getBenefits()
+                    this.getReceiptCommission()
                     resolve(response);
                 }, reject);
         });
     }
 
     /**
-     * Add Bem
+     * Add Receipt commission
      *
-     * @param bem
+     * @param receipt
      * @returns {Promise<any>}
      */
-    addBenefits(bem): Promise<any> {
-        console.log('parametros bem ~~>', bem)
+    addReceiptCommission(receipt): Promise<any> {
+        console.log('parametros receipt ~~>', receipt)
         return new Promise((resolve, reject) => {
             this._httpClient
-                .post(MK_API + "/api/benefits", bem, {
+                .post(MK_API + "/api/CommissionReceipts", receipt, {
                     headers: headers
                 })
                 .subscribe((response: any) => {
                     this._alert.SwalInsert()
-                    this.getBenefits();
+                    this.getReceiptCommission();
                     resolve(response);
                 }, reject);
         });

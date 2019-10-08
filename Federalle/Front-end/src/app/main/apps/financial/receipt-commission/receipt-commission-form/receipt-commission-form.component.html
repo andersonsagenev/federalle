@@ -1,0 +1,95 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="receiptForm">
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+                
+            <mat-form-field appearance="outline" fxFlex="30">
+                        <mat-label>Data Início</mat-label>
+                        <input matInput [matDatepicker]="startPicker" name="startDate" formControlName="startDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startPicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="pl-8" fxFlex="70">
+                               <mat-label>Consórcio</mat-label>
+                               <mat-select formControlName="idConsortium" name="idConsortium" required>
+                                   <mat-option [value]="''">Selecione..</mat-option>
+                                   <mat-option *ngFor="let item of consorcios" [value]="item.id">
+                                       {{ item.name }}
+                                   </mat-option>
+                               </mat-select>
+                     <mat-error>Informe o Consórcio</mat-error>
+            </mat-form-field>
+           
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start start">
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>Valores:</mat-label>
+                <input name="value" formControlName="value" matInput>
+                <mat-error>Informe o valor.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start start">
+
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>Parcela:</mat-label>
+                <input name="parcel" formControlName="parcel" matInput>
+                <mat-error>Informe o valor.</mat-error>
+            </mat-form-field>
+
+           <mat-form-field appearance="outline" class="pl-8"   fxFlex>
+                    <mat-label>Percentual:</mat-label>
+                    <input type="number" name="percentage" formControlName="percentage" matInput>
+                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                </mat-form-field>
+        </div>
+
+            
+        </form>
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="mr-8"
+                (click)="matDialogRef.close(['delete',receiptForm])"
+                aria-label="Delete"
+                matTooltip="Delete">
+            DELETAR
+        </button>
+
+        <button *ngIf="action !== 'edit'"
+                mat-raised-button color="accent"
+                class="save-button"
+                (click)="matDialogRef.close(receiptForm)"
+                [disabled]="receiptForm.invalid"
+                aria-label="SAVE">
+            ADICIONAR
+        </button>
+
+        <button *ngIf="action === 'edit'"
+                mat-raised-button color="accent"
+                class="save-button"
+                (click)="matDialogRef.close(['save',receiptForm])"
+                [disabled]="receiptForm.invalid"
+                aria-label="SAVE">
+            SALVAR
+        </button>
+
+    </div>
+</div>

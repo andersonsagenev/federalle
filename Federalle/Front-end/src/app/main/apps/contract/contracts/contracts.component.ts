@@ -138,6 +138,7 @@ export class ContractsComponent implements OnInit, OnDestroy {
     clientes: any;
     pagamentos: any;
     beneficios: any;
+    representantes: any;
     contract: Contract;
     isLoading: boolean = false;
     _disabled: boolean = false;

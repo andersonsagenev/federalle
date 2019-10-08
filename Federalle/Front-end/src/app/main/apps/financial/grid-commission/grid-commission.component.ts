@@ -10,32 +10,34 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
-import { UserService } from 'app/main/apps/users/users.service';
-import { UserFormDialogComponent } from 'app/main/apps/users/user-form/user-form.component';
+import { GridCommissionService } from 'app/main/apps/financial/grid-commission/grid-commission.service';
+import { GridFormDialogComponent } from 'app/main/apps/financial/grid-commission/grid-commission-form/grid-form.component';
 
 
 @Component({
-    selector: 'users',
-    templateUrl: './users.component.html',
-    styleUrls: ['./users.component.scss'],
+    selector: 'grid-commission',
+    templateUrl: './grid-commission.component.html',
+    styleUrls: ['./grid-commission.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class UsersComponent implements OnInit, OnDestroy {
+export class GridCommissionComponent implements OnInit, OnDestroy {
     @ViewChild('dialogContent')
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild("myElem") MyProp :ElementRef;
 
-    displayedColumns: string[] = ['avatar', 'name', 'email', 'buttons'];
+    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    displayedColumns: string[] = ['name', 'buttons'];
+    // displayedColumns: string[] = ['name', 'type', 'consortium', 'installments', 'buttons'];
     dataSource: any;
     dialogContent: TemplateRef<any>;
     dialogRef: any;
     hasSelectedStudents: boolean;
     searchInput: FormControl;
-    users: any;
+    commissions: any;
+
     user: any;
     selectedContacts: any[];
-    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     selectedStudent: any = [];
     //pagination
     limit = 30;
@@ -48,7 +50,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     companyId: any;
     userLog: any;
     _disabled: boolean = false;
-    exist_user: boolean = false;
+    exist: boolean = false;
     hide: boolean = true;
 
     // Private
@@ -57,12 +59,12 @@ export class UsersComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      *
-     * @param {UserService} _userService
+     * @param { GridCommissionService } _gridCommissionService
      * @param {FuseSidebarService} _fuseSidebarService
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _userService: UserService,
+        private _gridCommissionService: GridCommissionService,
         private _fuseSidebarService: FuseSidebarService,
         public _matDialog: MatDialog,
         private _request: RequestService,
@@ -73,7 +75,6 @@ export class UsersComponent implements OnInit, OnDestroy {
         // Set the defaults
         this.searchInput = new FormControl('');
         this._unsubscribeAll = new Subject();
-       // this.currentCompany = "";
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -92,15 +93,15 @@ export class UsersComponent implements OnInit, OnDestroy {
             this.logout();
         }
 
-        this._userService.onUsersChanged
+        this._gridCommissionService.onGridCommissionChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
-                console.log('retorno de usuarios ~~>', data)
-                if(data){
-                    this.exist_user = true;
-                this.users = data
+                console.log('retorno de grade ~~>', data)
+                if(data.length){
+                    this.exist = true;
+                this.commissions = data
                 }else{
-                    this.exist_user = false;
+                    this.exist = false;
                 }
             });
             this.searchInput.valueChanges
@@ -110,7 +111,7 @@ export class UsersComponent implements OnInit, OnDestroy {
                 distinctUntilChanged()
             )
             .subscribe(searchText => {
-                this._userService.onSearchTextChanged.next(searchText);
+                this._gridCommissionService.onSearchTextChanged.next(searchText);
             });
 
     }
@@ -128,16 +129,16 @@ export class UsersComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-    * Edit user 
+    * Edit Grade Comissao 
     *
-    * @param user
+    * @param grade
     */
-    editUser(user: any): void {
-        console.log('usuario para update', user)
-        this.dialogRef = this._matDialog.open(UserFormDialogComponent, {
-            panelClass: 'user-form-dialog',
+    editGridCommission(grade: any): void {
+        console.log('grade para update', grade)
+        this.dialogRef = this._matDialog.open(GridFormDialogComponent, {
+            panelClass: 'grid-form-dialog',
             data: {
-                person: user,
+                commission: grade,
                 action: 'editar'
             }
         });
@@ -152,26 +153,26 @@ export class UsersComponent implements OnInit, OnDestroy {
                     /**
                      * Update
                      */
-                    case 'update':
-                        console.log('usuario updatado...', formData.getRawValue())
-                        this._userService.UserUpdate(response.getRawValue());
+                    case 'save':
+                        console.log('grade para update...', formData.getRawValue())
+                        this._gridCommissionService.updateGridCommission(response.getRawValue());
                         break;
                     /**
                      * Delete
                      */
                     case 'delete':
-                        this.ConfirmDelete(user);
+                        this.ConfirmDelete(grade);
                         break;
                 }
             });
     }
 
     /**
-    * New user
+    * New Grid Commission
     */
-   newUser(): void {
-        this.dialogRef = this._matDialog.open(UserFormDialogComponent, {
-            panelClass: 'user-form-dialog',
+   newGridCommission(): void {
+        this.dialogRef = this._matDialog.open(GridFormDialogComponent, {
+            panelClass: 'grid-form-dialog',
             data: {
                 action: 'new',
             }
@@ -182,46 +183,22 @@ export class UsersComponent implements OnInit, OnDestroy {
                 if (!response) {
                     return;
                 }
-
-                // this.getAlunos(1)
+                this._gridCommissionService.addGridCommission(response.getRawValue());
             });
     }
 
-  
-    /**
-     * Delete Confirm
+   /**
+     * Delete Grid Commission
      */
-    ConfirmDelete(student: any): void {
-        this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
-            disableClose: false
-        });
-
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Tem certeza de que deseja excluir?';
-
-        this.confirmDialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                this.deleteStudent(student);
+    ConfirmDelete(grid): void
+    { 
+        this._confirm.SwalConfirm().then(res => {
+            if (res) {
+              this._gridCommissionService.deleteGridCommission(grid);
             }
-            this.confirmDialogRef = null;
-        });
-    }
-    /**
-     * Delete student
-     */
-    deleteStudent(student: any): void {
-        this._request.server('/api/user/' + student.id, 'delete').subscribe(data => {
-            console.log('Retorno', data)
-            // this.getAlunos(1)
-            this._confirm.SwalDelete()
-        }, error => {
-            Swal.fire({
-                title: 'Erro!',
-                text: 'Erro ao excluir cadastro',
-                type: 'error',
-                confirmButtonText: 'Fechar'
-            })
-            console.log('Error', error)
-        })
+          }).catch(err => {
+            console.log('Error', err)
+          })
     }
 
     logout(): void {

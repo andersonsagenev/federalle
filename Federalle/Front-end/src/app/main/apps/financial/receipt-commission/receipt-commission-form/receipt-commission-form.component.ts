@@ -4,13 +4,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
-import { ReceiptCommission } from 'app/main/apps/financial/receiptCommissions/receiptCommissions.model';
-import { ReceiptCommissionService } from "../receiptCommissions.service";
+import { ReceiptCommission } from 'app/main/apps/financial/receipt-commission/receipt-commission.model';
+import { ReceiptCommissionService } from "../receipt-commission.service";
 
 @Component({
-    selector     : 'receiptCommissions-form-dialog',
-    templateUrl  : './receiptCommissions-form.component.html',
-    styleUrls    : ['./receiptCommissions-form.component.scss'],
+    selector     : 'receipt-commission-form-dialog',
+    templateUrl  : './receipt-commission-form.component.html',
+    styleUrls    : ['./receipt-commission-form.component.scss'],
     encapsulation: ViewEncapsulation.None,
     providers: [
         { provide: MAT_DATE_LOCALE, useValue: 'pt-br' },
@@ -23,7 +23,7 @@ export class CommissionsFormDialogComponent
 {
     action: string;
     commission: ReceiptCommission;
-    commissionForm: FormGroup;
+    receiptForm: FormGroup;
     dialogTitle: string;
     consorcios: any;
 
@@ -46,16 +46,16 @@ export class CommissionsFormDialogComponent
 
         if ( this.action === 'edit' )
         {
-            this.dialogTitle = 'Editar Bem';
+            this.dialogTitle = 'Comissão Recebimento Federalle';
             this.commission = _data.commission;
         }
         else
         {
-            this.dialogTitle = 'Novo Bem';
+            this.dialogTitle = 'Comissão Recebimento Federalle';
             this.commission = new ReceiptCommission({});
         }
 
-        this.commissionForm = this.createCommissionForm();
+        this.receiptForm = this.createCommissionForm();
     }
 
      /**
@@ -83,12 +83,13 @@ export class CommissionsFormDialogComponent
         return this._formBuilder.group({
             id      : [this.commission.id],
             parcel    : [this.commission.parcel],
-            quantity    : [this.commission.quantity],
+            value    : [this.commission.value],
             idConsortium    : [this.commission.idConsortium],
-            credit    : [this.commission.credit],
-            fatorCommission    : [this.commission.fatorCommission],
-            valueCommission    : [this.commission.valueCommission],
-            dueDate    : [this.commission.dueDate],
+           
+            startDate    : [this.commission.startDate],
+            idCommissionReceipt    : [this.commission.idCommissionReceipt],
+            percentage    : [this.commission.percentage],
+            active    : [this.commission.active],
             registerDate    : [this.commission.registerDate],
             canErase : [this.commission.canErase]
         });

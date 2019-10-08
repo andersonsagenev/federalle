@@ -29,6 +29,7 @@ export class RepresentativeComponent implements OnInit, OnDestroy
     cidades: any;
     status: any;
     banks: any;
+    masters: any;
 
     typeClient: any = [
         {
@@ -38,6 +39,48 @@ export class RepresentativeComponent implements OnInit, OnDestroy
         id:1,
         name:'Jurídico'
       }]
+
+      public maskTelefone = [
+        "+",
+        /[1-9]/,
+        /\d/,
+        " ",
+        "(",
+        /[1-9]/,
+        /\d/,
+        ")",
+        " ",
+        /\d/,
+        /\d/,
+        /\d/,
+        /\d/,
+        "-",
+        /\d/,
+        /\d/,
+        /\d/,
+        /\d/
+    ];
+    public maskCelular = [
+        "+",
+        /[1-9]/,
+        /\d/,
+        " ",
+        "(",
+        /[1-9]/,
+        /\d/,
+        ")",
+        " ",
+        /\d/,
+        /\d/,
+        /\d/,
+        /\d/,
+        /\d/,
+        "-",
+        /\d/,
+        /\d/,
+        /\d/,
+        /\d/
+    ];
 
     // Private
     private _unsubscribeAll: Subject<any>;

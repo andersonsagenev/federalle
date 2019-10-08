@@ -20,10 +20,17 @@ import { IndicatorFormDialogComponent } from 'app/main/apps/financial/indicators
 import { IndicatorListComponent } from 'app/main/apps/financial/indicators/list-indicator/list-indicator.component';
 import { IndicatorService } from '../financial/indicators/indicators.service';
 
-import { CommissionComponent } from 'app/main/apps/financial/receiptCommissions/receiptCommissions.component';
-import { CommissionsFormDialogComponent } from 'app/main/apps/financial/receiptCommissions/receiptCommissions-form/receiptCommissions-form.component';
-import { CommissionsListComponent } from 'app/main/apps/financial/receiptCommissions/receiptCommissions-list/receiptCommissions-list.component';
-import { ReceiptCommissionService } from '../financial/receiptCommissions/receiptCommissions.service';
+import { CommissionComponent } from 'app/main/apps/financial/receipt-commission/receipt-commission.component';
+import { CommissionsFormDialogComponent } from 'app/main/apps/financial/receipt-commission/receipt-commission-form/receipt-commission-form.component';
+import { CommissionsListComponent } from 'app/main/apps/financial/receipt-commission/receipt-commission-list/receipt-commission-list.component';
+import { ReceiptCommissionService } from './receipt-commission/receipt-commission.service';
+
+import { GridCommissionComponent } from 'app/main/apps/financial/grid-commission/grid-commission.component';
+import { GridCommissionService } from 'app/main/apps/financial/grid-commission/grid-commission.service';
+import { GridFormDialogComponent } from 'app/main/apps/financial/grid-commission/grid-commission-form/grid-form.component';
+
+
+
 
 const routes: Routes = [
     {
@@ -41,10 +48,17 @@ const routes: Routes = [
         }
     },
     {
-        path     : 'receiptCommissions',
+        path     : 'receipt-commission',
         component: CommissionComponent,
         resolve  : {
             data: ReceiptCommissionService
+        }
+    },
+    {
+        path     : 'grid-commission',
+        component: GridCommissionComponent,
+        resolve  : {
+            data: GridCommissionService
         }
     }
 ];
@@ -59,7 +73,9 @@ const routes: Routes = [
         PaymentListComponent,
         CommissionComponent,
         CommissionsFormDialogComponent,
-        CommissionsListComponent
+        CommissionsListComponent,
+        GridCommissionComponent,
+        GridFormDialogComponent,
        
     ],
     imports        : [
@@ -87,14 +103,14 @@ const routes: Routes = [
         ConfirmService,
         IndicatorService,
         PaymentService,
-        ReceiptCommissionService
-        
-       
+        ReceiptCommissionService,
+        GridCommissionService
     ],
     entryComponents: [
         IndicatorFormDialogComponent,
         PaymentFormDialogComponent,
-        CommissionsFormDialogComponent
+        CommissionsFormDialogComponent,
+        GridFormDialogComponent
        
     ]
 })

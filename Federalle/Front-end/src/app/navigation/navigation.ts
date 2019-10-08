@@ -189,6 +189,14 @@ export const navigation: FuseNavigation[] = [
                         ]
                     },
                     {
+                        id: 'contract-number',
+                        title: 'Numeração Contrato',
+                        translate: 'NAV.NUMBER',
+                        type: 'item',
+                        icon: 'format_list_numbered',
+                        url: '/apps/contract/contract-number'
+                    },
+                    {
                         id: 'federalle',
                         title: 'Contrato Federalle',
                         translate: 'NAV.FEDERALLE',
@@ -248,12 +256,20 @@ export const navigation: FuseNavigation[] = [
                         url: '/apps/financial/indicators'
                     },
                     {
-                        id: 'receiptCommissions',
+                        id: 'receipt-commission',
                         title: 'Commisão Recebimento',
                         translate: 'NAV.COMMISSIONS',
                         type: 'item',
-                        icon: 'swap_vert',
-                        url: '/apps/financial/receiptCommissions'
+                        icon: 'attach_money',
+                        url: '/apps/financial/receipt-commission'
+                    },
+                    {
+                        id: 'grid-commission',
+                        title: 'Commisão Pagamento',
+                        translate: 'NAV.GRIDCOMMISSION',
+                        type: 'item',
+                        icon: 'apps',
+                        url: '/apps/financial/grid-commission'
                     },
                    
                 ]

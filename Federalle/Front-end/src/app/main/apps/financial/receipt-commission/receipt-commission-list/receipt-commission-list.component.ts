@@ -7,15 +7,15 @@ import { takeUntil } from 'rxjs/operators';
 import { ConfirmService } from '@fuse/services/confirm.service';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
-import { CommissionsFormDialogComponent } from 'app/main/apps/financial/receiptCommissions/receiptCommissions-form/receiptCommissions-form.component';
-import { ReceiptCommissionService } from "../receiptCommissions.service";
+import { CommissionsFormDialogComponent } from 'app/main/apps/financial/receipt-commission/receipt-commission-form/receipt-commission-form.component';
+import { ReceiptCommissionService } from "../receipt-commission.service";
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
-    selector     : 'receiptCommissions-list',
-    templateUrl  : './receiptCommissions-list.component.html',
-    styleUrls    : ['./receiptCommissions-list.component.scss'],
+    selector     : 'receipt-commission-list',
+    templateUrl  : './receipt-commission-list.component.html',
+    styleUrls    : ['./receipt-commission-list.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations,
     providers: [
@@ -33,10 +33,11 @@ export class CommissionsListComponent implements OnInit, OnDestroy
     
     dataSource: any;
     user: any;
-    beneficios: any;
-    displayedColumns = [ 'codeBenefit', 'name', 'valueCredit', 'buttons'];
+    receiptCommission: any;
+    displayedColumns = [ 'idConsortium', 'startDate', 'buttons'];
     selectedContacts: any[];
     dialogRef: any;
+    exist: boolean = false;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 
 
@@ -71,11 +72,26 @@ export class CommissionsListComponent implements OnInit, OnDestroy
     {
         this.dataSource = new FilesDataSource(this._commissionService);
 
-        this._commissionService.onBenefitsChanged
+        this._commissionService.onReceiptCommissionChanged
+
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
-                this.beneficios = data;
+                if(data.length){
+                    this.exist = true;
+                    this.receiptCommission = data;
+                }else{
+                    this.exist = false;
+                }
             });
+            // this.searchInput.valueChanges
+            // .pipe(
+            //     takeUntil(this._unsubscribeAll),
+            //     debounceTime(300),
+            //     distinctUntilChanged()
+            // )
+            // .subscribe(searchText => {
+            //     this._gridCommissionService.onSearchTextChanged.next(searchText);
+            // });
        
     }
 
@@ -94,16 +110,16 @@ export class CommissionsListComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Edit Commissions
+     * Edit receipt
      *
-     * @param commission
+     * @param receipt
      */
-    updateCommissions(commission): void
+    updateReceipt(receipt): void
     {
         this.dialogRef = this._matDialog.open(CommissionsFormDialogComponent, {
-            panelClass: 'receiptCommissions-form-dialog',
+            panelClass: 'receipt-commission-form-dialog',
             data      : {
-                commission: commission,
+                commission: receipt,
                 action : 'edit'
             }
         });
@@ -131,7 +147,7 @@ export class CommissionsListComponent implements OnInit, OnDestroy
                      */
                     case 'delete':
 
-                        this.deleteCommission(commission);
+                        this.deleteReceipt(receipt);
 
                         break;
                 }
@@ -139,13 +155,13 @@ export class CommissionsListComponent implements OnInit, OnDestroy
     }
 
     /**
-     * Delete Commission
+     * Delete receipt commission
      */
-    deleteCommission(commission): void
+    deleteReceipt(receipt): void
     { 
         this._confirm.SwalConfirm().then(res => {
             if (res) {
-              this._commissionService.deleteBenefits(commission);
+              this._commissionService.deleteReceiptCommission(receipt);
             }
           }).catch(err => {
             console.log('Error', err)
@@ -175,7 +191,7 @@ export class FilesDataSource extends DataSource<any>
      */
     connect(): Observable<any[]>
     {
-        return this._commissionService.onBenefitsChanged;
+        return this._commissionService.onReceiptCommissionChanged;
     }
 
     /**

@@ -1,4 +1,4 @@
-<div id="receiptCommissions" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+<div id="receipt-commission" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
 
     <!-- HEADER -->
     <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start"
@@ -12,7 +12,7 @@
                           [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}"> attach_money
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    Benefícios
+                    Recebimento Comissão Federalle
                 </span>
             </div>
 
@@ -45,7 +45,7 @@
 
             <!-- CONTENT -->
             <div class="content">
-                <receiptCommissions-list></receiptCommissions-list>
+                <receipt-commission-list></receipt-commission-list>
             </div>
             <!-- / CONTENT -->
 
@@ -58,7 +58,7 @@
 </div>
 
 <!-- ADD BEM BUTTON -->
-<button mat-fab class="accent" id="add-bem-button" (click)="newBem()" aria-label="add benefits"
+<button mat-fab class="accent" id="add-bem-button" (click)="newReceiptCommission()" aria-label="add Commission"
         [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
     <mat-icon>add</mat-icon>
 </button>

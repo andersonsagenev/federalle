@@ -4,15 +4,15 @@ import { MatDialog } from '@angular/material';
 import { Subject } from 'rxjs';
 import { RequestService } from '@fuse/services/request.service';
 import { ConfirmService } from '@fuse/services/confirm.service';
-import { ReceiptCommissionService } from "./receiptCommissions.service";
+import { ReceiptCommissionService } from "./receipt-commission.service";
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
-import { CommissionsFormDialogComponent } from 'app/main/apps/financial/receiptCommissions/receiptCommissions-form/receiptCommissions-form.component';
+import { CommissionsFormDialogComponent } from 'app/main/apps/financial/receipt-commission/receipt-commission-form/receipt-commission-form.component';
 
 @Component({
-    selector     : 'receiptCommissions',
-    templateUrl  : './receiptCommissions.component.html',
-    styleUrls    : ['./receiptCommissions.component.scss'],
+    selector     : 'receipt-commission',
+    templateUrl  : './receipt-commission.component.html',
+    styleUrls    : ['./receipt-commission.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
@@ -28,7 +28,7 @@ export class CommissionComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {ReceiptCommissionService} _benefitsService
+     * @param {ReceiptCommissionService} _receiptService
      * @param {FuseSidebarService} _fuseSidebarService
      * @param {MatDialog} _matDialog
      */
@@ -37,7 +37,7 @@ export class CommissionComponent implements OnInit, OnDestroy
         private _matDialog: MatDialog,
         private _request: RequestService,
         private _alert: ConfirmService,
-        public _benefitsService: ReceiptCommissionService
+        public _receiptService: ReceiptCommissionService
     )
     {
         // Set the defaults
@@ -74,12 +74,12 @@ export class CommissionComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * New Bem
+     * New Receipt Commission
      */
-    newBem(): void
+    newReceiptCommission(): void
     {
         this.dialogRef = this._matDialog.open(CommissionsFormDialogComponent, {
-            panelClass: 'receiptCommissions-form-dialog',
+            panelClass: 'receipt-commission-form-dialog',
             data      : {
                 action: 'new'
             }
@@ -91,7 +91,7 @@ export class CommissionComponent implements OnInit, OnDestroy
                 {
                     return;
                 }
-                this._benefitsService.addBenefits(response.getRawValue());
+                this._receiptService.addReceiptCommission(response.getRawValue());
             });
     }
 

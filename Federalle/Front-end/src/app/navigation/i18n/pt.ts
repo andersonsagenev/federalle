@@ -19,7 +19,8 @@ export const locale = {
             'SURVEYS'     : 'Perguntas',
             'SURVEY'      : 'Pergunta',
             'UNITY'       : 'Unidades',
-            'COMMISSIONS' : 'Comissão Recebimento',
+            'COMMISSIONS' : 'Recebimento Federalle',
+            'GRIDCOMMISSION' : 'Comissão de Pagamento',
             'SEARCH'      : 'pesquisar por termo',
             'MAIL'        : {
                 'TITLE': 'Mail',
@@ -29,10 +30,11 @@ export const locale = {
                 'TITLE': 'Mail Ngrx',
                 'BADGE': '13'
             },
+            'NUMBER'   : 'Numeração Contrato',
             'FEDERALLE'   : 'Contrato Federalle',
             'REPRESENTATIVE' : 'Contrato Representante',
             'REGISTERS'       : 'Pré-Cadastros',
-            'STATUS-REPRESENTATIVE'       : 'Status Representantes',
+            'STATUS-REPRESENTATIVE'       : 'Status Representante',
             'FINANCIAL'   : 'Financeiro',
             'PAYMENT'     : 'Forma Pagamento',
             'INDICATOR'   : 'Indicadores',

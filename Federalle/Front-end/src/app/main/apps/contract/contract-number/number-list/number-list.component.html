@@ -1,13 +1,8 @@
-<mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}" *ngIf="planos.length">
+<div class="message-box info" style="width: 100%;" *ngIf="!exist">
+    Nenhuma numeração cadastrada!
+</div>
 
-
-    <!-- Consorcio Column -->
-    <ng-container matColumnDef="idConsortium">
-        <mat-header-cell *matHeaderCellDef>Consórcio</mat-header-cell>
-        <mat-cell *matCellDef="let number">
-            <p class="font-weight-600">{{ number.idConsortium }}</p>
-        </mat-cell>
-    </ng-container>
+<mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}" *ngIf="exist">
 
     <!-- Numero Column -->
     <ng-container matColumnDef="number">
@@ -17,7 +12,7 @@
         </mat-cell>
     </ng-container>
 
-    <!-- Numero Column -->
+    <!-- Numero Final Column -->
     <ng-container matColumnDef="endNumber">
         <mat-header-cell *matHeaderCellDef>Número Final</mat-header-cell>
         <mat-cell *matCellDef="let number">
@@ -30,6 +25,14 @@
         <mat-header-cell *matHeaderCellDef>Representante</mat-header-cell>
         <mat-cell *matCellDef="let number">
             <p class="text-truncate font-weight-600">{{ number.idRepresentative }}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Consorcio Column -->
+    <ng-container matColumnDef="idConsortium">
+        <mat-header-cell *matHeaderCellDef>Consórcio</mat-header-cell>
+        <mat-cell *matCellDef="let number">
+            <p class="font-weight-600">{{ number.idConsortium }}</p>
         </mat-cell>
     </ng-container>
 
@@ -65,6 +68,3 @@
     </mat-row>
 </mat-table>
 
-<div class="message-box info" style="width: 100%" *ngIf="!planos.length">
-    Nenhum consórcio encontrado!
-</div>

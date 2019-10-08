@@ -1,11 +1,11 @@
 .main-height{height:auto;}
-@mixin users-theme($theme) {
+@mixin grid-commission-theme($theme) {
 
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
     $is-dark: map-get($theme, is-dark);
 
-    #users {
+    #grid-commission {
 
         .header {
 

@@ -1,0 +1,217 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="formGridCommission">
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <mat-form-field appearance="outline" fxFlex="70">
+                    <mat-label>Nome</mat-label>
+                    <input name="name" formControlName="name" matInput required>
+                    <mat-error>
+                        O nome é obrigatório
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="pl-8" fxFlex="30">
+                    <mat-label>Tipo</mat-label>
+                    <input name="type" formControlName="type" matInput required>
+                    <mat-error>
+                        O tipo é obrigatório
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <mat-form-field appearance="outline" fxFlex="25">
+                    <mat-label>Data  de Início</mat-label>
+                    <input matInput [matDatepicker]="startDatePicker" name="startDate"
+                        formControlName="startDate">
+                    <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #startDatePicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="px-8" fxFlex="25">
+                    <mat-label>Nº Parcelas</mat-label>
+                    <input name="type" formControlName="type" matInput required>
+                    <mat-error>
+                        O tipo é obrigatório
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="50">
+                    <mat-label>Consórcio</mat-label>
+                    <mat-select formControlName="idConsortium">
+                        <mat-option [value]="''">Selecione..</mat-option>
+                        <mat-option *ngFor="let item of consorcios" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <mat-form-field appearance="outline"  fxFlex>
+                    <mat-label>Valores:</mat-label>
+                    <input name="prompt" formControlName="prompt" matInput required>
+                    <mat-error>
+                        O Valor é obrigatório
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="pl-8" fxFlex>
+                    <mat-label>Representante:</mat-label>
+                    <input name="typeRepresentative" formControlName="typeRepresentative" matInput required>
+                    <mat-error>
+                        O tipo de representante é obrigatório
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <mat-form-field appearance="outline"  fxFlex="25">
+                    <mat-label>Qtde Inicial:</mat-label>
+                    <input name="startAmount" formControlName="startAmount" matInput required>
+                    <mat-error>
+                        Informe a quantidade inicial.
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="px-8" fxFlex="25">
+                    <mat-label>Qtde Final:</mat-label>
+                    <input name="endAmount" formControlName="endAmount" matInput required>
+                    <mat-error>
+                        Informe a quantidade final.
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline"  fxFlex="25">
+                    <mat-label>Inadimplência inicial:</mat-label>
+                    <input name="startNoCompliance" formControlName="startNoCompliance" matInput required>
+                    <mat-error>
+                        Informe a inadimplência inicial.
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="pl-8" fxFlex="25">
+                    <mat-label>Inadimplência final:</mat-label>
+                    <input name="endNoCompliance" formControlName="endNoCompliance" matInput required>
+                    <mat-error>
+                        Informe a inadimplência final.
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <mat-form-field appearance="outline"   fxFlex="20">
+                    <mat-label>1º parcela:</mat-label>
+                    <input type="number" name="quota1" formControlName="quota1" matInput>
+                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="px-8"  fxFlex="20">
+                    <mat-label>2º parcela:</mat-label>
+                    <input type="number" name="quota2" formControlName="quota2" matInput>
+                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline"  fxFlex="20">
+                    <mat-label>3º parcela:</mat-label>
+                    <input type="number" name="quota3" formControlName="quota3" matInput>
+                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="px-8"  fxFlex="20">
+                    <mat-label>4º parcela:</mat-label>
+                    <input type="number" name="quota4" formControlName="quota4" matInput>
+                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline"  fxFlex="20">
+                    <mat-label>5º parcela:</mat-label>
+                    <input type="number" name="quota5" formControlName="quota5" matInput>
+                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                </mat-form-field>
+
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <mat-form-field appearance="outline"  fxFlex="20">
+                    <mat-label>6º parcela:</mat-label>
+                    <input type="number"  name="quota6" formControlName="quota6" matInput>
+                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="px-8"  fxFlex="20">
+                    <mat-label>7º parcela:</mat-label>
+                    <input type="number"  name="quota7" formControlName="quota7" matInput>
+                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline"  fxFlex="20">
+                    <mat-label>8º parcela:</mat-label>
+                    <input type="number"  name="quota8" formControlName="quota8" matInput>
+                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="px-8"  fxFlex="20">
+                    <mat-label>9º parcela:</mat-label>
+                    <input type="number"  name="quota9" formControlName="quota9" matInput>
+                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline"  fxFlex="20">
+                    <mat-label>10º parcela:</mat-label>
+                    <input type="number"  name="quota10" formControlName="quota10" matInput>
+                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                </mat-form-field>
+
+            </div>
+           
+            <!-- <div *ngIf="_action === 'editar'" fxLayout="row" fxLayoutAlign="end center">
+                <mat-slide-toggle class="slide-margin">
+                    ativo
+                </mat-slide-toggle>
+            </div> -->
+
+        </form>
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button *ngIf="_action === 'editar'" mat-button color="accent" class="mr-8"
+            (click)="matDialogRef.close(['delete',formGridCommission])" aria-label="Delete" matTooltip="Delete">
+            EXCLUIR
+        </button>
+
+        <button *ngIf="_action !== 'editar'" mat-raised-button color="accent" class="save-button"
+        (click)="matDialogRef.close(formGridCommission)" [disabled]="formGridCommission.invalid" aria-label="SAVE">
+            ADICIONAR
+        </button>
+
+        <button *ngIf="_action === 'editar'" mat-raised-button color="accent" class="save-button"
+            (click)="matDialogRef.close(['save',formGridCommission])" [disabled]="formGridCommission.invalid" aria-label="SAVE">
+            SALVAR
+        </button>
+
+    </div>
+</div>

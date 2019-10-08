@@ -1,13 +1,13 @@
 @import "src/@fuse/scss/fuse";
 
-.receiptCommissions-form-dialog {
+.receipt-commission-form-dialog {
 
     @include media-breakpoint('xs') {
         width: 100%;
     }
 
     @include media-breakpoint('gt-xs') {
-        width: 400px;
+        width: 600px;
     }
 
     .mat-dialog-container {

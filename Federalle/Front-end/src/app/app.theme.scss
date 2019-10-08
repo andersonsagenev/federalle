@@ -103,7 +103,8 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/contract/contract-number/contract-number.theme";
 @import "src/app/main/apps/financial/formPayment/formPayment.theme";
 @import "src/app/main/apps/financial/indicators/indicators.theme";
-@import "src/app/main/apps/financial/receiptCommissions/receiptCommissions.theme";
+@import "src/app/main/apps/financial/grid-commission/grid-commission.theme";
+@import "src/app/main/apps/financial/receipt-commission/receipt-commission.theme";
 @import "src/app/main/apps/representative/representatives/representatives.theme";
 // @import "src/app/main/apps/corporate/plano/plano.theme";
 // @import "src/app/main/apps/corporate/consorcio/consorcio.theme";
@@ -144,7 +145,8 @@ $typography: mat-typography-config(
     @include status-representative-theme($theme);
     @include formPayment-theme($theme);
     @include indicators-theme($theme);
-    @include receiptCommissions-theme($theme);
+    @include receipt-commission-theme($theme);
+    @include grid-commission-theme($theme);
 
 }
 

@@ -1,4 +1,4 @@
-<div id="users" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+<div id="grid-commission" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
 
     <!-- HEADER -->
     <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-xs="row"
@@ -13,10 +13,10 @@
             </button>
 
             <div class="logo" fxLayout="row" fxLayoutAlign="start center">
-                <mat-icon class="logo-icon mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">account_box
+                <mat-icon class="logo-icon mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">apps
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    Usuários
+                    Grade Comissão de Pagamento
                 </span>
             </div>
 
@@ -30,7 +30,7 @@
 
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input [formControl]="searchInput" matInput  placeholder="Pesquisar por usuário">
+                    <input [formControl]="searchInput" matInput  placeholder="Pesquisar comissão pagamento">
                 </div>
 
             </div>
@@ -51,21 +51,12 @@
             <!-- CONTENT -->
             <div class="content p-24 pb-56" fxLayout="column">
                
-                <div class="message-box info mt-16" *ngIf="!exist_user">
-                    Nenhum usuário encontrado!
+                <div class="message-box info mt-16" *ngIf="!exist">
+                    Nenhuma grade de pagamento cadastrada!
                 </div>
 
-                <mat-table #table [dataSource]="users" matSort [@animateStagger]="{value:'50'}" *ngIf="exist_user">
-
-                    <!-- Avatar Column -->
-                    <ng-container  matColumnDef="avatar">
-                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                        <mat-cell *matCellDef="let contact">
-                            <!-- <img class="avatar" *ngIf="contact.photo" [alt]="contact.name" [src]="contact.photo"/> -->
-                            <img class="avatar" [src]="'./assets/images/avatars/profile.jpg'" />
-                        </mat-cell>
-                    </ng-container>
-
+                <mat-table #table [dataSource]="commissions" matSort [@animateStagger]="{value:'50'}" *ngIf="exist">
+           
                     <!-- Name Column -->
                     <ng-container matColumnDef="name">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
@@ -87,11 +78,11 @@
                     <!-- Buttons Column -->
                     <ng-container matColumnDef="buttons">
                         <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                        <mat-cell *matCellDef="let user">
+                        <mat-cell *matCellDef="let grid">
                             <div fxFlex="row" fxLayoutAlign="end center">
 
-                                <button mat-icon-button (click)="$event.stopPropagation(); editUser(user)"
-                                    aria-label="edit user">
+                                <button mat-icon-button (click)="$event.stopPropagation(); editGridCommission(grid)"
+                                    aria-label="edit grid">
                                     <mat-icon class="secondary-text">edit</mat-icon>
                                 </button>
 
@@ -101,11 +92,7 @@
                                 </button>
 
                                 <mat-menu #moreMenu="matMenu">
-                                    <button mat-menu-item aria-label="notificar" (click)="sendNotification(user)">
-                                        <mat-icon>notifications</mat-icon>
-                                        <span>Notificação</span>
-                                    </button>
-                                    <button mat-menu-item aria-label="remove" (click)="ConfirmDelete(user)">
+                                    <button mat-menu-item aria-label="remove" (click)="ConfirmDelete(grid)">
                                         <mat-icon>delete</mat-icon>
                                         <span>Excluir</span>
                                     </button>
@@ -115,7 +102,7 @@
                     </ng-container>
 
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                    <mat-row *matRowDef="let user; columns: displayedColumns;" (click)="editUser(user)"
+                    <mat-row *matRowDef="let grid; columns: displayedColumns;" (click)="editGridCommission(grid)"
                         class="contact">
                     </mat-row>
                 </mat-table>
@@ -128,8 +115,8 @@
         </div>
 
         <!-- ADD USER BUTTON -->
-        <button mat-fab class="accent" id="add-contact-button" (click)="newUser()" aria-label="add user"
+        <button mat-fab class="accent" id="add-contact-button" (click)="newGridCommission()" aria-label="add grid commission"
             [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
-            <mat-icon>person_add</mat-icon>
+            <mat-icon>add</mat-icon>
         </button>
         <!-- / ADD USER BUTTON -->

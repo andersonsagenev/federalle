@@ -24,7 +24,8 @@ export const locale = {
             'SECURITY': 'Segurança',
             'ACESS': 'Acesso',
             'USERS': 'Users',
-            'COMMISSIONS' : 'Comissão Recebimento',
+            'COMMISSIONS' : 'Recebimento Federalle',
+            'GRIDCOMMISSION' : 'Comissão de Pagamento',
             'CRON': 'CRON',
             'SAMPLE'        : {
                 'TITLE': 'Sample',
@@ -35,10 +36,11 @@ export const locale = {
                 'BADGE': '5'
             },
             'CONTRACT'    : 'Contracts',
+            'NUMBER'   : 'Numeração Contrato',
             'FEDERALLE'   : 'Contrato Federalle',
             'REPRESENTATIVE' : 'Contrato Representante',
             'REGISTERS'       : 'Pré-Cadastros',
-            'STATUS-REPRESENTATIVE'       : 'Status Representantes',
+            'STATUS-REPRESENTATIVE'       : 'Status Representante',
             'PAYMENT'     : 'Forma Pagamento',
             'INDICATOR'   : 'Indicadores',
           

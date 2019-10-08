@@ -7,12 +7,12 @@
     }
 
     @include media-breakpoint('gt-xs') {
-        width: 400px;
+        width: 600px;
     }
 
     .mat-dialog-container {
         padding: 0;
-        min-width: 500px!important;
+        min-width: 600px!important;
 
         .mat-toolbar {
             flex: 1 0 auto;

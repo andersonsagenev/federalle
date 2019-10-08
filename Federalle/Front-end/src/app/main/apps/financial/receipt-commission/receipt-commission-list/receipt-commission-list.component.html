@@ -1,0 +1,53 @@
+<div class="message-box info mt-16"  style="width: 100%;" *ngIf="!exist">
+    Nenhuma grade de pagamento cadastrada!
+</div>
+
+<mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}" *ngIf="exist">
+
+    <!-- Codigo Column -->
+    <ng-container matColumnDef="idConsortium">
+        <mat-header-cell *matHeaderCellDef>Consórcio</mat-header-cell>
+        <mat-cell *matCellDef="let receipt">
+            <p class="text-truncate font-weight-600">{{ receipt.idConsortium }}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="startDate">
+        <mat-header-cell *matHeaderCellDef>Data Início</mat-header-cell>
+        <mat-cell *matCellDef="let receipt">
+            <p class="text-truncate font-weight-600">{{receipt.startDate}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="buttons">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let receipt">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-icon-button (click)="$event.stopPropagation(); updateReceipt(receipt)"
+                    aria-label="Editar receipt">
+                    <mat-icon class="secondary-text">edit</mat-icon>
+                </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                    (click)="$event.stopPropagation();">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="remove" (click)="deleteReceipt(receipt)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Excluir</span>
+                    </button>
+                </mat-menu>
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let receipt; columns: displayedColumns;" class="contacts" (click)="updateReceipt(receipt)"
+        matRipple [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>

@@ -10,6 +10,7 @@ import { MK_API } from "app/app.api";
 import { MK_TOKEN } from "app/app.token";
 import { Consorcio } from "app/main/apps/corporate/consorcio/consorcio.model";
 import { Number } from "app/main/apps/contract/contract-number/contract-number.model";
+import { Representative } from "app/main/apps/representative/form-representative/representative.model";
 import { FuseUtils } from "@fuse/utils";
 import { ConfirmService } from "@fuse/services/confirm.service";
 
@@ -21,6 +22,7 @@ const headers = new HttpHeaders({
 @Injectable()
 export class ContractNumberService implements Resolve<any> {
     onConsorcioChanged: BehaviorSubject<any>;
+    onRepresentanteChanged: BehaviorSubject<any>;
     onContractNumberChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
 
@@ -28,6 +30,7 @@ export class ContractNumberService implements Resolve<any> {
     routeParams: any;
     consorcios: Consorcio[];
     numbers: Number[];
+    representantes: Representative[];
 
     /**
      * Constructor
@@ -41,6 +44,7 @@ export class ContractNumberService implements Resolve<any> {
         // Set the defaults
         this.onConsorcioChanged = new BehaviorSubject({});
         this.onContractNumberChanged = new BehaviorSubject([]);
+        this.onRepresentanteChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
     }
 
@@ -60,6 +64,7 @@ export class ContractNumberService implements Resolve<any> {
         return new Promise((resolve, reject) => {
             Promise.all([
                 this.getConsorcios(),
+                this.getRepresentantes(),
                 this.getNumbers()
             ]).then(([files]) => {
                 this.onSearchTextChanged.subscribe(searchText => {
@@ -88,6 +93,26 @@ export class ContractNumberService implements Resolve<any> {
                     });
                     this.onConsorcioChanged.next(this.consorcios);
                     resolve(this.consorcios);
+                }, reject);
+        });
+    }
+    /**
+     * Get Representantes
+     *
+     * @returns {Promise<any>}
+     */
+    getRepresentantes(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient
+                .get(MK_API + "/api/Representatives/", { headers: headers })
+                .subscribe((response: any) => {
+                    this.representantes = response;
+                   console.log('retorno representantes', response)
+                    this.representantes = this.representantes.map(item => {
+                        return new Representative(item);
+                    });
+                    this.onRepresentanteChanged.next(this.representantes);
+                    resolve(this.representantes);
                 }, reject);
         });
     }

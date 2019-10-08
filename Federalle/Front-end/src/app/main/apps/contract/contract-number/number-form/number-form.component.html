@@ -10,10 +10,10 @@
 
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
 
-        <form [formGroup]="numberForm" fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form">
+        <form [formGroup]="numberForm" name="numberForm" fxLayout="column" fxLayoutAlign="start">
 
 
-            <div fxLayout="row" fxLayoutAlign="start start">
+            <div fxLayout="row" fxLayoutAlign="start center">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Consórcio</mat-label>
                     <mat-select formControlName="idConsortium" name="idConsortium" required>
@@ -41,21 +41,21 @@
 
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                <mat-form-field appearance="outline" fxFlex="40">
-                    <mat-label>Data limite senha</mat-label>
+                <mat-form-field appearance="outline" fxFlex="30">
+                    <mat-label>Data</mat-label>
                     <input matInput [matDatepicker]="registerDatePicker" name="registerDate"
                         formControlName="registerDate">
                     <mat-datepicker-toggle matSuffix [for]="registerDatePicker"></mat-datepicker-toggle>
                     <mat-datepicker #registerDatePicker></mat-datepicker>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Número</mat-label>
+                <mat-form-field appearance="outline" class="px-8" fxFlex="35">
+                    <mat-label>Número Inicial</mat-label>
                     <input name="number" formControlName="number" matInput required>
                     <mat-error>Informe a numeração inicial</mat-error>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" fxFlex>
+                <mat-form-field appearance="outline" fxFlex="35">
                     <mat-label>Numeração Final</mat-label>
                     <input name="endNumber" formControlName="endNumber" matInput required>
                     <mat-error>Informe a numeração final</mat-error>
