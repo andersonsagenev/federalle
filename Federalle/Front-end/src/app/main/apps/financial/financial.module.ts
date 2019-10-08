@@ -29,6 +29,10 @@ import { GridCommissionComponent } from 'app/main/apps/financial/grid-commission
 import { GridCommissionService } from 'app/main/apps/financial/grid-commission/grid-commission.service';
 import { GridFormDialogComponent } from 'app/main/apps/financial/grid-commission/grid-commission-form/grid-form.component';
 
+import { BankAccountComponent } from 'app/main/apps/financial/bank-account/bank-account.component';
+import { BankAccountService } from 'app/main/apps/financial/bank-account/bank-account.service';
+import { BankAccountFormDialogComponent } from 'app/main/apps/financial/bank-account/bank-account-form/bank-account-form.component';
+
 
 
 
@@ -60,6 +64,13 @@ const routes: Routes = [
         resolve  : {
             data: GridCommissionService
         }
+    },
+    {
+        path     : 'bank-account',
+        component: BankAccountComponent,
+        resolve  : {
+            data: BankAccountService
+        }
     }
 ];
 
@@ -76,6 +87,8 @@ const routes: Routes = [
         CommissionsListComponent,
         GridCommissionComponent,
         GridFormDialogComponent,
+        BankAccountFormDialogComponent,
+        BankAccountComponent
        
     ],
     imports        : [
@@ -104,13 +117,15 @@ const routes: Routes = [
         IndicatorService,
         PaymentService,
         ReceiptCommissionService,
-        GridCommissionService
+        GridCommissionService,
+        BankAccountService
     ],
     entryComponents: [
         IndicatorFormDialogComponent,
         PaymentFormDialogComponent,
         CommissionsFormDialogComponent,
-        GridFormDialogComponent
+        GridFormDialogComponent,
+        BankAccountFormDialogComponent
        
     ]
 })

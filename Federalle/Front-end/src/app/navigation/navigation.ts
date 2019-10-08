@@ -240,6 +240,14 @@ export const navigation: FuseNavigation[] = [
                         exactMatch: true
                     },
                     {
+                        id: 'bank-account',
+                        title: 'Contas Bancárias',
+                        type: 'item',
+                        icon: 'monetization_on',
+                        url: '/apps/financial/bank-account',
+                        exactMatch: true
+                    },
+                    {
                         id: 'payment',
                         title: 'Forma Pagamento',
                         translate: 'NAV.PAYMENT',
