@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { MK_API } from "app/app.api";
+import { MK_TOKEN } from "app/app.token";
+import { Representative } from "app/main/apps/representative/form-representative/representative.model";
+
+const headers = new HttpHeaders({
+    Authorization: "Basic " + localStorage.getItem("user"),
+    "x-api-key": MK_TOKEN
+});
 
 @Injectable()
 export class RepresentativesService implements Resolve<any>
 {
-    products: any[];
-    onProductsChanged: BehaviorSubject<any>;
+    representatives: any[];
+    onRepresentanteChanged: BehaviorSubject<any>;
 
     /**
      * Constructor
@@ -19,7 +27,7 @@ export class RepresentativesService implements Resolve<any>
     )
     {
         // Set the defaults
-        this.onProductsChanged = new BehaviorSubject({});
+        this.onRepresentanteChanged = new BehaviorSubject({});
     }
 
     /**
@@ -34,7 +42,7 @@ export class RepresentativesService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                // this.getProducts()
+                 this.getRepresentantes()
             ]).then(
                 () => {
                     resolve();
@@ -44,20 +52,31 @@ export class RepresentativesService implements Resolve<any>
         });
     }
 
-    /**
-     * Get products
+     /**
+     * Get Representantes
      *
      * @returns {Promise<any>}
      */
-    getProducts(): Promise<any>
+    getRepresentantes(): Promise<any>
     {
         return new Promise((resolve, reject) => {
-            this._httpClient.get('api/e-commerce-products')
+            this._httpClient.get(MK_API + "/api/Representatives/", { headers: headers })
                 .subscribe((response: any) => {
-                    this.products = response;
-                    this.onProductsChanged.next(this.products);
+                    this.representatives = response;
+
+                    // if (this.searchText && this.searchText !== "") {
+                    //     this.representatives = FuseUtils.filterArrayByString(
+                    //         this.representatives,
+                    //         this.searchText
+                    //     );
+                    // }
+                    this.representatives = this.representatives.map(item => {
+                        return new Representative(item);
+                    });
+                    this.onRepresentanteChanged.next(this.representatives);
                     resolve(response);
                 }, reject);
         });
     }
+
 }

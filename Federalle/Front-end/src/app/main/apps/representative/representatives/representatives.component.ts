@@ -27,6 +27,7 @@ export class RepresentativesComponent implements OnInit
 
     @ViewChild(MatSort)
     sort: MatSort;
+    exist: boolean = false;
 
     @ViewChild('filter')
     filter: ElementRef;
@@ -114,7 +115,7 @@ export class RepresentativesComponent implements OnInit
     private _unsubscribeAll: Subject<any>;
 
     constructor(
-        private _ecommerceProductsService: RepresentativesService
+        private _representativeService: RepresentativesService
     )
     {
         // Set the private defaults
@@ -130,7 +131,14 @@ export class RepresentativesComponent implements OnInit
      */
     ngOnInit(): void
     {
-        this.dataSource = new FilesDataSource(this._ecommerceProductsService, this.paginator, this.sort);
+        this.dataSource = new FilesDataSource(this._representativeService);
+        console.log('representantes ~~>', this.dataSource)
+
+         if (this._representativeService.representatives.length) {
+            this.exist = true;
+        } else {
+            this.exist = false;
+        }
 
         fromEvent(this.filter.nativeElement, 'keyup')
             .pipe(
@@ -151,25 +159,25 @@ export class RepresentativesComponent implements OnInit
 
 export class FilesDataSource extends DataSource<any>
 {
-    private _filterChange = new BehaviorSubject('');
-    private _filteredDataChange = new BehaviorSubject('');
+    //private _filterChange = new BehaviorSubject('');
+   // private _filteredDataChange = new BehaviorSubject('');
 
     /**
      * Constructor
      *
-     * @param {RepresentativeService} _ecommerceProductsService
+     * @param {RepresentativeService} _representativeService
      * @param {MatPaginator} _matPaginator
      * @param {MatSort} _matSort
      */
     constructor(
-        private _ecommerceProductsService: RepresentativesService,
-        private _matPaginator: MatPaginator,
-        private _matSort: MatSort
+        private _representativeService: RepresentativesService,
+       // private _matPaginator: MatPaginator,
+       // private _matSort: MatSort
     )
     {
         super();
 
-        this.filteredData = this._ecommerceProductsService.products;
+       // this.filteredData = this._representativeService.representatives;
     }
 
     /**
@@ -180,28 +188,29 @@ export class FilesDataSource extends DataSource<any>
     connect(): Observable<any[]>
     {
         const displayDataChanges = [
-            this._ecommerceProductsService.onProductsChanged,
-            this._matPaginator.page,
-            this._filterChange,
-            this._matSort.sortChange
+            this._representativeService.onRepresentanteChanged,
+            // this._matPaginator.page,
+            // this._filterChange,
+            // this._matSort.sortChange
         ];
 
         return merge(...displayDataChanges)
             .pipe(
                 map(() => {
-                        if(this._ecommerceProductsService.products){
+                        if(this._representativeService.representatives){
 
-                        let data = this._ecommerceProductsService.products.slice();
+                        let data = this._representativeService.representatives.slice();
 
                         data = this.filterData(data);
 
                         this.filteredData = [...data];
 
-                        data = this.sortData(data);
+                       // data = this.sortData(data);
 
                         // Grab the page's slice of data.
-                        const startIndex = this._matPaginator.pageIndex * this._matPaginator.pageSize;
-                        return data.splice(startIndex, this._matPaginator.pageSize);
+                      //  const startIndex = this._matPaginator.pageIndex * this._matPaginator.pageSize;
+                        // return data.splice(startIndex, this._matPaginator.pageSize);
+                        return data;
                         }
                     }
                 ));
@@ -212,25 +221,25 @@ export class FilesDataSource extends DataSource<any>
     // -----------------------------------------------------------------------------------------------------
 
     // Filtered data
-    get filteredData(): any
-    {
-        return this._filteredDataChange.value;
-    }
+    // get filteredData(): any
+    // {
+    //     return this._filteredDataChange.value;
+    // }
 
     set filteredData(value: any)
     {
-        this._filteredDataChange.next(value);
+       // this._filteredDataChange.next(value);
     }
 
     // Filter
-    get filter(): string
-    {
-        return this._filterChange.value;
-    }
+    // get filter(): string
+    // {
+    //     return this._filterChange.value;
+    // }
 
     set filter(filter: string)
     {
-        this._filterChange.next(filter);
+      //  this._filterChange.next(filter);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -258,45 +267,45 @@ export class FilesDataSource extends DataSource<any>
      * @param data
      * @returns {any[]}
      */
-    sortData(data): any[]
-    {
-        if ( !this._matSort.active || this._matSort.direction === '' )
-        {
-            return data;
-        }
+    // sortData(data): any[]
+    // {
+    //     if ( !this._matSort.active || this._matSort.direction === '' )
+    //     {
+    //         return data;
+    //     }
 
-        return data.sort((a, b) => {
-            let propertyA: number | string = '';
-            let propertyB: number | string = '';
+    //     return data.sort((a, b) => {
+    //         let propertyA: number | string = '';
+    //         let propertyB: number | string = '';
 
-            switch ( this._matSort.active )
-            {
-                case 'id':
-                    [propertyA, propertyB] = [a.id, b.id];
-                    break;
-                case 'name':
-                    [propertyA, propertyB] = [a.name, b.name];
-                    break;
-                case 'categories':
-                    [propertyA, propertyB] = [a.categories[0], b.categories[0]];
-                    break;
-                case 'price':
-                    [propertyA, propertyB] = [a.priceTaxIncl, b.priceTaxIncl];
-                    break;
-                case 'quantity':
-                    [propertyA, propertyB] = [a.quantity, b.quantity];
-                    break;
-                case 'active':
-                    [propertyA, propertyB] = [a.active, b.active];
-                    break;
-            }
+    //         switch ( this._matSort.active )
+    //         {
+    //             case 'id':
+    //                 [propertyA, propertyB] = [a.id, b.id];
+    //                 break;
+    //             case 'name':
+    //                 [propertyA, propertyB] = [a.name, b.name];
+    //                 break;
+    //             case 'categories':
+    //                 [propertyA, propertyB] = [a.categories[0], b.categories[0]];
+    //                 break;
+    //             case 'price':
+    //                 [propertyA, propertyB] = [a.priceTaxIncl, b.priceTaxIncl];
+    //                 break;
+    //             case 'quantity':
+    //                 [propertyA, propertyB] = [a.quantity, b.quantity];
+    //                 break;
+    //             case 'active':
+    //                 [propertyA, propertyB] = [a.active, b.active];
+    //                 break;
+    //         }
 
-            const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-            const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+    //         const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+    //         const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
 
-            return (valueA < valueB ? -1 : 1) * (this._matSort.direction === 'asc' ? 1 : -1);
-        });
-    }
+    //         return (valueA < valueB ? -1 : 1) * (this._matSort.direction === 'asc' ? 1 : -1);
+    //     });
+    // }
 
     /**
      * Disconnect

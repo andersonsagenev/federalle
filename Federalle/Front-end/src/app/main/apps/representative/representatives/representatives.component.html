@@ -8,13 +8,11 @@
     <div class="center">
 
         <!-- HEADER -->
-        <div class="header accent"
-             fxLayout="column" fxLayoutAlign="center center"
-             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="space-between center">
 
             <!-- APP TITLE -->
-            <div class="logo mb-24 mb-md-0"
-                 fxLayout="row" fxLayoutAlign="start center">
+            <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
                 <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
                     shopping_basket
                 </mat-icon>
@@ -34,9 +32,8 @@
             <!-- / SEARCH -->
 
             <!-- ADD BUTTON -->
-            <button mat-raised-button
-                    [routerLink]="['/apps/representative/form-representative/new']"
-                    class="add-product-button fuse-white mt-24 mt-md-0">
+            <button mat-raised-button [routerLink]="['/apps/representative/form-representative/new']"
+                class="add-product-button fuse-white mt-24 mt-md-0">
                 <span>Novo Representante</span>
             </button>
             <!-- / ADD BUTTON -->
@@ -47,11 +44,12 @@
         <!-- CONTENT CARD -->
         <div class="content-card">
 
-            <mat-table class="products-table"
-                       #table [dataSource]="dataSource"
-                       matSort
-                       [@animateStagger]="{value:'50'}"
-                       fusePerfectScrollbar>
+            <div class="message-box info mt-16" *ngIf="!exist">
+                Nenhum representante cadastrado!
+            </div>
+
+            <mat-table class="products-table" *ngIf="exist" #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}"
+                fusePerfectScrollbar>
 
                 <!-- ID Column -->
                 <ng-container matColumnDef="id">
@@ -65,11 +63,10 @@
                 <ng-container matColumnDef="image">
                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
                     <mat-cell *matCellDef="let product">
-                        <img class="product-image"
-                             *ngIf="product.featuredImageId" [alt]="product.name"
-                             [src]="product.images[product.featuredImageId].url"/>
+                        <img class="product-image" *ngIf="product.featuredImageId" [alt]="product.name"
+                            [src]="product.images[product.featuredImageId].url" />
                         <img *ngIf="!product.featuredImageId"
-                             [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+                            [src]="'assets/images/ecommerce/product-image-placeholder.png'">
                     </mat-cell>
                 </ng-container>
 
@@ -107,7 +104,7 @@
                     <mat-cell *matCellDef="let product" fxHide fxShow.gt-sm>
 
                         <span class="quantity-indicator text-truncate"
-                              [ngClass]="{'red-500':product.quantity <= 5, 'amber-500':product.quantity > 5 && product.quantity <= 25,'green-600':product.quantity > 25}">
+                            [ngClass]="{'red-500':product.quantity <= 5, 'amber-500':product.quantity > 5 && product.quantity <= 25,'green-600':product.quantity > 25}">
                         </span>
                         <span>
                             {{product.quantity}}
@@ -127,20 +124,15 @@
 
                 <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
 
-                <mat-row *matRowDef="let product; columns: displayedColumns;"
-                         class="product"
-                         matRipple
-                         [routerLink]="'/apps/e-commerce/products/'+product.id+'/'+product.handle">
+                <mat-row *matRowDef="let product; columns: displayedColumns;" class="product" matRipple
+                    [routerLink]="'/apps/e-commerce/products/'+product.id+'/'+product.handle">
                 </mat-row>
 
             </mat-table>
 
-            <mat-paginator #paginator
-                           [length]="dataSource.filteredData ? dataSource.filteredData.length : 0"
-                           [pageIndex]="0"
-                           [pageSize]="10"
-                           [pageSizeOptions]="[5, 10, 25, 100]">
-            </mat-paginator> 
+            <mat-paginator #paginator [length]="dataSource.filteredData ? dataSource.filteredData.length : 0"
+                [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" *ngIf="exist">
+            </mat-paginator>
 
         </div>
         <!-- / CONTENT CARD -->

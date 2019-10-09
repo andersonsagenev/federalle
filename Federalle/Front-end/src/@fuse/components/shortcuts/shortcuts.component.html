@@ -1,10 +1,14 @@
 <div id="fuse-shortcuts" #shortcuts>
 
     <div class="shortcuts-mobile-toggle" *ngIf="!mobileShortcutsPanelActive" fxLayout="row" fxLayoutAlign="start center"
-         fxHide fxShow.lt-md>
-        <button mat-icon-button (click)="showMobileShortcutsPanel()">
+        fxHide fxShow.lt-md>
+        <div class="logo" style="width: 150px;">
+            <img class="imagem" src="assets/images/logos/Logo_Federalle.png">
+
+        </div>
+        <!-- <button mat-icon-button (click)="showMobileShortcutsPanel()">
             <mat-icon class="amber-600-fg">star</mat-icon>
-        </button>
+        </button> -->
     </div>
 
     <div class="shortcuts" fxLayout="row" fxHide fxShow.gt-sm>
@@ -13,10 +17,10 @@
 
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                    <div class="logo" style="width: 180px;">
-                            <img class="imagem" src="assets/images/logos/Logo_Federalle.png">
-                           
-                     </div>
+                <div class="logo" style="width: 150px;">
+                    <img class="imagem" src="assets/images/logos/Logo_Federalle.png">
+
+                </div>
 
                 <!-- <div class="w-40 h-40 p-4" fxLayout="row" fxLayoutAlign="center center"
                      *ngFor="let shortcutItem of shortcutItems">
@@ -56,7 +60,7 @@
             <mat-nav-list *ngIf="!searching" style="max-height: 312px; overflow: auto" fusePerfectScrollbar>
 
                 <mat-list-item *ngFor="let shortcutItem of shortcutItems"
-                               (click)="toggleShortcut($event, shortcutItem)">
+                    (click)="toggleShortcut($event, shortcutItem)">
 
                     <div class="w-100-p" fxLayout="row" fxLayoutAlign="start center">
 
@@ -65,7 +69,7 @@
                         </mat-icon>
 
                         <span class="h2 w-32 h-32 p-4 mr-8 secondary-text text-bold" fxLayout="row"
-                              fxLayoutAlign="center center" *ngIf="!shortcutItem.icon">
+                            fxLayoutAlign="center center" *ngIf="!shortcutItem.icon">
                             {{shortcutItem.title.substr(0, 1).toUpperCase()}}
                         </span>
 
@@ -88,7 +92,7 @@
             <mat-nav-list *ngIf="searching" style="max-height: 312px; overflow: auto" fusePerfectScrollbar>
 
                 <mat-list-item *ngFor="let navigationItem of filteredNavigationItems"
-                               (click)="toggleShortcut($event, navigationItem)">
+                    (click)="toggleShortcut($event, navigationItem)">
 
                     <div class="w-100-p" fxLayout="row" fxLayoutAlign="start center">
 
@@ -97,7 +101,7 @@
                         </mat-icon>
 
                         <span class="h2 w-32 h-32 p-4 mr-8 secondary-text text-bold" fxLayout="row"
-                              fxLayoutAlign="center center" *ngIf="!navigationItem.icon">
+                            fxLayoutAlign="center center" *ngIf="!navigationItem.icon">
                             {{navigationItem.title.substr(0, 1).toUpperCase()}}
                         </span>
 
