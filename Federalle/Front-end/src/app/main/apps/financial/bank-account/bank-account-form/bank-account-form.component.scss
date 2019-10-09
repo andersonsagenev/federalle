@@ -12,11 +12,19 @@
 
     .mat-dialog-container {
         padding: 0;
-        min-width: 900px!important;
+        min-width: 850px!important;
 
         .mat-toolbar {
             flex: 1 0 auto;
             min-height: initial;
+        }
+
+        .show-hide-extra-fields {
+            text-align: left;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: darkblue;
         }
 
         .toolbar-bottom {

@@ -11,6 +11,7 @@ import { BankAccount } from 'app/main/apps/financial/bank-account/bank-account.m
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Unity } from "../../../../../models/unity";
+import { Banks } from "../../../../../models/banks";
 
 
 @Component({
@@ -31,11 +32,13 @@ export class BankAccountFormDialogComponent {
     typeAccounts: Unity;
     statusAccounts: Unity;
     unities: Unity;
+    banks: Banks;
     formBankAccount: FormGroup;
     dialogTitle: string;
     consortia: any;
     userLog: any;
     _disabled: boolean = false;
+    showExtraToFields: boolean;
    
 
     // Private
@@ -62,6 +65,7 @@ export class BankAccountFormDialogComponent {
         // Set the defaults
         this._action = _data.action;
         this._unsubscribeAll = new Subject();
+        this.showExtraToFields = false;
 
         if (this._action === 'editar') {
             this.dialogTitle = 'Editar Conta Bancária';
@@ -99,6 +103,10 @@ export class BankAccountFormDialogComponent {
           this._bankAccountFormService.onUnitiesChanged.subscribe(data => {
             this.unities = data;
         });
+          // dropdown banks
+          this._bankAccountFormService.onBanksChanged.subscribe(data => {
+            this.banks = data;
+        });
        
     }
     /**
@@ -114,6 +122,11 @@ export class BankAccountFormDialogComponent {
             statusAccount: [this.bankAccount.statusAccount],
             closingDate: [this.bankAccount.closingDate],
             openDate: [this.bankAccount.openDate],
+            limit: [this.bankAccount.limit],
+            treasuryCredit: [this.bankAccount.treasuryCredit],
+            treasuryDebit: [this.bankAccount.treasuryDebit],
+            accountingAccount: [this.bankAccount.accountingAccount],
+
             idBank: [this.bankAccount.idBank],
             idUnity: [this.bankAccount.idUnity],
             agency: [this.bankAccount.agency],
@@ -149,6 +162,14 @@ export class BankAccountFormDialogComponent {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    /**
+     * Toggle extra to fields
+     */
+    toggleExtraToFields(): void
+    {
+        this.showExtraToFields = !this.showExtraToFields;
     }
 
     logout(): void {

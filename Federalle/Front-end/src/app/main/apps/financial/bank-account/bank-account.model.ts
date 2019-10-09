@@ -7,8 +7,13 @@ export class BankAccount {
     name: any;
     typeAccount: any;
     statusAccount: any;
+    treasuryCredit: any;
+    treasuryDebit: any;
+    accountingAccount: any;
+    limit: any;
     openDate: any;
     closingDate: any;
+
     agency: any;
     dvAgency: string;
     registerDate: any;
@@ -42,10 +47,15 @@ export class BankAccount {
         this.name = grid.name || "";
         this.idBank = grid.idBank || null;
         this.idUnity = grid.idUnity || null;
+        this.limit = grid.limit || '';
         this.typeAccount = grid.typeAccount || null;
         this.statusAccount = grid.statusAccount || null;
+        this.treasuryCredit = grid.treasuryCredit || '';
+        this.treasuryDebit = grid.treasuryDebit || '';
+        this.accountingAccount = grid.accountingAccount || null;
         this.openDate = grid.openDate || null;
         this.closingDate = grid.closingDate || null;
+
         this.registerDate = grid.registerDate || new Date();
         this.agency = grid.agency || "";
         this.dvAgency = grid.dvAgency || "";

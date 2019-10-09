@@ -23,23 +23,23 @@
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" class="px-8" fxFlex="25">
-                        <mat-label>Tipo de Conta</mat-label>
-                        <mat-select formControlName="typeAccount">
-                            <mat-option [value]="''">Selecione..</mat-option>
-                            <mat-option *ngFor="let item of typeAccounts" [value]="item.id">
-                                {{item.name}}
-                            </mat-option>
-                        </mat-select>
+                    <mat-label>Tipo de Conta</mat-label>
+                    <mat-select formControlName="typeAccount">
+                        <mat-option [value]="''">Selecione..</mat-option>
+                        <mat-option *ngFor="let item of typeAccounts" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" fxFlex="25">
-                        <mat-label>Status</mat-label>
-                        <mat-select formControlName="statusAccount">
-                            <mat-option [value]="''">Selecione..</mat-option>
-                            <mat-option *ngFor="let item of statusAccounts" [value]="item.id">
-                                {{item.name}}
-                            </mat-option>
-                        </mat-select>
+                    <mat-label>Status</mat-label>
+                    <mat-select formControlName="statusAccount">
+                        <mat-option [value]="''">Selecione..</mat-option>
+                        <mat-option *ngFor="let item of statusAccounts" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
             </div>
@@ -48,8 +48,7 @@
 
                 <mat-form-field appearance="outline" fxFlex="25">
                     <mat-label>Data Abertura</mat-label>
-                    <input matInput [matDatepicker]="openDatePicker" name="openDate"
-                        formControlName="openDate">
+                    <input matInput [matDatepicker]="openDatePicker" name="openDate" formControlName="openDate">
                     <mat-datepicker-toggle matSuffix [for]="openDatePicker"></mat-datepicker-toggle>
                     <mat-datepicker #openDatePicker></mat-datepicker>
                 </mat-form-field>
@@ -71,140 +70,178 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                
-            </div>
-
-            <!-- 
-
-            <div fxLayout="row" fxLayoutAlign="start center">
-
-                <mat-form-field appearance="outline"  fxFlex>
-                    <mat-label>Valores:</mat-label>
-                    <input name="prompt" formControlName="prompt" matInput required>
-                    <mat-error>
-                        O Valor é obrigatório
-                    </mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="pl-8" fxFlex>
-                    <mat-label>Representante:</mat-label>
-                    <input name="typeRepresentative" formControlName="typeRepresentative" matInput required>
-                    <mat-error>
-                        O tipo de representante é obrigatório
-                    </mat-error>
-                </mat-form-field>
 
             </div>
 
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                <mat-form-field appearance="outline"  fxFlex="25">
-                    <mat-label>Qtde Inicial:</mat-label>
-                    <input name="startAmount" formControlName="startAmount" matInput required>
-                    <mat-error>
-                        Informe a quantidade inicial.
-                    </mat-error>
+                <mat-form-field appearance="outline" fxFlex="34">
+                    <mat-label>Conta Contábil</mat-label>
+                    <mat-select formControlName="accountingAccount">
+                        <mat-option [value]="''">Selecione..</mat-option>
+                        <mat-option *ngFor="let item of unities" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="px-8" fxFlex="25">
-                    <mat-label>Qtde Final:</mat-label>
-                    <input name="endAmount" formControlName="endAmount" matInput required>
-                    <mat-error>
-                        Informe a quantidade final.
-                    </mat-error>
+                <mat-form-field appearance="outline" class="px-8" fxFlex="33">
+                    <mat-label>Integração - Débito</mat-label>
+                    <mat-select name="treasuryCredit" formControlName="treasuryCredit">
+                        <mat-option [value]="''">Selecione..</mat-option>
+                        <mat-option *ngFor="let item of unities" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline"  fxFlex="25">
-                    <mat-label>Inadimplência inicial:</mat-label>
-                    <input name="startNoCompliance" formControlName="startNoCompliance" matInput required>
-                    <mat-error>
-                        Informe a inadimplência inicial.
-                    </mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="pl-8" fxFlex="25">
-                    <mat-label>Inadimplência final:</mat-label>
-                    <input name="endNoCompliance" formControlName="endNoCompliance" matInput required>
-                    <mat-error>
-                        Informe a inadimplência final.
-                    </mat-error>
+                <mat-form-field appearance="outline" fxFlex="33">
+                    <mat-label>Integração - Crédito</mat-label>
+                    <mat-select formControlName="treasuryDebit">
+                        <mat-option [value]="''">Selecione..</mat-option>
+                        <mat-option *ngFor="let item of unities" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
             </div>
 
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                <mat-form-field appearance="outline"   fxFlex="20">
-                    <mat-label>1º parcela:</mat-label>
-                    <input type="number" name="quota1" formControlName="quota1" matInput>
-                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                <mat-form-field appearance="outline" fxFlex="25">
+                    <mat-label>Banco</mat-label>
+                    <mat-select formControlName="idBank">
+                        <mat-option [value]="''">Selecione..</mat-option>
+                        <mat-option *ngFor="let item of banks" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="px-8"  fxFlex="20">
-                    <mat-label>2º parcela:</mat-label>
-                    <input type="number" name="quota2" formControlName="quota2" matInput>
-                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                <mat-form-field appearance="outline" class="px-8" fxFlex="15">
+                    <mat-label>Agência:</mat-label>
+                    <input type="number" name="agency" formControlName="agency" matInput>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline"  fxFlex="20">
-                    <mat-label>3º parcela:</mat-label>
-                    <input type="number" name="quota3" formControlName="quota3" matInput>
-                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                <mat-form-field appearance="outline" fxFlex="10">
+                    <mat-label>DV:</mat-label>
+                    <input type="number" name="dvAgency" formControlName="dvAgency" matInput>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="px-8"  fxFlex="20">
-                    <mat-label>4º parcela:</mat-label>
-                    <input type="number" name="quota4" formControlName="quota4" matInput>
-                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                <mat-form-field appearance="outline" class="pl-8" fxFlex="15">
+                    <mat-label>Nº Conta:</mat-label>
+                    <input type="number" name="account" formControlName="account" matInput>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline"  fxFlex="20">
-                    <mat-label>5º parcela:</mat-label>
-                    <input type="number" name="quota5" formControlName="quota5" matInput>
-                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
+                <mat-form-field appearance="outline" class="px-8" fxFlex="10">
+                    <mat-label>DV:</mat-label>
+                    <input type="number" name="dvAccount" formControlName="dvAccount" matInput>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="25">
+                    <mat-label>Carteira:</mat-label>
+                    <input name="wallet" formControlName="wallet" matInput>
+                </mat-form-field>
+
+            </div>
+
+
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <mat-form-field appearance="outline" fxFlex="20">
+                    <mat-label>Limite:</mat-label>
+                    <input type="number" name="limit" formControlName="limit" matInput>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="px-8" fxFlex="30">
+                    <mat-label>Nosso Número:</mat-label>
+                    <input type="number" name="nextOurNumber" formControlName="nextOurNumber" matInput>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="20">
+                    <mat-label>Operação:</mat-label>
+                    <input type="number" name="operation" formControlName="operation" matInput>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="pl-8" fxFlex="20">
+                    <mat-label>Cód. Cedente:</mat-label>
+                    <input type="number" name="codeAssignor" formControlName="codeAssignor" matInput>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="px-8" fxFlex="10">
+                    <mat-label>DV:</mat-label>
+                    <input type="number" name="dvAssignor" formControlName="dvAssignor" matInput>
                 </mat-form-field>
 
             </div>
 
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                <mat-form-field appearance="outline"  fxFlex="20">
-                    <mat-label>6º parcela:</mat-label>
-                    <input type="number"  name="quota6" formControlName="quota6" matInput>
+                <mat-form-field appearance="outline" fxFlex="25">
+                    <mat-label>Empresa Banco:</mat-label>
+                    <input type="number" name="bank" formControlName="bank" matInput>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="px-8" fxFlex="20">
+                    <mat-label>Juros/Dia:</mat-label>
+                    <input type="number" name="interest" formControlName="interest" matInput>
                     <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="px-8"  fxFlex="20">
-                    <mat-label>7º parcela:</mat-label>
-                    <input type="number"  name="quota7" formControlName="quota7" matInput>
+                <mat-form-field appearance="outline" fxFlex="20">
+                    <mat-label>Multa:</mat-label>
+                    <input type="number" name="fine" formControlName="fine" matInput>
                     <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline"  fxFlex="20">
-                    <mat-label>8º parcela:</mat-label>
-                    <input type="number"  name="quota8" formControlName="quota8" matInput>
-                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
-                </mat-form-field>
+                <mat-checkbox class="ml-32 mr-16 mb-3" formControlName="used">PRINCIPAL
+                </mat-checkbox>
 
-                <mat-form-field appearance="outline" class="px-8"  fxFlex="20">
-                    <mat-label>9º parcela:</mat-label>
-                    <input type="number"  name="quota9" formControlName="quota9" matInput>
-                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
-                </mat-form-field>
+                <mat-slide-toggle class="ml-32" formControlName="active">
+                    Ativo
+                </mat-slide-toggle>
 
-                <mat-form-field appearance="outline"  fxFlex="20">
-                    <mat-label>10º parcela:</mat-label>
-                    <input type="number"  name="quota10" formControlName="quota10" matInput>
-                    <span class="secondary-text" matSuffix>&#37;&nbsp;</span>
-                </mat-form-field>
 
-            </div> -->
-           
-            <!-- <div *ngIf="_action === 'editar'" fxLayout="row" fxLayoutAlign="end center">
+            </div>
+
+
+
+            <div class="show-hide-extra-fields" (click)="toggleExtraToFields()">
+                <span [fxShow]="!showExtraToFields">Mais Campos de Instruçōes</span>
+                <span [fxShow]="showExtraToFields">Menos Campos de Instruçōes</span>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Instruçōes de Pagamento</mat-label>
+                    <input matInput name="instructionPayment1" formControlName="instructionPayment1" type="text">
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start" [fxShow]="showExtraToFields">
+                <mat-form-field appearance="outline" fxFlex>
+                    <!-- <mat-label>Instruçōes de Pagamento</mat-label> -->
+                    <input matInput name="instructionPayment2" placeholder="Instruçōes de Pagamento" formControlName="instructionPayment2" type="text">
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start" [fxShow]="showExtraToFields">
+                <mat-form-field appearance="outline" fxFlex>
+                    <!-- <mat-label>Instruçōes de Pagamento</mat-label> -->
+                    <input matInput name="instructionPayment3" placeholder="Instruçōes de Pagamento" formControlName="instructionPayment3" type="text">
+                </mat-form-field>
+            </div>
+
+
+
+
+
+            <div *ngIf="_action === 'editar'" fxLayout="row" fxLayoutAlign="end center">
                 <mat-slide-toggle class="slide-margin">
                     ativo
                 </mat-slide-toggle>
-            </div> -->
+            </div>
 
         </form>
 
@@ -218,12 +255,13 @@
         </button>
 
         <button *ngIf="_action !== 'editar'" mat-raised-button color="accent" class="save-button"
-        (click)="matDialogRef.close(formBankAccount)" [disabled]="formBankAccount.invalid" aria-label="SAVE">
+            (click)="matDialogRef.close(formBankAccount)" [disabled]="formBankAccount.invalid" aria-label="SAVE">
             ADICIONAR
         </button>
 
         <button *ngIf="_action === 'editar'" mat-raised-button color="accent" class="save-button"
-            (click)="matDialogRef.close(['save',formBankAccount])" [disabled]="formBankAccount.invalid" aria-label="SAVE">
+            (click)="matDialogRef.close(['save',formBankAccount])" [disabled]="formBankAccount.invalid"
+            aria-label="SAVE">
             SALVAR
         </button>
 

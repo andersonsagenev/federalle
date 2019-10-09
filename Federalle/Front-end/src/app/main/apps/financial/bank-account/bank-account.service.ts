@@ -1,27 +1,36 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FuseUtils } from '@fuse/utils';
-import { BankAccount } from 'app/main/apps/financial/bank-account/bank-account.model';
-import { MK_API } from '../../../../app.api';
-import { MK_TOKEN } from 'app/app.token';
+import { Injectable } from "@angular/core";
+import {
+    ActivatedRouteSnapshot,
+    Resolve,
+    RouterStateSnapshot
+} from "@angular/router";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { FuseUtils } from "@fuse/utils";
+import { BankAccount } from "app/main/apps/financial/bank-account/bank-account.model";
+import { MK_API } from "../../../../app.api";
+import { MK_TOKEN } from "app/app.token";
 import { ConfirmService } from "@fuse/services/confirm.service";
-import { Unity } from '../../../../models/unity';
+import { Unity } from "../../../../models/unity";
+import { Banks } from "../../../../models/banks";
 
-const headers = new HttpHeaders({ 'Authorization': 'Basic ' + localStorage.getItem('user'), 'x-api-key': MK_TOKEN });
+const headers = new HttpHeaders({
+    Authorization: "Basic " + localStorage.getItem("user"),
+    "x-api-key": MK_TOKEN
+});
 
 @Injectable()
-export class BankAccountService implements Resolve<any>
-{
+export class BankAccountService implements Resolve<any> {
     onBankAccountChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onUnitiesChanged: BehaviorSubject<any>;
+    onBanksChanged: BehaviorSubject<any>;
 
     onUserDataChanged: BehaviorSubject<any>;
     onFilterChanged: Subject<any>;
     onChanged: BehaviorSubject<any>;
     unities: Unity[];
+    banks: Unity[];
     bankAccount: BankAccount[];
     user: any;
     commissions: any;
@@ -45,7 +54,7 @@ export class BankAccountService implements Resolve<any>
         this.onSearchTextChanged = new Subject();
 
         this.onUnitiesChanged = new BehaviorSubject([]);
-        this.onUserDataChanged = new BehaviorSubject([]);
+        this.onBanksChanged = new BehaviorSubject([]);
         this.onFilterChanged = new Subject();
     }
 
@@ -60,19 +69,18 @@ export class BankAccountService implements Resolve<any>
      * @param {RouterStateSnapshot} state
      * @returns {Observable<any> | Promise<any> | any}
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-
+    resolve(
+        route: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot
+    ): Observable<any> | Promise<any> | any {
         this.routeParams = route.params;
 
         return new Promise((resolve, reject) => {
-
-            Promise.all([
-                this.getGridCommission(),
-                this.getUnities(),
-               
-            ]).then(
+            Promise.all([this.getGridCommission(),
+                         this.getUnities(),
+                         this.getBanks(),
+                        ]).then(
                 ([files]) => {
-
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
                         this.getGridCommission();
@@ -90,54 +98,75 @@ export class BankAccountService implements Resolve<any>
         });
     }
 
-     /**
+    /**
      * Get Grid Commission
      *
      * @returns {Promise<any>}
      */
     getGridCommission(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(MK_API + '/api/CommissionPaymentValues/', { headers: headers })
-            .subscribe((response: any) => {
-                console.log('grids ~~~>', response)
-                this.commissions = response
-                if (this.searchText && this.searchText !== "") {
-                    this.commissions = FuseUtils.filterArrayByString(
-                        this.commissions,
-                        this.searchText
-                    );
-                }
-                this.commissions = this.commissions.map(item => {
-                    return new BankAccount(item);
-                });
-                this.onBankAccountChanged.next(this.commissions);
-                resolve(this.commissions);
-            }, reject);
+            this._httpClient
+                .get(MK_API + "/api/CommissionPaymentValues/", {
+                    headers: headers
+                })
+                .subscribe((response: any) => {
+                    console.log("grids ~~~>", response);
+                    this.commissions = response;
+                    if (this.searchText && this.searchText !== "") {
+                        this.commissions = FuseUtils.filterArrayByString(
+                            this.commissions,
+                            this.searchText
+                        );
+                    }
+                    this.commissions = this.commissions.map(item => {
+                        return new BankAccount(item);
+                    });
+                    this.onBankAccountChanged.next(this.commissions);
+                    resolve(this.commissions);
+                }, reject);
         });
     }
-    
-    /**
-    * Get Unidades
-    *
-    * @returns {Promise<any>}
-    */
-   getUnities(): Promise<any> {
-       return new Promise((resolve, reject) => {
-           this._httpClient
-               .get(MK_API + '/api/Unities/', { headers: headers })
-               .subscribe((response: any) => {
-                   this.unities = response;
-                  console.log('retorno unities', response)
-                   this.unities = this.unities.map(item => {
-                       return new Unity(item);
-                   });
-                   this.onUnitiesChanged.next(this.unities);
-                   resolve(this.unities);
-               }, reject);
-       });
-   }
 
-     /**
+    /**
+     * Get Unidades
+     *
+     * @returns {Promise<any>}
+     */
+    getUnities(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient
+                .get(MK_API + "/api/Unities/", { headers: headers })
+                .subscribe((response: any) => {
+                    this.unities = response;
+                    console.log("retorno unities", response);
+                    this.unities = this.unities.map(item => {
+                        return new Unity(item);
+                    });
+                    this.onUnitiesChanged.next(this.unities);
+                    resolve(this.unities);
+                }, reject);
+        });
+    }
+
+    /**
+     * Get banks
+     *
+     * @returns {Promise<any>}
+     */
+    getBanks(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient
+                .get(MK_API + "/api/banks/", { headers: headers })
+                .subscribe((response: any) => {
+                    this.banks = response;
+                    console.log("bancos ~~~>", response);
+                    this.onBanksChanged.next(this.banks);
+                    resolve(this.banks);
+                }, reject);
+        });
+    }
+
+    /**
      * Save Commissions
      *
      * @param grid
@@ -150,7 +179,7 @@ export class BankAccountService implements Resolve<any>
                     headers: headers
                 })
                 .subscribe((response: any) => {
-                    this._alert.SwalUpdate()
+                    this._alert.SwalUpdate();
                     this.getGridCommission();
                     resolve(response);
                 }, reject);
@@ -170,7 +199,7 @@ export class BankAccountService implements Resolve<any>
                     headers: headers
                 })
                 .subscribe((response: any) => {
-                    this.getGridCommission()
+                    this.getGridCommission();
                     resolve(response);
                 }, reject);
         });
@@ -183,21 +212,17 @@ export class BankAccountService implements Resolve<any>
      * @returns {Promise<any>}
      */
     addGridCommission(grid): Promise<any> {
-        console.log('parametros grid ~~>', grid)
+        console.log("parametros grid ~~>", grid);
         return new Promise((resolve, reject) => {
             this._httpClient
                 .post(MK_API + "/api/CommissionPaymentValues", grid, {
                     headers: headers
                 })
                 .subscribe((response: any) => {
-                    this._alert.SwalInsert()
+                    this._alert.SwalInsert();
                     this.getGridCommission();
                     resolve(response);
                 }, reject);
         });
     }
-
-  
-   
-
 }
