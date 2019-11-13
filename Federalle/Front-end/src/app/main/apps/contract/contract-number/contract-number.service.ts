@@ -153,7 +153,7 @@ export class ContractNumberService implements Resolve<any> {
     updateContractNumber(number): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient
-                .put(MK_API + "/api/NumberContracts/" + number.id, number, {
+                .put(MK_API + "/api/PostNumberContractRange/" + number.id, number, {
                     headers: headers
                 })
                 .subscribe((response: any) => {
@@ -173,7 +173,7 @@ export class ContractNumberService implements Resolve<any> {
     deleteContractNumber(number): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient
-                .delete(MK_API + "/api/NumberContracts/" + number.id, {
+                .delete(MK_API + "/api/PostNumberContractRange/" + number.id, {
                     headers: headers
                 })
                 .subscribe((response: any) => {
@@ -193,7 +193,7 @@ export class ContractNumberService implements Resolve<any> {
         console.log('parametros numuros ~~>', number)
         return new Promise((resolve, reject) => {
             this._httpClient
-                .post(MK_API + "/api/NumberContracts", number, {
+                .post(MK_API + "/api/PostNumberContractRange", number, {
                     headers: headers
                 })
                 .subscribe((response: any) => {

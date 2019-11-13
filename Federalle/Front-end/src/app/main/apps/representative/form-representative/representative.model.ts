@@ -8,6 +8,7 @@ export class Representative
     idMaster: string;
     idCity: string;
     idCity1: string;
+    idUf: string;
     idStatusPartnershipContract: string;
     idBank: string;
     idUser: string;
@@ -35,11 +36,15 @@ export class Representative
     bankesCpfCnpj: string;
     banckAgency: string;
     bankAccount: string;
+    bankesContact: string;
     bankOperation: string;
     emailFinance: string;
+    nameContact: string;
     withholdTax: boolean;
-    codRegion: boolean;
+    regionCode: boolean;
     canErase: boolean
+
+  
 
     /**
      * Constructor
@@ -82,8 +87,10 @@ export class Representative
         this.bankAccount = representante.bankAccount || '';
         this.bankOperation = representante.bankOperation || '';
         this.emailFinance = representante.emailFinance || '';
+        this.bankesContact = representante.bankesContact || '';
+        this.nameContact = representante.nameContact || '';
         this.withholdTax = representante.withholdTax || false;
-        this.codRegion = representante.codRegion || false;
+        this.regionCode = representante.codRegion || false;
         this.canErase = representante.canErase || true;
     }
 

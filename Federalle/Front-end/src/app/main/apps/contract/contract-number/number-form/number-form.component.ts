@@ -83,8 +83,8 @@ export class ContractNumberFormDialogComponent
     {
         return this._formBuilder.group({
             id      : [this.contractNumber.id],
-            number    : [this.contractNumber.number],
-            endNumber    : [this.contractNumber.endNumber],
+            numberStart   : [this.contractNumber.numberStart],
+            numberEnd    : [this.contractNumber.numberEnd],
             idConsortium    : [this.contractNumber.idConsortium],
             idRepresentative    : [this.contractNumber.idRepresentative],
             registerDate : [this.contractNumber.registerDate],

@@ -100,40 +100,23 @@
 
                                     <mat-form-field appearance="outline" class="pl-8" floatLabel="always" fxFlex="30">
                                         <mat-label>Código da Região</mat-label>
-                                        <input matInput placeholder="código" name="codRegion"
-                                            formControlName="codRegion">
+                                        <input matInput placeholder="código" name="regionCode"
+                                            formControlName="regionCode">
                                     </mat-form-field>
 
                                 </div>
 
                                 <div fxLayout="row" fxLayoutAlign="start center">
 
-                                    <mat-form-field appearance="outline" fxFlex="20">
-                                        <mat-label>Tipo de Pessoa</mat-label>
-                                        <mat-select formControlName="type" name="type">
-                                            <mat-option *ngFor="let item of typeClient" [value]="item.id">
-                                                {{ item.name }}</mat-option>
-
-                                        </mat-select>
-                                    </mat-form-field>
-
-                                    <mat-form-field appearance="outline" class="px-8" fxFlex="40"
-                                        *ngIf="representativeForm.value.type == 0">
-                                        <mat-label>Cpf</mat-label>
-                                        <input matInput formControlName="cpfCnpj" [textMask]="{mask: cpfMask}">
-
-                                    </mat-form-field>
-
-                                    <mat-form-field appearance="outline" class="px-8" fxFlex="40"
-                                        *ngIf="representativeForm.value.type == 1">
-                                        <mat-label>Cnpj</mat-label>
+                                    <mat-form-field appearance="outline" class="px-8" fxFlex>
+                                        <mat-label>Cpf/Cnpj</mat-label>
                                         <input matInput formControlName="cpfCnpj" [textMask]="{mask: cnpjMask}">
-
-                                    </mat-form-field>
+                                        <!-- [textMask]="{mask: cnpjMask}" -->
+                                    </mat-form-field>      
 
                                     <mat-form-field appearance="outline" fxFlex>
                                         <mat-label>Contato</mat-label>
-                                        <input matInput formControlName="contact">
+                                        <input matInput formControlName="nameContact">
                                         <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
                                     </mat-form-field>
                                 </div>
@@ -368,35 +351,17 @@
 
                                 <div fxLayout="row" fxLayoutAlign="start center">
 
-                                    <mat-form-field appearance="outline" fxFlex="50">
+                                    <mat-form-field appearance="outline" fxFlex>
                                         <mat-label>Nome responsável bancário</mat-label>
                                         <input matInput formControlName="bankesName">
                                         <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                                    </mat-form-field>
+                                    </mat-form-field>         
 
-                                    <mat-form-field appearance="outline" class="px-8" fxFlex="20">
-                                        <mat-label>Tipo de Pessoa</mat-label>
-                                        <mat-select formControlName="type" name="type">
-                                            <mat-option *ngFor="let item of typeClient" [value]="item.id">
-                                                {{ item.name }}</mat-option>
-
-                                        </mat-select>
-                                    </mat-form-field>
-
-                                    <mat-form-field appearance="outline" fxFlex="30"
-                                        *ngIf="representativeForm.value.type == 0">
-                                        <mat-label>Cpf</mat-label>
-                                        <input matInput formControlName="bankesCpfCnpj" [textMask]="{mask: cpfMask}">
-
-                                    </mat-form-field>
-
-                                    <mat-form-field appearance="outline" fxFlex="30"
-                                        *ngIf="representativeForm.value.type == 1">
-                                        <mat-label>Cnpj</mat-label>
+                                    <mat-form-field appearance="outline" fxFlex >
+                                        <mat-label>Cpf/Cnpj</mat-label>
                                         <input matInput formControlName="bankesCpfCnpj" [textMask]="{mask: cnpjMask}">
 
                                     </mat-form-field>
-
                                 </div>
 
                                 <div fxLayout="row" fxLayoutAlign="start center">

@@ -333,7 +333,7 @@ export class ContractsComponent implements OnInit, OnDestroy {
         if(data.idUf == ""){
           data.idUf = null;
         }
-        console.log('rormulario', data)
+        console.log('Formulario Contratos', data)
 
         this._contractsService.addContract(data).then(() => {
            

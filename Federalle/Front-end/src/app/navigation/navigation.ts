@@ -151,6 +151,14 @@ export const navigation: FuseNavigation[] = [
                         url: '/apps/corporate/benefits',
                         exactMatch: true
                     },
+                    {
+                        id       : 'date-assembly',
+                        title    : 'Lançamento de Datas',
+                        // translate: 'NAV.ASSEMBLY',
+                        type     : 'item',
+                        // icon     : 'account_box',
+                        url      : '/apps/corporate/date-assembly'
+                    },
                    
                     
                 ]
@@ -231,6 +239,14 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.REGISTERS',
                 type: 'collapsable',
                 children: [
+                    {
+                        id: 'cost-center',
+                        title: 'Centro de Custos',
+                        type: 'item',
+                        icon: 'account_balance',
+                        url: '/apps/financial/cost-center',
+                        exactMatch: true
+                    },
                     {
                         id: 'banks',
                         title: 'Bancos',

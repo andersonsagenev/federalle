@@ -11,6 +11,14 @@ import { User } from 'app/main/apps/users/users.model';
 import { Sector } from 'app/main/apps/corporate/sector/sector.model';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { MK_API } from "app/app.api";
+import { MK_TOKEN } from "app/app.token";
+
+const headers = new HttpHeaders({
+    Authorization: "Basic " + localStorage.getItem("user"),
+    "x-api-key": MK_TOKEN
+});
 
 
 @Component({
@@ -60,6 +68,7 @@ export class UserFormDialogComponent {
         private _router: Router,
         private _alert: ConfirmService,
         private _userService: UserService,
+        private _httpClient: HttpClient,
 
     ) {
         // Set the defaults
@@ -138,6 +147,32 @@ export class UserFormDialogComponent {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
+
+    // saveUsers(): Promise<any> {
+
+    //     console.log('this.formUser', this.formUser.value)
+    //     this.formUser.controls['name'].setValue(this.formUser.value.name);
+    //     let requestData = this.formUser.value;
+        
+    //     if (requestData.passwordConfirm) {
+    //         delete requestData.passwordConfirm;
+    //     }
+    //     if (!requestData.idResentante) {
+    //         delete requestData.idResentante;
+    //     }
+
+    //     return new Promise((resolve, reject) => {
+    //         this._httpClient
+    //             .post(MK_API + '/api/Users', requestData, {
+    //                 headers: headers
+    //             })
+    //             .subscribe((response: any) => {
+    //                 this._alert.SwalInsert()
+    //                 this.getBanks();
+    //                 resolve(response);
+    //             }, reject);
+    //     });
+    // }
     
     saveStudent() {
         console.log('this.formUser', this.formUser.value)
@@ -152,9 +187,10 @@ export class UserFormDialogComponent {
         }
         if (this.formUser.valid) {
             console.log('form user submitted', requestData);
-            this._request.server('/api/Users', 'post', requestData).subscribe(data => {
+            this._httpClient
+                .post( MK_API + '/api/Users', requestData,  { headers: headers }).subscribe(data => {
                 console.log('retorno data', data)
-                if (data.success == true) {
+                if (data) {
                     console.log('Retorno', data)
                     this.matDialogRef.close(['new'])
                     this._alert.SwalInsert()

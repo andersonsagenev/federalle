@@ -1,25 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { FuseUtils } from '@fuse/utils';
 import { MK_API } from "app/app.api";
 import { MK_TOKEN } from "app/app.token";
 import { Ufs } from '../../../../models/ufs';
 import { City } from '../../../../models/citys';
 import { Status } from '../../../../models/status';
 import { Banks } from '../../../../models/banks';
+import { Representative } from 'app/main/apps/representative/form-representative/representative.model';
+import { ConfirmService } from "@fuse/services/confirm.service";
 
 const headers = new HttpHeaders({
     Authorization: "Basic " + localStorage.getItem("user"),
     "x-api-key": MK_TOKEN
 });
 
+
 @Injectable()
 export class RepresentativeService implements Resolve<any>
 {
     routeParams: any;
-    product: any;
-    onProductChanged: BehaviorSubject<any>;
+    representantes: any;
+    onRepresentanteChanged: BehaviorSubject<any>;
+    onSearchTextChanged: Subject<any>;
+    searchText: string;
 
     onBanksChanged: BehaviorSubject<any>;
     onStatusChanged: BehaviorSubject<any>;
@@ -37,12 +43,14 @@ export class RepresentativeService implements Resolve<any>
      * @param {HttpClient} _httpClient
      */
     constructor(
-        private _httpClient: HttpClient
+        private _httpClient: HttpClient,
+        private _alert: ConfirmService
     )
     {
         // Set the defaults
-        this.onProductChanged = new BehaviorSubject({});
-
+        this.onRepresentanteChanged = new BehaviorSubject({});
+        this.onSearchTextChanged = new Subject();
+        
         this.onBanksChanged = new BehaviorSubject({});
         this.onStatusChanged = new BehaviorSubject({});
         this.onUfsChanged = new BehaviorSubject({});
@@ -64,11 +72,16 @@ export class RepresentativeService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
+                this.getRepresentative(),
                 this.getStatusContract(),
                 this.getUfs(),
                 this.getBanks()
             ]).then(
-                () => {
+                ([files]) => {
+                    this.onSearchTextChanged.subscribe(searchText => {
+                        this.searchText = searchText;
+                        this.getRepresentative();
+                    });
                     resolve();
                 },
                 reject
@@ -159,27 +172,53 @@ export class RepresentativeService implements Resolve<any>
 
 
     /**
-     * Get product
+     * Get Representantes
      *
      * @returns {Promise<any>}
      */
-    getProduct(): Promise<any>
-    {
+    // getRepresentative(): Promise<any>
+    // {
+    //     return new Promise((resolve, reject) => {
+    //         if ( this.routeParams.id === 'new' )
+    //         {
+    //             this.onRepresentanteChanged.next(false);
+    //             resolve(false);
+    //         }
+    //         else
+    //         {
+    //             this._httpClient.get( MK_API + 'api/Representatives/' + this.routeParams.id)
+    //                 .subscribe((response: any) => {
+    //                     this.product = response;
+    //                     this.onRepresentanteChanged.next(this.product);
+    //                     resolve(response);
+    //                 }, reject);
+    //         }
+    //     });
+    // }
+
+      /**
+     * Get Representante
+     *
+     * @returns {Promise<any>}
+     */
+    getRepresentative(): Promise<any> {
         return new Promise((resolve, reject) => {
-            if ( this.routeParams.id === 'new' )
-            {
-                this.onProductChanged.next(false);
-                resolve(false);
-            }
-            else
-            {
-                this._httpClient.get('api/e-commerce-products/' + this.routeParams.id)
-                    .subscribe((response: any) => {
-                        this.product = response;
-                        this.onProductChanged.next(this.product);
-                        resolve(response);
-                    }, reject);
-            }
+            this._httpClient.get(MK_API + '/api/Representatives/', { headers: headers })
+            .subscribe((response: any) => {
+                console.log('representante ~~~>', response)
+                this.representantes = response
+                if (this.searchText && this.searchText !== "") {
+                    this.representantes = FuseUtils.filterArrayByString(
+                        this.representantes,
+                        this.searchText
+                    );
+                }
+                this.representantes = this.representantes.map(item => {
+                    return new Representative(item);
+                });
+                this.onRepresentanteChanged.next(this.representantes);
+                resolve(this.representantes);
+            }, reject);
         });
     }
 
@@ -192,7 +231,7 @@ export class RepresentativeService implements Resolve<any>
     saveProduct(product): Promise<any>
     {
         return new Promise((resolve, reject) => {
-            this._httpClient.post('api/e-commerce-products/' + product.id, product)
+            this._httpClient.post( MK_API + '/api/e-commerce-products/' + product.id, product)
                 .subscribe((response: any) => {
                     resolve(response);
                 }, reject);
@@ -200,16 +239,19 @@ export class RepresentativeService implements Resolve<any>
     }
 
     /**
-     * Add product
+     * Add Representante
      *
-     * @param product
+     * @param representante
      * @returns {Promise<any>}
      */
-    addProduct(product): Promise<any>
+    addRepresentante(representante): Promise<any>
     {
+        console.log('Json Representante ~~>', representante)
         return new Promise((resolve, reject) => {
-            this._httpClient.post('api/e-commerce-products/', product)
+            this._httpClient.post( MK_API + '/api/Representatives/', representante, { headers: headers })
                 .subscribe((response: any) => {
+                    this._alert.SwalInsert()
+                    this.getRepresentative();
                     resolve(response);
                 }, reject);
         });

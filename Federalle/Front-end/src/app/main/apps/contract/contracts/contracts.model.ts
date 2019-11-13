@@ -42,10 +42,10 @@ export class Contract
         {
             this.id = contract.id || null;
             this.idClient = contract.idClient || '';
-            this.idRepresentative = contract.idRepresentative || '';
-            this.idSalesMan = contract.idSalesMan || '';
-            this.idBenefit = contract.idBenefit || '';
-            this.idFormPayment = contract.idFormPayment || '';
+            this.idRepresentative = contract.idRepresentative || null;
+            this.idSalesMan = contract.idSalesMan || null;
+            this.idBenefit = contract.idBenefit || null;
+            this.idFormPayment = contract.idFormPayment || null;
             this.serie = contract.serie || '';
             this.registerDate = contract.registerDate || new Date();
             this.cota = contract.cota || '';

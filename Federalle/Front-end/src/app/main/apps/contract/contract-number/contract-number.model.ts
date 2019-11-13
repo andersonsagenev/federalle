@@ -3,7 +3,8 @@ import { FuseUtils } from '@fuse/utils';
 export class Number
 {
     id: string;
-    number: string;
+    numberStart: string;
+    numberEnd: string;
     endNumber: string;
     idRepresentative: any;
     idConsortium: any;
@@ -19,8 +20,8 @@ export class Number
     {
         {
             this.id = number.id || null;
-            this.number = number.number || '';
-            this.endNumber = number.endNumber || '';
+            this.numberStart = number.numberStart || '';
+            this.numberEnd = number.numberEnd || '';
             this.registerDate = number.registerDate || new Date();
             this.idRepresentative = number.idRepresentative || '';
             this.idConsortium = number.idConsortium || '';

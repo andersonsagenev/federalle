@@ -41,25 +41,8 @@ export class RepresentativeComponent implements OnInit, OnDestroy
       }]
 
       public maskTelefone = [
-        "+",
-        /[1-9]/,
-        /\d/,
-        " ",
-        "(",
-        /[1-9]/,
-        /\d/,
-        ")",
-        " ",
-        /\d/,
-        /\d/,
-        /\d/,
-        /\d/,
-        "-",
-        /\d/,
-        /\d/,
-        /\d/,
-        /\d/
-    ];
+        "+",/[1-9]/,/\d/," ","(",/[1-9]/,/\d/,")"," ",/\d/,/\d/,/\d/,/\d/,"-",/\d/,/\d/,/\d/,/\d/
+      ];
     public maskCelular = [
         "+",
         /[1-9]/,
@@ -78,6 +61,26 @@ export class RepresentativeComponent implements OnInit, OnDestroy
         "-",
         /\d/,
         /\d/,
+        /\d/,
+        /\d/
+    ];
+    public cnpjMask = [
+        /\d/,
+        /\d/,
+        ".",
+        /\d/,
+        /\d/,
+        /\d/,
+        ".",
+        /\d/,
+        /\d/,
+        /\d/,
+        "/",
+        /\d/,
+        /\d/,
+        /\d/,
+        /\d/,
+        "-",
         /\d/,
         /\d/
     ];
@@ -134,44 +137,42 @@ export class RepresentativeComponent implements OnInit, OnDestroy
         });
 
         this.representativeForm = this._formBuilder.group({
-            // type: [ this.typeClient[0].id ],
-            name: ["", Validators.required],
-            email1: ["", Validators.required, Validators.email],
-            email2: ["", Validators.email],
-            email3: ["", Validators.email],
-            telefone1: ["", Validators.required],
-            telefone2: [""],
-            telefone3: [""],
+            name: ['', Validators.required],
+            email1: ['', Validators.required, Validators.email],
+            email2: ['', Validators.email],
+            email3: ['', Validators.email],
+            telefone1: ['', Validators.required],
+            telefone2: [''],
+            telefone3: [''],
             idMaster: [null],
             idCity: [null],
             idCity1: [null],
             idStatusPartnershipContract: [null],
             idBank: [null],
             idUser: [null],
-            cpfCnpj: ["", Validators.required],
-            zip: ["", Validators.maxLength(9)],
-            zip1: ["", Validators.maxLength(9)],
-            handle: [""],
-            andress: [""],
-            andress1: [""],
-            number: [""],
-            number1: [""],
-            complement: [""],
-            complement1: [""],
-            district: [""],
-            district1: [""],
-            bankesName: [""],
-            bankesCpfCnpj: [""],
-            banckAgency: [""],
-            bankAccount: [""],
-            bankOperation: [""],
-            emailFinance: [""],
-            withholdTax: [""],
-            codRegion: [""],
+            cpfCnpj: ['', Validators.required],
+            zip: ['', Validators.maxLength(9)],
+            zip1: ['', Validators.maxLength(9)],
+            handle: [''],
+            nameContact: [''],
+            andress: [''],
+            andress1: [''],
+            number: [''],
+            number1: [''],
+            complement: [''],
+            complement1: [''],
+            district: [''],
+            district1: [''],
+            bankesName: [''],
+            bankesCpfCnpj: [''],
+            banckAgency: [''],
+            bankAccount: [''],
+            bankOperation: [''],
+            emailFinance: [''],
+            withholdTax: [''],
+            regionCode: [''],
             idUf: [null],
-            idUf1: [null],
-            type: [''],
-            contact: ['']
+            idUf1: [null]
         });
        
         this.pageType = 'new';
@@ -260,7 +261,8 @@ export class RepresentativeComponent implements OnInit, OnDestroy
             bankOperation          : [this.representante.bankOperation],
             emailFinance          : [this.representante.emailFinance],
             withholdTax          : [this.representante.withholdTax],
-            codRegion          : [this.representante.codRegion],
+            regionCode          : [this.representante.regionCode],
+            nameContact          : [this.representante.nameContact],
             canErase          : [this.representante.canErase],
         });
     }
@@ -309,7 +311,7 @@ export class RepresentativeComponent implements OnInit, OnDestroy
 
     searchCepFinanceiro() {
         this.isLoading = true;
-        let cep = this.representativeForm.get("zip").value;
+        let cep = this.representativeForm.get("zip1").value;
         console.log("cep ~~>", cep);
         if (cep != null && cep !== "") {
             this._cepService.buscaCep(cep).subscribe((dt: any) => {
@@ -362,7 +364,7 @@ export class RepresentativeComponent implements OnInit, OnDestroy
             .then(() => {
 
                 // Trigger the subscription with new data
-                this._representativeService.onProductChanged.next(data);
+                this._representativeService.onRepresentanteChanged.next(data);
 
                 // Show the success message
                 this._matSnackBar.open('Product saved', 'OK', {
@@ -378,13 +380,13 @@ export class RepresentativeComponent implements OnInit, OnDestroy
     addRepresentante(): void
     {
         const data = this.representativeForm.getRawValue();
-        data.handle = FuseUtils.handleize(data.name);
+        // data.handle = FuseUtils.handleize(data.name);
 
-        this._representativeService.addProduct(data)
+        this._representativeService.addRepresentante(data)
             .then(() => {
 
                 // Trigger the subscription with new data
-                this._representativeService.onProductChanged.next(data);
+                this._representativeService.onRepresentanteChanged.next(data);
 
                 // Show the success message
                 this._matSnackBar.open('Product added', 'OK', {

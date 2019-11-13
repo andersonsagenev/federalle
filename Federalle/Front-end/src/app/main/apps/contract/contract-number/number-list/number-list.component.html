@@ -5,18 +5,18 @@
 <mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}" *ngIf="exist">
 
     <!-- Numero Column -->
-    <ng-container matColumnDef="number">
+    <ng-container matColumnDef="numberStart">
         <mat-header-cell *matHeaderCellDef>Número</mat-header-cell>
         <mat-cell *matCellDef="let number">
-            <p class="text-truncate font-weight-600">{{ number.number }}</p>
+            <p class="text-truncate font-weight-600">{{ number.numberStart }}</p>
         </mat-cell>
     </ng-container>
 
     <!-- Numero Final Column -->
-    <ng-container matColumnDef="endNumber">
+    <ng-container matColumnDef="numberEnd">
         <mat-header-cell *matHeaderCellDef>Número Final</mat-header-cell>
         <mat-cell *matCellDef="let number">
-            <p class="text-truncate font-weight-600">{{ number.endNumber }}</p>
+            <p class="text-truncate font-weight-600">{{ number.numberEnd }}</p>
         </mat-cell>
     </ng-container>
 

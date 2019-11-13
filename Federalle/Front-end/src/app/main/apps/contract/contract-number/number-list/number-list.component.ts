@@ -33,8 +33,8 @@ export class ContractNumberListComponent implements OnInit, OnDestroy {
     exist: boolean = false;
     contractNumbers: any;
     displayedColumns = [
-        "number",
-        "endNumber",
+        "numberStart",
+        "numberEnd",
         "idRepresentative",
         "idConsortium",
         "buttons"

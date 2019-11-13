@@ -50,6 +50,13 @@ import { BenefitsFormDialogComponent } from 'app/main/apps/corporate/benefits/be
 import { BenefitsListComponent } from 'app/main/apps/corporate/benefits/benefits-list/benefits-list.component';
 import { BenefitsService } from '../corporate/benefits/benefits.service';
 
+import { AssemblyDateComponent } from 'app/main/apps/corporate/date-assembly/date-assembly.component';
+import { AssemblyDateService } from 'app/main/apps/corporate/date-assembly/date-assembly.service';
+import { AssemblyListComponent } from 'app/main/apps/corporate/date-assembly/date-assembly-list/assembly-list.component';
+import { ContactsSelectedBarComponent } from 'app/main/apps/corporate/date-assembly/selected-bar/selected-bar.component';
+import { ContactsMainSidebarComponent } from 'app/main/apps/corporate/date-assembly/sidebars/main/main.component';
+import { AssemblyFormDialogComponent } from 'app/main/apps/corporate/date-assembly/date-assembly-form/assembly-form.component';
+
 const routes: Routes = [
     {
         path     : 'customers',
@@ -122,6 +129,13 @@ const routes: Routes = [
         resolve  : {
             data: VerificationService
         }
+    },
+    {
+        path     : '**',
+        component: AssemblyDateComponent,
+        resolve  : {
+            contacts: AssemblyDateService
+        }
     }
 ];
 
@@ -148,7 +162,13 @@ const routes: Routes = [
         SectorComponent,
         VerificationFormDialogComponent,
         VerificationComponent,
-        VerificationListComponent
+        VerificationListComponent,
+
+        AssemblyDateComponent,
+        AssemblyListComponent,
+        ContactsSelectedBarComponent,
+        ContactsMainSidebarComponent,
+        AssemblyFormDialogComponent
 
     ],
     imports        : [
@@ -184,7 +204,8 @@ const routes: Routes = [
         UnityService,
         UnitsService,
         SectorService,
-        VerificationService
+        VerificationService,
+        AssemblyDateService
        
     ],
     entryComponents: [
@@ -193,7 +214,8 @@ const routes: Routes = [
         BenefitsFormDialogComponent,
         BankFormDialogComponent,
         SectorFormDialogComponent,
-        VerificationFormDialogComponent
+        VerificationFormDialogComponent,
+        AssemblyFormDialogComponent
     ]
 })
 export class CorporateModule
