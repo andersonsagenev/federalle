@@ -45,6 +45,11 @@ import { BanksComponent } from 'app/main/apps/corporate/banks/banks.component';
 import { BankFormDialogComponent } from 'app/main/apps/corporate/banks/banks-form/banks-form.component';
 import { BanksListComponent } from 'app/main/apps/corporate/banks/banks-list/banks-list.component';
 
+import { RegionService } from '../corporate/region/region.service';
+import { RegionComponent } from 'app/main/apps/corporate/region/region.component';
+import { RegionFormDialogComponent } from 'app/main/apps/corporate/region/region-form/region-form.component';
+import { RegionListComponent } from 'app/main/apps/corporate/region/region-list/region-list.component';
+
 import { BenefitsComponent } from 'app/main/apps/corporate/benefits/benefits.component';
 import { BenefitsFormDialogComponent } from 'app/main/apps/corporate/benefits/benefits-form/benefits-form.component';
 import { BenefitsListComponent } from 'app/main/apps/corporate/benefits/benefits-list/benefits-list.component';
@@ -131,6 +136,13 @@ const routes: Routes = [
         }
     },
     {
+        path     : 'region',
+        component: RegionComponent,
+        resolve  : {
+            data: RegionService
+        }
+    },
+    {
         path     : '**',
         component: AssemblyDateComponent,
         resolve  : {
@@ -163,12 +175,14 @@ const routes: Routes = [
         VerificationFormDialogComponent,
         VerificationComponent,
         VerificationListComponent,
-
+        RegionFormDialogComponent,
+        RegionListComponent,
         AssemblyDateComponent,
         AssemblyListComponent,
         ContactsSelectedBarComponent,
         ContactsMainSidebarComponent,
-        AssemblyFormDialogComponent
+        AssemblyFormDialogComponent,
+        RegionComponent
 
     ],
     imports        : [
@@ -205,7 +219,8 @@ const routes: Routes = [
         UnitsService,
         SectorService,
         VerificationService,
-        AssemblyDateService
+        AssemblyDateService,
+        RegionService
        
     ],
     entryComponents: [
@@ -215,7 +230,8 @@ const routes: Routes = [
         BankFormDialogComponent,
         SectorFormDialogComponent,
         VerificationFormDialogComponent,
-        AssemblyFormDialogComponent
+        AssemblyFormDialogComponent,
+        RegionFormDialogComponent
     ]
 })
 export class CorporateModule

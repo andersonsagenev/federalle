@@ -103,13 +103,13 @@ export const navigation: FuseNavigation[] = [
                                 url: '/apps/corporate/verification',
                                 exactMatch: true
                             },
-                            // {
-                            //     id: 'indicator',
-                            //     title: 'Indicadores',
-                            //     type: 'item',
-                            //     url: '/apps/corporate/indicators',
-                            //     exactMatch: true
-                            // },
+                            {
+                                id: 'region',
+                                title: 'Código Região',
+                                type: 'item',
+                                url: '/apps/corporate/region',
+                                exactMatch: true
+                            },
                            
                         ]
                     },
