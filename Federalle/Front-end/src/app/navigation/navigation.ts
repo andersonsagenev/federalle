@@ -295,6 +295,13 @@ export const navigation: FuseNavigation[] = [
                         icon: 'apps',
                         url: '/apps/financial/grid-commission'
                     },
+                    {
+                        id: 'services',
+                        title: 'Serviços',
+                        type: 'item',
+                        icon: 'post_add',
+                        url: '/apps/financial/services'
+                    },
                    
                 ]
             },

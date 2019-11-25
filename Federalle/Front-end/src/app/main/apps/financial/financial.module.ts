@@ -38,6 +38,11 @@ import { CostCenterService } from 'app/main/apps/financial/cost-center/cost-cent
 import { CostCenterFormDialogComponent } from 'app/main/apps/financial/cost-center/cost-center-form/cost-center-form.component';
 import { CostCenterListComponent } from 'app/main/apps/financial/cost-center/cost-center-list/cost-center-list.component';
 
+import { ServicesComponent } from 'app/main/apps/financial/services/services.component';
+import { ServicesService } from 'app/main/apps/financial/services/services.service';
+import { ServicesFormDialogComponent } from 'app/main/apps/financial/services/services-form/services-form.component';
+import { ServicesListComponent } from 'app/main/apps/financial/services/services-list/services-list.component';
+
 
 
 
@@ -83,6 +88,13 @@ const routes: Routes = [
         resolve  : {
             data: CostCenterService
         }
+    },
+    {
+        path     : 'services',
+        component: ServicesComponent,
+        resolve  : {
+            data: ServicesService
+        }
     }
 ];
 
@@ -103,7 +115,10 @@ const routes: Routes = [
         BankAccountComponent,
         CostCenterComponent,
         CostCenterListComponent,
-        CostCenterFormDialogComponent
+        CostCenterFormDialogComponent,
+        ServicesFormDialogComponent,
+        ServicesListComponent,
+        ServicesComponent
        
     ],
     imports        : [
@@ -134,7 +149,9 @@ const routes: Routes = [
         ReceiptCommissionService,
         GridCommissionService,
         BankAccountService,
-        CostCenterService
+        CostCenterService,
+        ServicesService
+        
     ],
     entryComponents: [
         IndicatorFormDialogComponent,
@@ -142,7 +159,8 @@ const routes: Routes = [
         CommissionsFormDialogComponent,
         GridFormDialogComponent,
         BankAccountFormDialogComponent,
-        CostCenterFormDialogComponent
+        CostCenterFormDialogComponent,
+        ServicesFormDialogComponent
        
     ]
 })

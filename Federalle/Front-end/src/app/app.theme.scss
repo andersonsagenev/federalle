@@ -105,6 +105,7 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/financial/indicators/indicators.theme";
 @import "src/app/main/apps/financial/bank-account/bank-account.theme";
 @import "src/app/main/apps/financial/grid-commission/grid-commission.theme";
+@import "src/app/main/apps/financial/services/services.theme";
 @import "src/app/main/apps/financial/cost-center/cost-center.theme";
 @import "src/app/main/apps/financial/receipt-commission/receipt-commission.theme";
 @import "src/app/main/apps/representative/representatives/representatives.theme";
@@ -142,6 +143,7 @@ $typography: mat-typography-config(
     @include verification-theme($theme);
     @include contract-number-theme($theme);
     @include cost-center-theme($theme);
+    @include services-theme($theme);
 
     @include status-theme($theme);
     @include list-contracts-theme($theme);
