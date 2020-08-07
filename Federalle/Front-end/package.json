@@ -61,7 +61,7 @@
     "ngx-cookie-service": "1.0.10",
     "ngx-mask": "8.0.2",
     "perfect-scrollbar": "1.4.0",
-    "prismjs": "1.15.0",
+    "prismjs": "1.21.0",
     "rxjs": "6.3.3",
     "rxjs-compat": "6.3.3",
     "sweetalert2": "8.8.5",
